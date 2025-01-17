@@ -4,21 +4,21 @@ import { RootState } from '../store';
 import { setActiveSection } from '../activeSectionSlice';
 import TagSection from './TagSection';
 
-const SkillsSection: React.FC = () => {
+const InterestSection: React.FC = () => {
   const dispatch = useDispatch();
   const activeSection = useSelector((state: RootState) => state.activeSection.activeSection);
 
   return (
     <TagSection
-      title="Skills"
-      placeholder="Skill"
-      initialTags={['React', 'JavaScript']}
-      isActive={activeSection === 'skills'}
-      onActivate={() => dispatch(setActiveSection('skills'))}
+      title="Interests"
+      placeholder="Interest"
+      initialTags={['Reading', 'Traveling']}
+      isActive={activeSection === 'interests'}
+      onActivate={() => dispatch(setActiveSection('interests'))}
       onDeactivate={() => dispatch(setActiveSection(null))}
-      onTagsChange={(tags) => console.log('Updated Skills:', tags)}
+      onTagsChange={(tags) => console.log('Updated Interests:', tags)}
     />
   );
 };
 
-export default SkillsSection;
+export default InterestSection;
