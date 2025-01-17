@@ -56,7 +56,7 @@ const PersonalDetails: React.FC = () => {
         e.stopPropagation();
         dispatch(setActiveSection('personalDetails'));
       }}
-      className={`space-y-6 p-4 rounded border cursor-pointer ${isActive ? 'border-blue-500 bg-blue-50' : 'border-gray-300 bg-gray-100'
+      className={`space-y-6 rounded cursor-pointer ${isActive ? 'border-blue-500 bg-blue-50' : ''
         }`}
     >
       {/* Profile Picture and Editable Fields */}

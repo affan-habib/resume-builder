@@ -67,8 +67,8 @@ const EntrySection: React.FC<EntrySectionProps> = ({
         e.stopPropagation();
         dispatch(setActiveSection(sectionName.toLowerCase()));
       }}
-      className={`space-y-4 p-4 rounded border cursor-pointer ${
-        isActive ? 'border-blue-500 bg-blue-50' : 'border-gray-300 bg-gray-100'
+      className={`space-y-4 p-2 rounded cursor-pointer ${
+        isActive ? 'border-blue-500 bg-blue-50' : ''
       }`}
     >
       {/* Section Header */}
@@ -91,7 +91,7 @@ const EntrySection: React.FC<EntrySectionProps> = ({
       {/* Entries List */}
       <div className="space-y-4">
         {entries.map((entry, index) => (
-          <div key={index} className="p-4 bg-gray-200 rounded shadow-sm space-y-2">
+          <div key={index} className=" rounded shadow-sm space-y-2">
             {/* Title */}
             {entry.title && (
               <EditableField

@@ -3,6 +3,7 @@ import { Plus } from 'lucide-react';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../store';
 import { setActiveSection } from '../activeSectionSlice';
+import EditableField from '../components/EditableField';
 
 interface LanguageEntry {
   language: string;
@@ -47,8 +48,8 @@ const LanguageSection: React.FC = () => {
         e.stopPropagation();
         dispatch(setActiveSection('languages'));
       }}
-      className={`space-y-4 p-4 rounded border cursor-pointer ${
-        isActive ? 'border-blue-500 bg-blue-50' : 'border-gray-300 bg-gray-100'
+      className={`space-y-4 p-2 rounded cursor-pointer ${
+        isActive ? 'border-blue-500 bg-blue-50' : ''
       }`}
     >
       {/* Header */}
@@ -73,19 +74,16 @@ const LanguageSection: React.FC = () => {
         {languages.map((language, index) => (
           <div
             key={index}
-            className="flex items-center gap-4 bg-gray-200 p-3 rounded shadow-sm"
+            className="flex items-center gap-4 rounded shadow-sm"
           >
             {/* Editable Language Name */}
-            <input
-              type="text"
+            <EditableField
               value={language.language}
-              onChange={(e) =>
-                handleLanguageChange(index, 'language', e.target.value)
-              }
-              className={`bg-transparent focus:outline-none text-gray-800 text-sm w-full ${
+              placeholder="Language"
+              onSave={(value) => handleLanguageChange(index, 'language', value)}
+              className={`bg-transparent text-gray-800 text-sm w-full ${
                 isActive ? '' : 'pointer-events-none'
               }`}
-              placeholder="Language"
             />
 
             {/* Proficiency Dropdown */}

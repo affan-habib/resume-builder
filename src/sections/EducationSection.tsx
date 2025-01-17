@@ -21,8 +21,8 @@ const EducationSection: React.FC = () => {
         e.stopPropagation();
         dispatch(setActiveSection('education'));
       }}
-      className={`space-y-4 p-4 rounded border cursor-pointer ${
-        isActive ? 'border-blue-500 bg-blue-50' : 'border-gray-300 bg-gray-100'
+      className={`space-y-4 p-2 rounded cursor-pointer ${
+        isActive ? 'border-blue-500 bg-blue-50' : ''
       }`}
     >
       <div className="flex justify-between items-center">
@@ -45,7 +45,7 @@ const EducationSection: React.FC = () => {
       </div>
       <div className="space-y-4">
         {education.map((entry, index) => (
-          <div key={index} className="p-4 bg-gray-200 rounded flex flex-col gap-2">
+          <div key={index} className="rounded flex flex-col gap-2">
             <EditableField
               value={entry.institution}
               placeholder="Institution"
@@ -67,6 +67,7 @@ const EducationSection: React.FC = () => {
                   )
                 )
               }
+              className='font-medium'
             />
             <div className="flex gap-2">
               <EditableField
@@ -105,7 +106,7 @@ const EducationSection: React.FC = () => {
               </button>
             )}
           </div>
-        ))}
+        ))} 
       </div>
     </div>
   );

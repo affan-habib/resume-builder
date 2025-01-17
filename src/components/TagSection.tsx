@@ -46,8 +46,8 @@ const TagSection: React.FC<TagSectionProps> = ({
         e.stopPropagation();
         onActivate();
       }}
-      className={`space-y-4 p-4 rounded border cursor-pointer ${
-        isActive ? 'border-blue-500 bg-blue-50' : 'border-gray-300 bg-gray-100'
+      className={`space-y-4 p-2 rounded cursor-pointer ${
+        isActive ? 'border-blue-500 bg-blue-50' : ''
       }`}
     >
       <div className="flex justify-between items-center">

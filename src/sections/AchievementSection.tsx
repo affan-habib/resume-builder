@@ -54,8 +54,8 @@ const AchievementSection: React.FC<AchievementSectionProps> = ({
         e.stopPropagation();
         dispatch(setActiveSection('achievements'));
       }}
-      className={`space-y-4 p-4 rounded border cursor-pointer ${
-        isActive ? 'border-blue-500 bg-blue-50' : 'border-gray-300 bg-gray-100'
+      className={`space-y-4 p-2 rounded cursor-pointer ${
+        isActive ? 'border-blue-500 bg-blue-50' : ''
       }`}
     >
       {/* Header */}
@@ -80,7 +80,7 @@ const AchievementSection: React.FC<AchievementSectionProps> = ({
         {achievements.map((achievement, index) => (
           <div
             key={index}
-            className="p-4 bg-gray-200 rounded shadow-sm flex flex-col gap-2"
+            className=" rounded shadow-sm flex flex-col gap-2"
           >
             {/* Title */}
             <EditableField
