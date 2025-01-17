@@ -80,7 +80,7 @@ const AchievementSection: React.FC<AchievementSectionProps> = ({
         {achievements.map((achievement, index) => (
           <div
             key={index}
-            className=" rounded shadow-sm flex flex-col gap-2"
+            className="  flex flex-col gap-2"
           >
             {/* Title */}
             <EditableField

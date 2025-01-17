@@ -74,7 +74,7 @@ const LanguageSection: React.FC = () => {
         {languages.map((language, index) => (
           <div
             key={index}
-            className="flex items-center gap-4 rounded shadow-sm"
+            className="flex items-center gap-4 "
           >
             {/* Editable Language Name */}
             <EditableField

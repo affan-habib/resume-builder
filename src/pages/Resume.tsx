@@ -9,23 +9,49 @@ import LanguageSection from '../sections/LanguageSection';
 import ProjectsSection from '../sections/ProjectsSection';
 import ProfessionalExperienceSection from '../sections/ProfessionalExperienceSection';
 import AchievementSection from '../sections/AchievementSection';
+import TopBar from '../components/TopBar';
 
 const Resume: React.FC = () => {
   const dispatch = useDispatch();
+
+  const handleUndo = () => {
+    console.log('Undo action triggered');
+  };
+
+  const handleRedo = () => {
+    console.log('Redo action triggered');
+  };
+
+  const handleFontChange = () => {
+    console.log('Font change action triggered');
+  };
+
+  const handleThemeChange = () => {
+    console.log('Theme change action triggered');
+  };
+
+  const handleLayoutChange = () => {
+    console.log('Layout change action triggered');
+  };
+
+  const handleDownload = () => {
+    console.log('Download action triggered');
+  };
 
   return (
     <div
       className="min-h-screen bg-gray-100"
       onClick={() => dispatch(setActiveSection(null))} // Deactivate sections on outside click
     >
-      {/* Fixed Top Bar */}
-      <div className="fixed top-0 left-0 right-0 bg-white border-b border-gray-200 z-10">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="flex justify-between items-center h-14">
-            <h2 className="text-base font-medium text-gray-900">Resume Editor</h2>
-          </div>
-        </div>
-      </div>
+      {/* Top Bar */}
+      <TopBar
+        onUndo={handleUndo}
+        onRedo={handleRedo}
+        onFontChange={handleFontChange}
+        onThemeChange={handleThemeChange}
+        onLayoutChange={handleLayoutChange}
+        onDownload={handleDownload}
+      />
 
       {/* Main Content */}
       <div className="pt-16 pb-8 px-4">
@@ -34,13 +60,13 @@ const Resume: React.FC = () => {
             {/* Personal Details Section */}
             <PersonalDetails />
             <div className="grid grid-cols-2 gap-4">
-              <div className='space-y-4'>
+              <div className="space-y-4">
                 <SkillsSection />
                 <EducationSection />
                 <ProfessionalExperienceSection />
-                <AchievementSection/>
+                <AchievementSection />
               </div>
-              <div className='space-y-4'>
+              <div className="space-y-4">
                 <InterestSection />
                 <LanguageSection />
                 <ProjectsSection />

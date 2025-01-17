@@ -85,7 +85,7 @@ const SectionWithDetails: React.FC<SectionWithDetailsProps> = ({
         {entries.map((entry, index) => (
           <div
             key={index}
-            className=" rounded shadow-sm flex flex-col gap-2"
+            className="  flex flex-col gap-2"
           >
             <div className="flex items-center gap-2">
               <EditableField

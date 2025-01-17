@@ -91,7 +91,7 @@ const EntrySection: React.FC<EntrySectionProps> = ({
       {/* Entries List */}
       <div className="space-y-4">
         {entries.map((entry, index) => (
-          <div key={index} className=" rounded shadow-sm space-y-2">
+          <div key={index} className="  space-y-2">
             {/* Title */}
             {entry.title && (
               <EditableField
