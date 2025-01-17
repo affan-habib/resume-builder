@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Plus, X } from 'lucide-react';
-import EditableField from './EditableField';
+import EditableField from '../components/EditableField';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../store';
 import { setActiveSection } from '../activeSectionSlice';

@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../store';
 import { setActiveSection } from '../activeSectionSlice';
-import EditableField from './EditableField';
+import EditableField from '../components/EditableField';
 import { Plus, X } from 'lucide-react';
 
 const EducationSection: React.FC = () => {

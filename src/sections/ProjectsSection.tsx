@@ -1,5 +1,5 @@
 import React from 'react';
-import EntrySection from './EntrySection';
+import EntrySection from '../components/EntrySection';
 
 const ProjectsSection: React.FC = () => {
   return (

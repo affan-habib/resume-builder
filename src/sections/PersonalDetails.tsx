@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
-import ProfileImage from './ProfileImage';
-import EditableField from './EditableField';
-import ContactLink from './ContactLink';
+import ProfileImage from '../components/ProfileImage';
+import EditableField from '../components/EditableField';
+import ContactLink from '../components/ContactLink';
 import { Mail, Phone, MapPin, Linkedin } from 'lucide-react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setActiveSection } from '../activeSectionSlice';
