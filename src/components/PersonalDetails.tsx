@@ -4,6 +4,7 @@ import EditableField from './EditableField';
 import ContactLink from './ContactLink';
 import { Mail, Phone, MapPin, Linkedin } from 'lucide-react';
 import { useDispatch, useSelector } from 'react-redux';
+import { setActiveSection } from '../activeSectionSlice';
 
 const placeholders = {
   fullName: 'John Doe',

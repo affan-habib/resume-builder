@@ -8,6 +8,7 @@ import EducationSection from './components/EducationSection';
 import LanguageSection from './components/LanguageSection';
 import ProjectsSection from './components/ProjectsSection';
 import ProfessionalExperienceSection from './components/ProfessionalExperienceSection';
+import AchievementSection from './components/AchievementSection';
 
 const App: React.FC = () => {
   const dispatch = useDispatch();
@@ -39,6 +40,7 @@ const App: React.FC = () => {
                 <SkillsSection />
                 <EducationSection />
                 <ProfessionalExperienceSection />
+                <AchievementSection/>
               </div>
               <div className='space-y-4'>
                 <InterestSection />
