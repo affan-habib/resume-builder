@@ -10,8 +10,19 @@ interface TopBarProps {
   onFontChange: (font: string) => void;
 }
 
-const fonts = ['Arial', 'Times New Roman', 'Courier New', 'Georgia', 'Verdana'];
-
+const fonts = [
+  'Roboto',
+  'Open Sans',
+  'Lato',
+  'Montserrat',
+  'Raleway',
+  'Nunito',
+  'Poppins',
+  'Merriweather',
+  'Playfair Display',
+  'Source Sans Pro',
+  'Work Sans',
+];
 const TopBar: React.FC<TopBarProps> = ({
   onUndo,
   onRedo,
