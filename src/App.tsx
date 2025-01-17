@@ -1,4 +1,5 @@
 import PersonalDetails from './components/PersonalDetails';
+import SkillsSection from './components/Skills';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <div className="max-w-[21cm] mx-auto bg-white aspect-[1/1.4142] border border-gray-200">
           <div className="p-8">
             <PersonalDetails />
+            <SkillsSection/>
             {/* You can add other sections like Experience, Education, Skills here */}
           </div>
         </div>
