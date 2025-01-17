@@ -3,6 +3,7 @@ import ProfileImage from './ProfileImage';
 import EditableField from './EditableField';
 import ContactLink from './ContactLink';
 import { Mail, Phone, MapPin, Linkedin } from 'lucide-react';
+import { useDispatch, useSelector } from 'react-redux';
 
 const placeholders = {
   fullName: 'John Doe',
@@ -15,6 +16,10 @@ const placeholders = {
 };
 
 const PersonalDetails: React.FC = () => {
+  const dispatch = useDispatch();
+  const activeSection = useSelector((state: RootState) => state.activeSection.activeSection);
+
+  const isActive = activeSection === 'personalDetails';
   const [details, setDetails] = useState({
     fullName: '',
     title: '',
@@ -45,7 +50,14 @@ const PersonalDetails: React.FC = () => {
   };
 
   return (
-    <div className="space-y-6">
+    <div
+      onClick={(e) => {
+        e.stopPropagation();
+        dispatch(setActiveSection('personalDetails'));
+      }}
+      className={`space-y-6 p-4 rounded border cursor-pointer ${isActive ? 'border-blue-500 bg-blue-50' : 'border-gray-300 bg-gray-100'
+        }`}
+    >
       {/* Profile Picture and Editable Fields */}
       <div className="flex items-center gap-6">
         <ProfileImage

@@ -2,9 +2,11 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import { setActiveSection } from './activeSectionSlice';
 import PersonalDetails from './components/PersonalDetails';
-import SkillsSection from './components/Skills';
+import SkillsSection from './components/SkillsSection';
 import InterestSection from './components/InterestSection';
 import EducationSection from './components/EducationSection';
+import LanguageSection from './components/LanguageSection';
+import ProjectsSection from './components/ProjectsSection';
 
 const App: React.FC = () => {
   const dispatch = useDispatch();
@@ -36,8 +38,10 @@ const App: React.FC = () => {
                 <SkillsSection />
                 <EducationSection />
               </div>
-              <div>
+              <div className='space-y-4'>
                 <InterestSection />
+                <LanguageSection />
+                <ProjectsSection />
               </div>
             </div>
 
