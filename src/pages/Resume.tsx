@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { setActiveSection } from '../activeSectionSlice';
 import PersonalDetails from '../sections/PersonalDetails';
@@ -13,6 +13,7 @@ import TopBar from '../components/TopBar';
 
 const Resume: React.FC = () => {
   const dispatch = useDispatch();
+  const [font, setFont] = useState('');
 
   const handleUndo = () => {
     console.log('Undo action triggered');
@@ -22,8 +23,9 @@ const Resume: React.FC = () => {
     console.log('Redo action triggered');
   };
 
-  const handleFontChange = () => {
-    console.log('Font change action triggered');
+  const handleFontChange = (selectedFont: string) => {
+    setFont(selectedFont);
+    console.log(`Font changed to: ${selectedFont}`);
   };
 
   const handleThemeChange = () => {
@@ -42,6 +44,7 @@ const Resume: React.FC = () => {
     <div
       className="min-h-screen bg-gray-100"
       onClick={() => dispatch(setActiveSection(null))} // Deactivate sections on outside click
+      style={{ fontFamily: font }} // Apply the selected font globally
     >
       {/* Top Bar */}
       <TopBar
