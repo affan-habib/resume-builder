@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 import { Plus, X } from 'lucide-react';
 import EditableField from '../components/EditableField';
-import { useSelector, useDispatch } from 'react-redux';
-import { RootState } from '../store';
-import { setActiveSection } from '../activeSectionSlice';
+import SectionWrapper from '../components/SectionWrapper';
 
 interface AchievementEntry {
   title: string;
@@ -21,17 +19,14 @@ const AchievementSection: React.FC<AchievementSectionProps> = ({
 }) => {
   const [achievements, setAchievements] = useState<AchievementEntry[]>(initialAchievements);
 
-  const dispatch = useDispatch();
-  const activeSection = useSelector((state: RootState) => state.activeSection.activeSection);
-  const isActive = activeSection === 'achievements';
-
   const handleAddAchievement = () => {
     const newAchievement: AchievementEntry = {
       title: 'New Achievement',
       description: 'Achievement description',
     };
-    setAchievements([...achievements, newAchievement]);
-    onAchievementsChange?.([...achievements, newAchievement]);
+    const updatedAchievements = [...achievements, newAchievement];
+    setAchievements(updatedAchievements);
+    onAchievementsChange?.(updatedAchievements);
   };
 
   const handleAchievementChange = (index: number, field: keyof AchievementEntry, value: string) => {
@@ -48,40 +43,20 @@ const AchievementSection: React.FC<AchievementSectionProps> = ({
     onAchievementsChange?.(updatedAchievements);
   };
 
-  return (
-    <div
-      onClick={(e) => {
-        e.stopPropagation();
-        dispatch(setActiveSection('achievements'));
-      }}
-      className={`space-y-4 p-2 rounded cursor-pointer ${
-        isActive ? 'border-blue-500 bg-blue-50' : ''
-      }`}
-    >
-      {/* Header */}
-      <div className="flex justify-between items-center">
-        <h3 className="text-lg font-semibold text-gray-900">Achievements</h3>
-        {isActive && (
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              handleAddAchievement();
-            }}
-            className="text-blue-500 hover:text-blue-700 focus:outline-none"
-            aria-label="Add new achievement"
-          >
-            <Plus size={20} />
-          </button>
-        )}
-      </div>
+  const actions = [
+    {
+      icon: <Plus size={20} />,
+      onClick: handleAddAchievement,
+      ariaLabel: 'Add new achievement',
+    },
+  ];
 
+  return (
+    <SectionWrapper title="Achievements" actions={actions}>
       {/* Achievements List */}
       <div className="space-y-4">
         {achievements.map((achievement, index) => (
-          <div
-            key={index}
-            className="  flex flex-col gap-2"
-          >
+          <div key={index} className="flex flex-col gap-2">
             {/* Title */}
             <EditableField
               value={achievement.title}
@@ -99,22 +74,20 @@ const AchievementSection: React.FC<AchievementSectionProps> = ({
             />
 
             {/* Remove Achievement Button */}
-            {isActive && (
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleRemoveAchievement(index);
-                }}
-                className="text-red-500 hover:text-red-700 focus:outline-none mt-2 self-end"
-                aria-label="Remove achievement"
-              >
-                <X size={20} />
-              </button>
-            )}
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                handleRemoveAchievement(index);
+              }}
+              className="text-red-500 hover:text-red-700 focus:outline-none mt-2 self-end"
+              aria-label="Remove achievement"
+            >
+              <X size={20} />
+            </button>
           </div>
         ))}
       </div>
-    </div>
+    </SectionWrapper>
   );
 };
 

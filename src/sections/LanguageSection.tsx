@@ -1,9 +1,9 @@
 import React from 'react';
 import { Plus } from 'lucide-react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { RootState } from '../store';
-import { setActiveSection } from '../activeSectionSlice';
 import EditableField from '../components/EditableField';
+import SectionWrapper from '../components/SectionWrapper';
 
 interface LanguageEntry {
   language: string;
@@ -13,7 +13,6 @@ interface LanguageEntry {
 const proficiencyLevels = ['Beginner', 'Intermediate', 'Advanced', 'Fluent', 'Native'];
 
 const LanguageSection: React.FC = () => {
-  const dispatch = useDispatch();
   const activeSection = useSelector((state: RootState) => state.activeSection.activeSection);
 
   const [languages, setLanguages] = React.useState<LanguageEntry[]>([
@@ -42,40 +41,20 @@ const LanguageSection: React.FC = () => {
     setLanguages(updatedLanguages);
   };
 
-  return (
-    <div
-      onClick={(e) => {
-        e.stopPropagation();
-        dispatch(setActiveSection('languages'));
-      }}
-      className={`space-y-4 p-2 rounded cursor-pointer ${
-        isActive ? 'border-blue-500 bg-blue-50' : ''
-      }`}
-    >
-      {/* Header */}
-      <div className="flex justify-between items-center">
-        <h3 className="text-lg font-semibold text-gray-900">Languages</h3>
-        {isActive && (
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              handleAddLanguage();
-            }}
-            className="text-blue-500 hover:text-blue-700 focus:outline-none"
-            aria-label="Add new language"
-          >
-            <Plus size={20} />
-          </button>
-        )}
-      </div>
+  const actions = [
+    {
+      icon: <Plus size={20} />,
+      onClick: handleAddLanguage,
+      ariaLabel: 'Add new language',
+    },
+  ];
 
+  return (
+    <SectionWrapper title="Languages" actions={actions}>
       {/* Languages List */}
       <div className="space-y-2">
         {languages.map((language, index) => (
-          <div
-            key={index}
-            className="flex items-center gap-4 "
-          >
+          <div key={index} className="flex items-center gap-4">
             {/* Editable Language Name */}
             <EditableField
               value={language.language}
@@ -134,7 +113,7 @@ const LanguageSection: React.FC = () => {
           </div>
         ))}
       </div>
-    </div>
+    </SectionWrapper>
   );
 };
 
