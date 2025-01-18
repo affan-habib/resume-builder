@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
-import { Plus, X } from 'lucide-react';
+import { Plus, Calendar, X } from 'lucide-react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../store';
 import EditableField from '../components/EditableField';
 import SectionWrapper from '../components/SectionWrapper';
 import ListSection from '../components/ListSection';
+import { DateRangePicker } from 'react-date-range';
+import 'react-date-range/dist/styles.css';
+import 'react-date-range/dist/theme/default.css';
 
 interface ExperienceEntry {
   title: string;
-  subtitle?: string;
+  subtitle?: string; // Represents the company name
   dateRange?: string;
   keyPoints?: string[];
 }
@@ -26,6 +29,8 @@ const ProfessionalExperienceSection: React.FC = () => {
       keyPoints: ['Developed scalable APIs', 'Improved system performance by 40%'],
     },
   ]);
+
+  const [showDatePicker, setShowDatePicker] = useState<number | null>(null);
 
   const handleAddEntry = () => {
     const newEntry: ExperienceEntry = {
@@ -79,12 +84,42 @@ const ProfessionalExperienceSection: React.FC = () => {
             />
 
             {/* Date Range */}
-            <EditableField
-              value={entry.dateRange || ''}
-              placeholder="Date Range"
-              onSave={(value) => handleEntryChange(index, 'dateRange', value)}
-              className="text-sm text-gray-600"
-            />
+            <div className="flex items-center space-x-2">
+              {entry.dateRange && (
+                <span className="text-sm text-gray-600">{entry.dateRange}</span>
+              )}
+              {isActive && (
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setShowDatePicker((prev) => (prev === index ? null : index));
+                  }}
+                  className="text-gray-600 hover:text-gray-800 focus:outline-none"
+                  aria-label="Pick date range"
+                >
+                  <Calendar size={18} />
+                </button>
+              )}
+              {isActive && showDatePicker === index && (
+                <div className="absolute mt-2 z-10">
+                  <DateRangePicker
+                    ranges={[{ startDate: new Date(), endDate: new Date(), key: 'selection' }]}
+                    onChange={(ranges) => {
+                      const start = ranges.selection.startDate?.toLocaleDateString('en-US', {
+                        month: 'short',
+                        year: 'numeric',
+                      });
+                      const end = ranges.selection.endDate?.toLocaleDateString('en-US', {
+                        month: 'short',
+                        year: 'numeric',
+                      });
+                      handleEntryChange(index, 'dateRange', `${start} - ${end}`);
+                      setShowDatePicker(null);
+                    }}
+                  />
+                </div>
+              )}
+            </div>
 
             {/* Key Points */}
             <ListSection
@@ -113,7 +148,7 @@ const ProfessionalExperienceSection: React.FC = () => {
               }
             />
 
-            {/* Remove Entry Button */}
+            {/* Remove Experience Button */}
             {isActive && (
               <button
                 onClick={(e) => {

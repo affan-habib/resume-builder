@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Plus, Settings, X } from 'lucide-react';
+import { useSelector } from 'react-redux';
+import { RootState } from '../store';
 import EditableField from '../components/EditableField';
 import SectionWrapper from '../components/SectionWrapper';
 
@@ -9,20 +11,19 @@ interface Skill {
 }
 
 const SkillsSection: React.FC = () => {
-  const [skills, setSkills] = React.useState<Skill[]>([
+  const title = 'Skills'; // Section title
+  const activeSection = useSelector((state: RootState) => state.activeSection.activeSection);
+  const isActive = activeSection === title; // Check if the section is active
+
+  const [skills, setSkills] = useState<Skill[]>([
     { name: 'React', percentage: 80 },
     { name: 'JavaScript', percentage: 70 },
   ]);
-  const [displayType, setDisplayType] = React.useState<'badge' | 'progress'>('progress');
-  const [showSettings, setShowSettings] = React.useState<boolean>(false);
+  const [displayType, setDisplayType] = useState<'badge' | 'progress'>('progress');
+  const [showSettings, setShowSettings] = useState<boolean>(false);
 
   const handleAddSkill = () => {
     setSkills([...skills, { name: '', percentage: 50 }]);
-  };
-
-  const handleSkillChange = (index: number, updatedSkill: Skill) => {
-    const updatedSkills = skills.map((skill, i) => (i === index ? updatedSkill : skill));
-    setSkills(updatedSkills);
   };
 
   const handleRemoveSkill = (index: number) => {
@@ -80,7 +81,7 @@ const SkillsSection: React.FC = () => {
   ];
 
   return (
-    <SectionWrapper title="Skills" actions={actions}>
+    <SectionWrapper title={title} actions={actions}>
       {/* Skills List */}
       <div className={`flex ${displayType === 'badge' ? 'flex-wrap gap-2' : 'flex-col space-y-2'}`}>
         {skills.map((skill, index) => (
@@ -108,7 +109,7 @@ const SkillsSection: React.FC = () => {
 
             {/* Progress Bar */}
             {displayType === 'progress' && (
-              <div className="w-1/2 px-4">
+              <div className="flex items-center w-1/2">
                 <div className="relative w-full h-3 bg-gray-300 rounded-full overflow-hidden">
                   <div
                     className="absolute h-full bg-blue-500"
@@ -129,17 +130,17 @@ const SkillsSection: React.FC = () => {
                     className="absolute top-0 left-0 w-full h-3 opacity-0 cursor-pointer"
                   />
                 </div>
+                {isActive && (
+                  <button
+                    onClick={() => handleRemoveSkill(index)}
+                    className="text-red-500 hover:text-red-700 focus:outline-none ml-4"
+                    aria-label={`Remove ${skill.name}`}
+                  >
+                    <X size={16} />
+                  </button>
+                )}
               </div>
             )}
-
-            {/* Delete Button */}
-            <button
-              onClick={() => handleRemoveSkill(index)}
-              className="text-red-500 hover:text-red-700 focus:outline-none ml-4"
-              aria-label={`Remove ${skill.name}`}
-            >
-              <X size={16} />
-            </button>
           </div>
         ))}
       </div>
