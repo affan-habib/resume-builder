@@ -5,7 +5,7 @@ function LandingPage() {
         <div className="min-h-screen bg-beige-50">
             {/* <NavBar /> */}
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16">
-                <div className="text-center">
+                <div className="text-center mt-20">
                     <h1 className="text-5xl font-bold text-beige-600 mb-6">
                         Create Your Professional Resume<br />in Minutes
                     </h1>
@@ -51,14 +51,14 @@ function LandingPage() {
                                     <p className="text-beige-600/80">Browse through our collection of professionally designed templates. Each one is crafted to highlight your unique strengths.</p>
                                 </div>
                             </div>
-                            <div className="w-1/2 hidden md:block opacity-10 group-hover:opacity-100 transition-opacity">
+                            <div className="w-1/2 hidden md:block opacity-95 group-hover:opacity-100 transition-opacity">
                                 <img src="https://images.unsplash.com/photo-1586281380349-632531db7ed4?auto=format&fit=crop&q=80&w=500" alt="Resume template selection" className="rounded-2xl shadow-lg" />
                             </div>
                         </div>
 
                         {/* Step 2 */}
                         <div className="flex items-center gap-12 group">
-                            <div className="w-1/2 hidden md:block opacity-10 group-hover:opacity-100 transition-opacity">
+                            <div className="w-1/2 hidden md:block opacity-95 group-hover:opacity-100 transition-opacity">
                                 <img src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&q=80&w=500" alt="Resume editing" className="rounded-2xl shadow-lg" />
                             </div>
                             <div className="w-1/2">
@@ -83,7 +83,7 @@ function LandingPage() {
                                     <p className="text-beige-600/80">Export your polished resume in multiple formats. Your professional journey begins with a single click.</p>
                                 </div>
                             </div>
-                            <div className="w-1/2 hidden md:block opacity-10 group-hover:opacity-100 transition-opacity">
+                            <div className="w-1/2 hidden md:block opacity-95 group-hover:opacity-100 transition-opacity">
                                 <img src="https://images.unsplash.com/photo-1542626991-cbc4e32524cc?auto=format&fit=crop&q=80&w=500" alt="Resume download" className="rounded-2xl shadow-lg" />
                             </div>
                         </div>
