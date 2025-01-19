@@ -18,42 +18,12 @@ import { PersonalDetails } from '../components/PersonalDetails';
 import type { Section } from '../types/types';
 
 const initialSections: Section[] = [
-  {
-    id: '1',
-    title: 'Skills',
-    content: '',
-    column: 'left',
-  },
-  {
-    id: '2',
-    title: 'Experience',
-    content: '',
-    column: 'left',
-  },
-  {
-    id: '3',
-    title: 'Education',
-    content: '',
-    column: 'left',
-  },
-  {
-    id: '4',
-    title: 'Projects',
-    content: '',
-    column: 'right',
-  },
-  {
-    id: '5',
-    title: 'Achievements',
-    content: '',
-    column: 'right',
-  },
-  {
-    id: '6',
-    title: 'Interests',
-    content: '',
-    column: 'right',
-  },
+  { id: '1', title: 'Skills', content: '', column: 'left' },
+  { id: '2', title: 'Experience', content: '', column: 'left' },
+  { id: '3', title: 'Education', content: '', column: 'left' },
+  { id: '4', title: 'Projects', content: '', column: 'right' },
+  { id: '5', title: 'Achievements', content: '', column: 'right' },
+  { id: '6', title: 'Interests', content: '', column: 'right' },
 ];
 
 function Layout() {
@@ -146,20 +116,20 @@ function Layout() {
   const activeSection = sections.find((s) => s.id === activeId);
 
   return (
-    <div className="min-h-screen bg-gray-100 p-8 flex justify-center">
-      <div className="w-[210mm] min-h-[297mm] bg-white shadow-lg">
-        <PersonalDetails />
-        <div className="px-8 py-4 border-b flex justify-end">
+    <div className="min-h-screen bg-gray-100 p-4 flex justify-center">
+      <div className="w-[160mm] min-h-[220mm] bg-white shadow-md">
+        <PersonalDetails className="px-4 py-2" />
+        <div className="px-4 py-2 border-b flex justify-end mb-4">
           <button
             onClick={handleUndo}
             disabled={history.length <= 1}
-            className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-colors ${
+            className={`flex items-center gap-2 px-2 py-1 rounded-md text-sm transition-colors ${
               history.length > 1
                 ? 'bg-gray-100 hover:bg-gray-200 text-gray-700'
                 : 'bg-gray-50 text-gray-400 cursor-not-allowed'
             }`}
           >
-            <Undo2 className="w-4 h-4" />
+            <Undo2 className="w-3 h-3" />
             <span>Undo</span>
           </button>
         </div>
@@ -170,21 +140,13 @@ function Layout() {
           onDragOver={handleDragOver}
           onDragEnd={handleDragEnd}
         >
-          <div className="flex px-8 pb-8 gap-8">
-            <Column
-              id="left"
-              sections={leftSections}
-              onDelete={handleDelete}
-            />
-            <Column
-              id="right"
-              sections={rightSections}
-              onDelete={handleDelete}
-            />
+          <div className="flex px-4 pb-4 gap-4">
+            <Column id="left" sections={leftSections} onDelete={handleDelete} />
+            <Column id="right" sections={rightSections} onDelete={handleDelete} />
           </div>
           <DragOverlay>
             {activeId && activeSection ? (
-              <div className="w-[calc(50%-2rem)]">
+              <div className="w-[calc(50%-1rem)] text-sm">
                 <DraggableSection section={activeSection} />
               </div>
             ) : null}
