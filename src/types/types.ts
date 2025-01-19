@@ -8,3 +8,10 @@ export interface PersonalDetails {
   profilePicture: string;
   summary: string;
 }
+
+export interface Section {
+  id: string;
+  title: string;
+  content: string;
+  column: 'left' | 'right';
+}
