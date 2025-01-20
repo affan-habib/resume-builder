@@ -5,6 +5,7 @@ const initialState: ResumeState = {
   personalInformation: {
     name: "John Doe",
     title: "Senior Software Engineer",
+    profilePicture: "https://images.unsplash.com/photo-1633332755192-727a05c4013d?w=400&h=400&fit=crop",
     contact: {
       email: "john.doe@example.com",
       phone: "+1 (555) 123-4567",
@@ -13,7 +14,7 @@ const initialState: ResumeState = {
       github: "https://github.com/johndoe",
       portfolio: "https://johndoeportfolio.com"
     },
-    summary: "Highly skilled Senior Software Engineer with over 10 years of experience in developing scalable web applications and leading cross-functional teams. Proficient in JavaScript, Python, and cloud technologies. Passionate about building innovative solutions and improving user experiences.",
+    summary: "Highly skilled Senior Software Engineer with over 10 years of experience in developing scalable web applications and leading cross-functional teams",
   },
   workExperience: [
     {

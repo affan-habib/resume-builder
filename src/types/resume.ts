@@ -86,6 +86,7 @@ export interface ResumeState {
     title: string;
     contact: Contact;
     summary: string;
+    profilePicture: string;
   };
   workExperience: WorkExperience[];
   education: Education[];

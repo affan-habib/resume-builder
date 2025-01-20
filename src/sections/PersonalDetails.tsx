@@ -1,10 +1,12 @@
-import React, { useState, useRef } from 'react';
+import React, { useRef } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../store';
+import { updatePersonalInfo } from '../resumeSlice';
+import { setActiveSection } from '../activeSectionSlice';
 import ProfileImage from '../components/ProfileImage';
 import EditableField from '../components/EditableField';
 import ContactLink from '../components/ContactLink';
-import { Mail, Phone, MapPin, Linkedin } from 'lucide-react';
-import { useDispatch, useSelector } from 'react-redux';
-import { setActiveSection } from '../activeSectionSlice';
+import { Mail, Phone, MapPin, Linkedin, Github, Globe } from 'lucide-react';
 
 const placeholders = {
   fullName: 'John Doe',
@@ -14,29 +16,21 @@ const placeholders = {
   phone: '(123) 456-7890',
   location: 'City, Country',
   linkedin: 'linkedin.com/in/yourprofile',
+  github: 'github.com/yourusername',
+  portfolio: 'https://yourportfolio.com',
 };
 
 const PersonalDetails: React.FC = () => {
   const dispatch = useDispatch();
   const activeSection = useSelector((state: RootState) => state.activeSection.activeSection);
+  const personalInformation = useSelector((state: RootState) => state.resume.personalInformation);
 
   const isActive = activeSection === 'personalDetails';
-  const [details, setDetails] = useState({
-    fullName: '',
-    title: '',
-    summary: '',
-    email: '',
-    phone: '',
-    location: '',
-    linkedin: '',
-    profilePicture:
-      'https://images.unsplash.com/photo-1633332755192-727a05c4013d?w=400&h=400&fit=crop',
-  });
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const updateDetail = (field: string, value: string) => {
-    setDetails((prev) => ({ ...prev, [field]: value }));
+  const updateField = (field: keyof typeof personalInformation, value: string) => {
+    dispatch(updatePersonalInfo({ ...personalInformation, [field]: value }));
   };
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -44,7 +38,12 @@ const PersonalDetails: React.FC = () => {
     if (file) {
       const reader = new FileReader();
       reader.onload = (event) => {
-        updateDetail('profilePicture', event.target?.result as string);
+        if (event.target?.result) {
+          updateField('profilePicture', event.target.result as string);
+        }
+      };
+      reader.onerror = () => {
+        alert('Failed to load image. Please try again.');
       };
       reader.readAsDataURL(file);
     }
@@ -56,63 +55,75 @@ const PersonalDetails: React.FC = () => {
         e.stopPropagation();
         dispatch(setActiveSection('personalDetails'));
       }}
-      className={`space-y-6 rounded cursor-pointer ${isActive ? 'border-blue-500 bg-blue-50' : ''
+      className={`space-y-6 rounded-lg p-4 cursor-pointer ${isActive ? 'border-blue-500 bg-blue-50' : ''
         }`}
     >
       {/* Profile Picture and Editable Fields */}
       <div className="flex items-center gap-6">
         <ProfileImage
-          imageUrl={details.profilePicture}
+          imageUrl={personalInformation.profilePicture}
           onUpload={handleImageUpload}
           fileInputRef={fileInputRef}
         />
         <div className="flex-1 space-y-2">
           <EditableField
-            value={details.fullName}
+            value={personalInformation.name}
             placeholder={placeholders.fullName}
-            onSave={(value) => updateDetail('fullName', value)}
+            onSave={(value) => updateField('name', value)}
             className="text-2xl font-semibold text-gray-900"
           />
           <EditableField
-            value={details.title}
+            value={personalInformation.title}
             placeholder={placeholders.title}
-            onSave={(value) => updateDetail('title', value)}
+            onSave={(value) => updateField('title', value)}
             className="text-lg text-gray-600"
           />
           <EditableField
-            value={details.summary}
+            value={personalInformation.summary}
             placeholder={placeholders.summary}
-            onSave={(value) => updateDetail('summary', value)}
+            onSave={(value) => updateField('summary', value)}
             className="text-sm text-gray-700"
           />
         </div>
       </div>
 
       {/* Contact Links */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 border-t border-b p-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 border-t border-b py-4">
         <ContactLink
           icon={<Mail className="w-5 h-5 text-gray-500 mr-2" />}
-          value={details.email}
+          value={personalInformation.contact.email}
           placeholder={placeholders.email}
-          onSave={(value) => updateDetail('email', value)}
+          onSave={(value) => updateField('contact', { ...personalInformation.contact, email: value })}
         />
         <ContactLink
           icon={<Phone className="w-5 h-5 text-gray-500 mr-2" />}
-          value={details.phone}
+          value={personalInformation.contact.phone}
           placeholder={placeholders.phone}
-          onSave={(value) => updateDetail('phone', value)}
+          onSave={(value) => updateField('contact', { ...personalInformation.contact, phone: value })}
         />
         <ContactLink
           icon={<MapPin className="w-5 h-5 text-gray-500 mr-2" />}
-          value={details.location}
+          value={personalInformation.contact.address}
           placeholder={placeholders.location}
-          onSave={(value) => updateDetail('location', value)}
+          onSave={(value) => updateField('contact', { ...personalInformation.contact, address: value })}
         />
         <ContactLink
           icon={<Linkedin className="w-5 h-5 text-gray-500 mr-2" />}
-          value={details.linkedin}
+          value={personalInformation.contact.linkedin}
           placeholder={placeholders.linkedin}
-          onSave={(value) => updateDetail('linkedin', value)}
+          onSave={(value) => updateField('contact', { ...personalInformation.contact, linkedin: value })}
+        />
+        <ContactLink
+          icon={<Github className="w-5 h-5 text-gray-500 mr-2" />}
+          value={personalInformation.contact.github}
+          placeholder={placeholders.github}
+          onSave={(value) => updateField('contact', { ...personalInformation.contact, github: value })}
+        />
+        <ContactLink
+          icon={<Globe className="w-5 h-5 text-gray-500 mr-2" />}
+          value={personalInformation.contact.portfolio}
+          placeholder={placeholders.portfolio}
+          onSave={(value) => updateField('contact', { ...personalInformation.contact, portfolio: value })}
         />
       </div>
     </div>
