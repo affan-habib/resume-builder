@@ -1,33 +1,29 @@
 import React, { useState } from 'react';
 import { Plus, Settings, X } from 'lucide-react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store';
+import { updateSkills } from '../resumeSlice';
 import EditableField from '../components/EditableField';
 import SectionWrapper from '../components/SectionWrapper';
 
-interface Skill {
-  name: string;
-  percentage: number;
-}
-
 const SkillsSection: React.FC = () => {
   const title = 'Skills'; // Section title
+  const dispatch = useDispatch();
+  const skills = useSelector((state: RootState) => state.resume.skills);
   const activeSection = useSelector((state: RootState) => state.activeSection.activeSection);
   const isActive = activeSection === title; // Check if the section is active
 
-  const [skills, setSkills] = useState<Skill[]>([
-    { name: 'React', percentage: 80 },
-    { name: 'JavaScript', percentage: 70 },
-  ]);
   const [displayType, setDisplayType] = useState<'badge' | 'progress'>('progress');
   const [showSettings, setShowSettings] = useState<boolean>(false);
 
   const handleAddSkill = () => {
-    setSkills([...skills, { name: '', percentage: 50 }]);
+    const newSkills = [...skills, { name: '', proficiency: 50 }];
+    dispatch(updateSkills(newSkills));
   };
 
   const handleRemoveSkill = (index: number) => {
-    setSkills(skills.filter((_, i) => i !== index));
+    const newSkills = skills.filter((_, i) => i !== index);
+    dispatch(updateSkills(newSkills));
   };
 
   const toggleSettings = () => {
@@ -37,6 +33,13 @@ const SkillsSection: React.FC = () => {
   const handleViewStyleChange = (viewStyle: 'badge' | 'progress') => {
     setDisplayType(viewStyle);
     setShowSettings(false); // Close settings dropdown after selection
+  };
+
+  const handleSkillChange = (index: number, updatedSkill: { name: string; proficiency: number }) => {
+    const newSkills = skills.map((skill, i) =>
+      i === index ? { ...skill, ...updatedSkill } : skill
+    );
+    dispatch(updateSkills(newSkills));
   };
 
   const actions = [
@@ -98,11 +101,7 @@ const SkillsSection: React.FC = () => {
               <EditableField
                 value={skill.name}
                 placeholder="Skill"
-                onSave={(value) =>
-                  setSkills((prev) =>
-                    prev.map((s, i) => (i === index ? { ...s, name: value } : s))
-                  )
-                }
+                onSave={(value) => handleSkillChange(index, { name: value, proficiency: skill.proficiency })}
                 className="focus:outline-none text-gray-800"
               />
             </div>
@@ -113,19 +112,18 @@ const SkillsSection: React.FC = () => {
                 <div className="relative w-full h-3 bg-gray-300 rounded-full overflow-hidden">
                   <div
                     className="absolute h-full bg-blue-500"
-                    style={{ width: `${skill.percentage}%` }}
+                    style={{ width: `${skill.proficiency}%` }}
                   />
                   <input
                     type="range"
                     min="0"
                     max="100"
-                    value={skill.percentage}
+                    value={skill.proficiency}
                     onChange={(e) =>
-                      setSkills((prev) =>
-                        prev.map((s, i) =>
-                          i === index ? { ...s, percentage: Number(e.target.value) } : s
-                        )
-                      )
+                      handleSkillChange(index, {
+                        name: skill.name,
+                        proficiency: Number(e.target.value),
+                      })
                     }
                     className="absolute top-0 left-0 w-full h-3 opacity-0 cursor-pointer"
                   />
