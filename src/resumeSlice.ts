@@ -68,34 +68,13 @@ const initialState: ResumeState = {
   projects: [
     {
       name: "E-commerce Platform",
-      description: "Developed a scalable e-commerce platform with features like user authentication, product listings, and payment integration.",
-      technologies: ["React", "Node.js", "MongoDB", "Stripe API"],
+      keyPoints: [], technologies: ["React", "Node.js", "MongoDB", "Stripe API"],
       repositoryLink: "https://github.com/johndoe/ecommerce-platform",
       liveDemoLink: "https://ecommerce.johndoeportfolio.com",
       role: "Lead Developer",
       startDate: "2021-01",
       endDate: "2021-12"
     },
-    {
-      name: "Real-Time Chat Application",
-      description: "Built a real-time chat application supporting multiple rooms, user presence, and message history.",
-      technologies: ["Angular", "Firebase", "TypeScript"],
-      repositoryLink: "https://github.com/johndoe/chat-app",
-      liveDemoLink: "https://chatapp.johndoeportfolio.com",
-      role: "Full Stack Developer",
-      startDate: "2019-05",
-      endDate: "2019-11"
-    },
-    {
-      name: "Portfolio Website",
-      description: "Designed and developed a personal portfolio website to showcase projects, blogs, and contact information.",
-      technologies: ["HTML", "CSS", "JavaScript", "Gatsby"],
-      repositoryLink: "https://github.com/johndoe/portfolio-website",
-      liveDemoLink: "https://www.johndoe.com",
-      role: "Solo Developer",
-      startDate: "2020-03",
-      endDate: "2020-06"
-    }
   ],
   languages: [
     { language: "English", proficiency: "Native" },
@@ -140,7 +119,8 @@ const initialState: ResumeState = {
       relationship: "Colleague"
     },
   ],
-  achievements: []
+  achievements: [],
+  interests: ['Chess', 'Traveling'],
 };
 
 const resumeSlice = createSlice({
@@ -180,6 +160,9 @@ const resumeSlice = createSlice({
     updateAchievements: (state, action: PayloadAction<typeof initialState.achievements>) => {
       state.achievements = action.payload;
     },
+    updateInterests: (state, action: PayloadAction<typeof initialState.interests>) => {
+      state.interests = action.payload;
+    },
   }
 });
 
@@ -194,7 +177,8 @@ export const {
   updateAwards,
   updateVolunteerExperience,
   updateReferences,
-  updateAchievements
+  updateAchievements,
+  updateInterests
 } = resumeSlice.actions;
 
 export default resumeSlice.reducer;

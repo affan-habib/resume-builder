@@ -1,30 +1,31 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Plus, X } from 'lucide-react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../store';
+import { updateInterests } from '../resumeSlice';
 import SectionWrapper from '../components/SectionWrapper';
 import EditableField from '../components/EditableField';
 
 const InterestSection: React.FC = () => {
   const title = 'Interests'; // Section title
+  const dispatch = useDispatch();
+  const interests = useSelector((state: RootState) => state.resume.interests);
   const activeSection = useSelector((state: RootState) => state.activeSection.activeSection);
   const isActive = activeSection === title; // Check if the section is active
-
-  const [tags, setTags] = useState<string[]>(['Reading', 'Traveling']);
   const placeholder = 'Interest';
 
   const handleAddTag = () => {
-    setTags([...tags, '']);
+    dispatch(updateInterests([...interests, '']));
   };
 
   const handleTagChange = (index: number, value: string) => {
-    const updatedTags = tags.map((tag, i) => (i === index ? value : tag));
-    setTags(updatedTags);
+    const updatedTags = interests.map((tag, i) => (i === index ? value : tag));
+    dispatch(updateInterests(updatedTags));
   };
 
   const handleRemoveTag = (index: number) => {
-    const updatedTags = tags.filter((_, i) => i !== index);
-    setTags(updatedTags);
+    const updatedTags = interests.filter((_, i) => i !== index);
+    dispatch(updateInterests(updatedTags));
   };
 
   const actions = [
@@ -38,7 +39,7 @@ const InterestSection: React.FC = () => {
   return (
     <SectionWrapper title={title} actions={isActive ? actions : []}>
       <div className="flex flex-wrap gap-2">
-        {tags.map((tag, index) => (
+        {interests.map((tag, index) => (
           <div
             key={index}
             className="flex items-center space-x-2 text-sm px-3 py-1 rounded-full shadow-sm bg-gray-200"

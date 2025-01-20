@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { Plus, Calendar, X } from 'lucide-react';
-import { useSelector } from 'react-redux';
+import { Plus, Calendar, X, Edit3 } from 'lucide-react';
+import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../store';
+import { updateProjects } from '../resumeSlice';
 import EditableField from '../components/EditableField';
 import SectionWrapper from '../components/SectionWrapper';
 import ListSection from '../components/ListSection';
@@ -9,91 +10,78 @@ import { DateRangePicker } from 'react-date-range';
 import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
 
-interface Entry {
-  title: string;
-  subtitle?: string;
-  dateRange?: string;
-  keyPoints?: string[];
-}
-
 const ProjectsSection: React.FC = () => {
-  const title = 'Projects'; // Section title
+  const dispatch = useDispatch();
+  const projects = useSelector((state: RootState) => state.resume.projects);
   const activeSection = useSelector((state: RootState) => state.activeSection.activeSection);
-  const isActive = activeSection === title; // Check if the section is active
-
-  const [entries, setEntries] = useState<Entry[]>([
-    {
-      title: 'Project Management App',
-      subtitle: 'Team Lead',
-      dateRange: 'Jan 2021 - Dec 2021',
-      keyPoints: ['Managed team of 5 developers', 'Delivered project on time'],
-    },
-  ]);
-
+  const title = 'Projects';
+  const isActive = activeSection === title;
   const [showDatePicker, setShowDatePicker] = useState<number | null>(null);
+  const [editingLink, setEditingLink] = useState<{ index: number; field: 'repositoryLink' | 'liveDemoLink' } | null>(null);
 
-  const handleAddEntry = () => {
-    const newEntry: Entry = {
-      title: 'New Project',
-      subtitle: 'New Role',
-      dateRange: '',
+  const handleAddProject = () => {
+    const newProject = {
+      name: 'New Project',
       keyPoints: [],
+      technologies: [],
+      repositoryLink: '',
+      liveDemoLink: '',
+      role: 'Role',
+      startDate: '',
+      endDate: '',
     };
-    setEntries([...entries, newEntry]);
+    dispatch(updateProjects([...projects, newProject]));
   };
 
-  const handleEntryChange = (index: number, field: keyof Entry, value: string) => {
-    const updatedEntries = entries.map((entry, i) =>
-      i === index ? { ...entry, [field]: value } : entry
+  const handleProjectChange = (index: number, field: keyof typeof projects[0], value: any) => {
+    const updatedProjects = projects.map((project, i) =>
+      i === index ? { ...project, [field]: value } : project
     );
-    setEntries(updatedEntries);
+    dispatch(updateProjects(updatedProjects));
   };
 
-  const handleRemoveEntry = (index: number) => {
-    const updatedEntries = entries.filter((_, i) => i !== index);
-    setEntries(updatedEntries);
+  const handleRemoveProject = (index: number) => {
+    const updatedProjects = projects.filter((_, i) => i !== index);
+    dispatch(updateProjects(updatedProjects));
   };
 
   const actions = [
     {
       icon: <Plus size={20} />,
-      onClick: handleAddEntry,
+      onClick: handleAddProject,
       ariaLabel: 'Add new project',
     },
   ];
 
   return (
-    <SectionWrapper title={title} actions={actions}>
+    <SectionWrapper title={title} actions={isActive ? actions : []}>
       <div className="space-y-4">
-        {entries.map((entry, index) => (
+        {projects.map((project, index) => (
           <div key={index} className="space-y-2">
-            {/* Project Title */}
+            {/* Project Name */}
             <EditableField
-              value={entry.title}
-              placeholder="Project Title"
-              onSave={(value) => handleEntryChange(index, 'title', value)}
+              value={project.name}
+              placeholder="Project Name"
+              onSave={(value) => handleProjectChange(index, 'name', value)}
               className="flex-grow text-gray-800"
             />
 
-            {/* Role/Subtitle */}
+            {/* Role */}
             <EditableField
-              value={entry.subtitle || ''}
-              placeholder="Role/Subtitle"
-              onSave={(value) => handleEntryChange(index, 'subtitle', value)}
+              value={project.role}
+              placeholder="Role"
+              onSave={(value) => handleProjectChange(index, 'role', value)}
               className="flex-grow text-gray-600"
             />
 
             {/* Date Range */}
             <div className="flex items-center space-x-2">
-              {entry.dateRange && (
-                <span className="text-sm text-gray-600">{entry.dateRange}</span>
+              {project.startDate && project.endDate && (
+                <span className="text-sm text-gray-600">{`${project.startDate} - ${project.endDate}`}</span>
               )}
               {isActive && (
                 <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setShowDatePicker((prev) => (prev === index ? null : index));
-                  }}
+                  onClick={() => setShowDatePicker((prev) => (prev === index ? null : index))}
                   className="text-gray-600 hover:text-gray-800 focus:outline-none"
                   aria-label="Pick date range"
                 >
@@ -103,7 +91,13 @@ const ProjectsSection: React.FC = () => {
               {isActive && showDatePicker === index && (
                 <div className="absolute mt-2 z-10">
                   <DateRangePicker
-                    ranges={[{ startDate: new Date(), endDate: new Date(), key: 'selection' }]}
+                    ranges={[
+                      {
+                        startDate: new Date(project.startDate || Date.now()),
+                        endDate: new Date(project.endDate || Date.now()),
+                        key: 'selection',
+                      },
+                    ]}
                     onChange={(ranges) => {
                       const start = ranges.selection.startDate?.toLocaleDateString('en-US', {
                         month: 'short',
@@ -113,7 +107,8 @@ const ProjectsSection: React.FC = () => {
                         month: 'short',
                         year: 'numeric',
                       });
-                      handleEntryChange(index, 'dateRange', `${start} - ${end}`);
+                      handleProjectChange(index, 'startDate', start || '');
+                      handleProjectChange(index, 'endDate', end || '');
                       setShowDatePicker(null);
                     }}
                   />
@@ -123,35 +118,99 @@ const ProjectsSection: React.FC = () => {
 
             {/* Key Points */}
             <ListSection
-              items={entry.keyPoints || []}
+              items={project.keyPoints || []}
               placeholder="Key Point"
               isActive={isActive}
               onAddItem={() =>
-                handleEntryChange(index, 'keyPoints', [...(entry.keyPoints || []), 'New Key Point'])
+                handleProjectChange(index, 'keyPoints', [...(project.keyPoints || []), 'New Key Point'])
               }
               onItemChange={(keyIndex, value) =>
-                handleEntryChange(
+                handleProjectChange(
                   index,
                   'keyPoints',
-                  entry.keyPoints.map((point, i) => (i === keyIndex ? value : point))
+                  project.keyPoints.map((point, i) => (i === keyIndex ? value : point))
                 )
               }
               onRemoveItem={(keyIndex) =>
-                handleEntryChange(
+                handleProjectChange(
                   index,
                   'keyPoints',
-                  entry.keyPoints.filter((_, i) => i !== keyIndex)
+                  project.keyPoints.filter((_, i) => i !== keyIndex)
                 )
               }
             />
 
+            {/* Links (Repository and Live Demo) */}
+            <div className="flex items-center space-x-4">
+              {/* Repository Link */}
+              <div className="relative">
+                {isActive && editingLink?.index === index && editingLink?.field === 'repositoryLink' ? (
+                  <EditableField
+                    value={project.repositoryLink}
+                    placeholder="Repository Link"
+                    onSave={(value) => {
+                      handleProjectChange(index, 'repositoryLink', value);
+                      setEditingLink(null);
+                    }}
+                    className="absolute top-0 left-0 bg-white border border-gray-300 shadow-md p-2 z-10"
+                  />
+                ) : (
+                  <button
+                    onClick={(e) => {
+                      if (isActive) {
+                        e.stopPropagation();
+                        setEditingLink({ index, field: 'repositoryLink' });
+                      } else {
+                        window.open(project.repositoryLink || '#', '_blank');
+                      }
+                    }}
+                    className="text-blue-500 hover:underline flex items-center"
+                  >
+                    View Code
+                    {isActive && (
+                      <Edit3 size={16} className="ml-2 text-gray-600 hover:text-gray-800" />
+                    )}
+                  </button>
+                )}
+              </div>
+
+              {/* Live Demo Link */}
+              <div className="relative">
+                {isActive && editingLink?.index === index && editingLink?.field === 'liveDemoLink' ? (
+                  <EditableField
+                    value={project.liveDemoLink}
+                    placeholder="Live Demo Link"
+                    onSave={(value) => {
+                      handleProjectChange(index, 'liveDemoLink', value);
+                      setEditingLink(null);
+                    }}
+                    className="absolute top-0 left-0 bg-white border border-gray-300 shadow-md p-2 z-10"
+                  />
+                ) : (
+                  <button
+                    onClick={(e) => {
+                      if (isActive) {
+                        e.stopPropagation();
+                        setEditingLink({ index, field: 'liveDemoLink' });
+                      } else {
+                        window.open(project.liveDemoLink || '#', '_blank');
+                      }
+                    }}
+                    className="text-blue-500 hover:underline flex items-center"
+                  >
+                    View Demo
+                    {isActive && (
+                      <Edit3 size={16} className="ml-2 text-gray-600 hover:text-gray-800" />
+                    )}
+                  </button>
+                )}
+              </div>
+            </div>
+
             {/* Remove Project Button */}
             {isActive && (
               <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleRemoveEntry(index);
-                }}
+                onClick={() => handleRemoveProject(index)}
                 className="text-red-500 hover:text-red-700 focus:outline-none mt-2 self-end"
                 aria-label="Remove project"
               >

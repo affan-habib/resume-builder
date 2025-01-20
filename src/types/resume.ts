@@ -38,7 +38,7 @@ export interface Certification {
 
 export interface Project {
   name: string;
-  description: string;
+  keyPoints: string[];
   technologies: string[];
   repositoryLink: string;
   liveDemoLink: string;
@@ -97,5 +97,5 @@ export interface ResumeState {
   volunteerExperience: VolunteerExperience[];
   references: Reference[];
   achievements: Achievement[];
-
+  interests: string[];
 }

@@ -12,8 +12,9 @@ interface LanguageSectionProps {
   title: string;
 }
 
-const LanguageSection: React.FC<LanguageSectionProps> = ({ title }) => {
+const LanguageSection: React.FC<LanguageSectionProps> = () => {
   const dispatch = useDispatch();
+  const title = 'Languages';
   const languages = useSelector((state: RootState) => state.resume.languages);
   const activeSection = useSelector((state: RootState) => state.activeSection.activeSection);
   const isActive = activeSection === title;
@@ -22,7 +23,7 @@ const LanguageSection: React.FC<LanguageSectionProps> = ({ title }) => {
 
   const handleAddLanguage = () => {
     const newEntry = { language: 'New Language', proficiency: 'Beginner' };
-    dispatch(updateLanguages([...languages, newEntry]));
+  dispatch(updateLanguages([...languages, newEntry]));
   };
 
   const handleLanguageChange = (index: number, field: keyof typeof languages[0], value: string) => {
