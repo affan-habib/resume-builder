@@ -1,44 +1,40 @@
-import React from 'react';
-import { Plus } from 'lucide-react';
-import { useSelector } from 'react-redux';
+import React, { useState } from 'react';
+import { Plus, X } from 'lucide-react';
+import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../store';
+import { updateLanguages } from '../resumeSlice';
 import EditableField from '../components/EditableField';
 import SectionWrapper from '../components/SectionWrapper';
 
-interface LanguageEntry {
-  language: string;
-  proficiency: string;
-}
-
 const proficiencyLevels = ['Beginner', 'Intermediate', 'Advanced', 'Fluent', 'Native'];
 
-const LanguageSection: React.FC = () => {
+interface LanguageSectionProps {
+  title: string;
+}
+
+const LanguageSection: React.FC<LanguageSectionProps> = ({ title }) => {
+  const dispatch = useDispatch();
+  const languages = useSelector((state: RootState) => state.resume.languages);
   const activeSection = useSelector((state: RootState) => state.activeSection.activeSection);
+  const isActive = activeSection === title;
 
-  const [languages, setLanguages] = React.useState<LanguageEntry[]>([
-    { language: 'English', proficiency: 'Fluent' },
-    { language: 'Spanish', proficiency: 'Intermediate' },
-  ]);
-
-  const [activeDropdown, setActiveDropdown] = React.useState<number | null>(null);
-
-  const isActive = activeSection === 'languages';
+  const [activeDropdown, setActiveDropdown] = useState<number | null>(null);
 
   const handleAddLanguage = () => {
-    const newEntry: LanguageEntry = { language: 'New Language', proficiency: 'Beginner' };
-    setLanguages([...languages, newEntry]);
+    const newEntry = { language: 'New Language', proficiency: 'Beginner' };
+    dispatch(updateLanguages([...languages, newEntry]));
   };
 
-  const handleLanguageChange = (index: number, field: keyof LanguageEntry, value: string) => {
+  const handleLanguageChange = (index: number, field: keyof typeof languages[0], value: string) => {
     const updatedLanguages = languages.map((lang, i) =>
       i === index ? { ...lang, [field]: value } : lang
     );
-    setLanguages(updatedLanguages);
+    dispatch(updateLanguages(updatedLanguages));
   };
 
   const handleRemoveLanguage = (index: number) => {
     const updatedLanguages = languages.filter((_, i) => i !== index);
-    setLanguages(updatedLanguages);
+    dispatch(updateLanguages(updatedLanguages));
   };
 
   const actions = [
@@ -50,8 +46,7 @@ const LanguageSection: React.FC = () => {
   ];
 
   return (
-    <SectionWrapper title="Languages" actions={actions}>
-      {/* Languages List */}
+    <SectionWrapper title={title} actions={actions}>
       <div className="space-y-2">
         {languages.map((language, index) => (
           <div key={index} className="flex items-center gap-4">
@@ -107,7 +102,7 @@ const LanguageSection: React.FC = () => {
                 className="text-red-500 hover:text-red-700 focus:outline-none"
                 aria-label="Remove language"
               >
-                ✕
+                <X size={20} />
               </button>
             )}
           </div>

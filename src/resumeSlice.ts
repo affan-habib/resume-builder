@@ -99,7 +99,7 @@ const initialState: ResumeState = {
   ],
   languages: [
     { language: "English", proficiency: "Native" },
-    { language: "Spanish", proficiency: "Professional Working Proficiency" }
+    { language: "Spanish", proficiency: "Advanced" }
   ],
   awards: [
     {
