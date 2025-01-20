@@ -1,39 +1,38 @@
 import React from 'react';
 import { Plus, X } from 'lucide-react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../store';
+import { updateEducation } from '../resumeSlice';
 import EditableField from '../components/EditableField';
 import SectionWrapper from '../components/SectionWrapper';
 
 const EducationSection: React.FC = () => {
+  const dispatch = useDispatch();
+  const education = useSelector((state: RootState) => state.resume.education);
   const activeSection = useSelector((state: RootState) => state.activeSection.activeSection);
 
-  const [education, setEducation] = React.useState([
-    { institution: 'University A', degree: "Bachelor's", startDate: '2020', endDate: '2024' },
-  ]);
-
-  const isActive = activeSection === 'education';
+  const isActive = activeSection === 'Education';
 
   const handleAddEducation = () => {
     const newEducation = {
-      institution: 'New Institution',
-      degree: 'New Degree',
-      startDate: 'Start',
-      endDate: 'End',
+      institution: '',
+      degree: '',
+      startDate: '',
+      endDate: '',
+      gpa: '',
     };
-    setEducation([...education, newEducation]);
+    dispatch(updateEducation([...education, newEducation]));
   };
 
   const handleEducationChange = (index: number, field: keyof typeof education[0], value: string) => {
-    setEducation((prevEducation) =>
-      prevEducation.map((item, i) =>
-        i === index ? { ...item, [field]: value } : item
-      )
-    );
+    const updatedEducation = [...education];
+    updatedEducation[index] = { ...updatedEducation[index], [field]: value };
+    dispatch(updateEducation(updatedEducation));
   };
 
   const handleRemoveEducation = (index: number) => {
-    setEducation((prevEducation) => prevEducation.filter((_, i) => i !== index));
+    const updatedEducation = education.filter((_, i) => i !== index);
+    dispatch(updateEducation(updatedEducation));
   };
 
   const actions = [
@@ -48,7 +47,10 @@ const EducationSection: React.FC = () => {
     <SectionWrapper title="Education" actions={actions}>
       <div className="space-y-4">
         {education.map((entry, index) => (
-          <div key={index} className="rounded flex flex-col gap-2">
+          <div
+            key={index}
+            className="flex flex-col gap-2"
+          >
             {/* Institution */}
             <EditableField
               value={entry.institution}
@@ -78,6 +80,13 @@ const EducationSection: React.FC = () => {
               />
             </div>
 
+            {/* GPA */}
+            <EditableField
+              value={entry.gpa}
+              placeholder="CGPA"
+              onSave={(value) => handleEducationChange(index, 'gpa', value)}
+            />
+
             {/* Remove Button */}
             {isActive && (
               <button
@@ -86,7 +95,7 @@ const EducationSection: React.FC = () => {
                   handleRemoveEducation(index);
                 }}
                 className="self-end text-red-500 hover:text-red-700 focus:outline-none"
-                aria-label="Remove education entry"
+                aria-label={`Remove education entry ${index + 1}`}
               >
                 <X size={20} />
               </button>
