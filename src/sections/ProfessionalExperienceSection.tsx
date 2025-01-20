@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Plus, Calendar, X } from 'lucide-react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../store';
+import { updateWorkExperience } from '../resumeSlice';
 import EditableField from '../components/EditableField';
 import SectionWrapper from '../components/SectionWrapper';
 import ListSection from '../components/ListSection';
@@ -9,49 +10,41 @@ import { DateRangePicker } from 'react-date-range';
 import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
 
-interface ExperienceEntry {
-  title: string;
-  subtitle?: string; // Represents the company name
-  dateRange?: string;
-  keyPoints?: string[];
-}
-
 const ProfessionalExperienceSection: React.FC = () => {
-  const title = 'Professional Experience'; // Section title
+  const dispatch = useDispatch();
+  const workExperience = useSelector((state: RootState) => state.resume.workExperience);
   const activeSection = useSelector((state: RootState) => state.activeSection.activeSection);
-  const isActive = activeSection === title; // Check if the section is active
-
-  const [entries, setEntries] = useState<ExperienceEntry[]>([
-    {
-      title: 'Software Engineer',
-      subtitle: 'Tech Corp',
-      dateRange: 'Jan 2020 - Dec 2022',
-      keyPoints: ['Developed scalable APIs', 'Improved system performance by 40%'],
-    },
-  ]);
+  const title = 'Professional Experience';
+  const isActive = activeSection === title;
 
   const [showDatePicker, setShowDatePicker] = useState<number | null>(null);
 
   const handleAddEntry = () => {
-    const newEntry: ExperienceEntry = {
-      title: 'New Role',
-      subtitle: 'New Company',
-      dateRange: '',
-      keyPoints: [],
+    const newEntry = {
+      jobTitle: 'New Job Title',
+      company: 'New Company',
+      location: 'New Location',
+      startDate: '',
+      endDate: '',
+      responsibilities: [],
+      achievements: [],
     };
-    setEntries([...entries, newEntry]);
+    dispatch(updateWorkExperience([...workExperience, newEntry]));
   };
 
-  const handleEntryChange = (index: number, field: keyof ExperienceEntry, value: string) => {
-    const updatedEntries = entries.map((entry, i) =>
-      i === index ? { ...entry, [field]: value } : entry
-    );
-    setEntries(updatedEntries);
+  const handleEntryChange = (
+    index: number,
+    field: keyof typeof workExperience[0],
+    value: any
+  ) => {
+    const updatedEntries = [...workExperience];
+    updatedEntries[index] = { ...updatedEntries[index], [field]: value };
+    dispatch(updateWorkExperience(updatedEntries));
   };
 
   const handleRemoveEntry = (index: number) => {
-    const updatedEntries = entries.filter((_, i) => i !== index);
-    setEntries(updatedEntries);
+    const updatedEntries = workExperience.filter((_, i) => i !== index);
+    dispatch(updateWorkExperience(updatedEntries));
   };
 
   const actions = [
@@ -65,28 +58,38 @@ const ProfessionalExperienceSection: React.FC = () => {
   return (
     <SectionWrapper title={title} actions={actions}>
       <div className="space-y-4">
-        {entries.map((entry, index) => (
+        {workExperience.map((entry, index) => (
           <div key={index} className="space-y-2">
             {/* Job Title */}
             <EditableField
-              value={entry.title}
+              value={entry.jobTitle}
               placeholder="Job Title"
-              onSave={(value) => handleEntryChange(index, 'title', value)}
+              onSave={(value) => handleEntryChange(index, 'jobTitle', value)}
               className="flex-grow text-gray-800"
             />
 
             {/* Company Name */}
             <EditableField
-              value={entry.subtitle || ''}
+              value={entry.company}
               placeholder="Company Name"
-              onSave={(value) => handleEntryChange(index, 'subtitle', value)}
+              onSave={(value) => handleEntryChange(index, 'company', value)}
+              className="flex-grow text-gray-600"
+            />
+
+            {/* Location */}
+            <EditableField
+              value={entry.location}
+              placeholder="Location"
+              onSave={(value) => handleEntryChange(index, 'location', value)}
               className="flex-grow text-gray-600"
             />
 
             {/* Date Range */}
             <div className="flex items-center space-x-2">
-              {entry.dateRange && (
-                <span className="text-sm text-gray-600">{entry.dateRange}</span>
+              {entry.startDate && entry.endDate && (
+                <span className="text-sm text-gray-600">
+                  {`${entry.startDate} - ${entry.endDate}`}
+                </span>
               )}
               {isActive && (
                 <button
@@ -103,7 +106,13 @@ const ProfessionalExperienceSection: React.FC = () => {
               {isActive && showDatePicker === index && (
                 <div className="absolute mt-2 z-10">
                   <DateRangePicker
-                    ranges={[{ startDate: new Date(), endDate: new Date(), key: 'selection' }]}
+                    ranges={[
+                      {
+                        startDate: new Date(entry.startDate || Date.now()),
+                        endDate: new Date(entry.endDate || Date.now()),
+                        key: 'selection',
+                      },
+                    ]}
                     onChange={(ranges) => {
                       const start = ranges.selection.startDate?.toLocaleDateString('en-US', {
                         month: 'short',
@@ -113,7 +122,8 @@ const ProfessionalExperienceSection: React.FC = () => {
                         month: 'short',
                         year: 'numeric',
                       });
-                      handleEntryChange(index, 'dateRange', `${start} - ${end}`);
+                      handleEntryChange(index, 'startDate', start || '');
+                      handleEntryChange(index, 'endDate', end || '');
                       setShowDatePicker(null);
                     }}
                   />
@@ -121,32 +131,33 @@ const ProfessionalExperienceSection: React.FC = () => {
               )}
             </div>
 
-            {/* Key Points */}
+            {/* Responsibilities */}
             <ListSection
-              items={entry.keyPoints || []}
+              items={entry.responsibilities || []}
               placeholder="Key Responsibility"
               isActive={isActive}
+              title="Key Responsibilities"
               onAddItem={() =>
-                handleEntryChange(index, 'keyPoints', [
-                  ...(entry.keyPoints || []),
+                handleEntryChange(index, 'responsibilities', [
+                  ...(entry.responsibilities || []),
                   'New Responsibility',
                 ])
               }
               onItemChange={(keyIndex, value) =>
                 handleEntryChange(
                   index,
-                  'keyPoints',
-                  entry.keyPoints.map((point, i) => (i === keyIndex ? value : point))
+                  'responsibilities',
+                  entry.responsibilities.map((point, i) => (i === keyIndex ? value : point))
                 )
               }
               onRemoveItem={(keyIndex) =>
                 handleEntryChange(
                   index,
-                  'keyPoints',
-                  entry.keyPoints.filter((_, i) => i !== keyIndex)
+                  'responsibilities',
+                  entry.responsibilities.filter((_, i) => i !== keyIndex)
                 )
               }
-            />
+            />        
 
             {/* Remove Experience Button */}
             {isActive && (

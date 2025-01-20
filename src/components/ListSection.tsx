@@ -5,6 +5,7 @@ import EditableField from './EditableField';
 interface ListSectionProps {
   items: string[];
   placeholder?: string;
+  title?: string; // Added title prop
   isActive: boolean;
   onAddItem: () => void;
   onItemChange: (index: number, value: string) => void;
@@ -14,6 +15,7 @@ interface ListSectionProps {
 const ListSection: React.FC<ListSectionProps> = ({
   items,
   placeholder = 'New Item',
+  title = 'Key Responsibility', // Default title
   isActive,
   onAddItem,
   onItemChange,
@@ -22,7 +24,7 @@ const ListSection: React.FC<ListSectionProps> = ({
   return (
     <div className="space-y-2">
       <div className="flex justify-between items-center">
-        <span className="text-sm font-semibold text-gray-700">Key Points</span>
+        <span className="text-sm font-semibold text-gray-700">{title}</span>
         {isActive && (
           <button
             onClick={(e) => {

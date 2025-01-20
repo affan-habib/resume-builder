@@ -1,46 +1,32 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Plus, X } from 'lucide-react';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from '../store';
+import { updateAchievements } from '../resumeSlice';
 import EditableField from '../components/EditableField';
 import SectionWrapper from '../components/SectionWrapper';
 
-interface AchievementEntry {
-  title: string;
-  description: string;
-}
-
-interface AchievementSectionProps {
-  initialAchievements?: AchievementEntry[];
-  onAchievementsChange?: (achievements: AchievementEntry[]) => void;
-}
-
-const AchievementSection: React.FC<AchievementSectionProps> = ({
-  initialAchievements = [],
-  onAchievementsChange,
-}) => {
-  const [achievements, setAchievements] = useState<AchievementEntry[]>(initialAchievements);
-
+const AchievementSection: React.FC = () => {
+  const dispatch = useDispatch();
+  const achievements = useSelector((state: RootState) => state.resume.achievements);
+  const title = 'Achievements';
+  const activeSection = useSelector((state: RootState) => state.activeSection.activeSection);
+  const isAcvive = activeSection === title;
   const handleAddAchievement = () => {
-    const newAchievement: AchievementEntry = {
-      title: 'New Achievement',
-      description: 'Achievement description',
-    };
-    const updatedAchievements = [...achievements, newAchievement];
-    setAchievements(updatedAchievements);
-    onAchievementsChange?.(updatedAchievements);
+    const newAchievement = { title: 'New Achievement', description: 'Achievement description' };
+    dispatch(updateAchievements([...achievements, newAchievement]));
   };
 
-  const handleAchievementChange = (index: number, field: keyof AchievementEntry, value: string) => {
+  const handleAchievementChange = (index: number, field: keyof typeof achievements[0], value: string) => {
     const updatedAchievements = achievements.map((achievement, i) =>
       i === index ? { ...achievement, [field]: value } : achievement
     );
-    setAchievements(updatedAchievements);
-    onAchievementsChange?.(updatedAchievements);
+    dispatch(updateAchievements(updatedAchievements));
   };
 
   const handleRemoveAchievement = (index: number) => {
     const updatedAchievements = achievements.filter((_, i) => i !== index);
-    setAchievements(updatedAchievements);
-    onAchievementsChange?.(updatedAchievements);
+    dispatch(updateAchievements(updatedAchievements));
   };
 
   const actions = [
@@ -52,8 +38,7 @@ const AchievementSection: React.FC<AchievementSectionProps> = ({
   ];
 
   return (
-    <SectionWrapper title="Achievements" actions={actions}>
-      {/* Achievements List */}
+    <SectionWrapper title={title} actions={actions}>
       <div className="space-y-4">
         {achievements.map((achievement, index) => (
           <div key={index} className="flex flex-col gap-2">
@@ -74,7 +59,7 @@ const AchievementSection: React.FC<AchievementSectionProps> = ({
             />
 
             {/* Remove Achievement Button */}
-            <button
+            {isAcvive  && <button
               onClick={(e) => {
                 e.stopPropagation();
                 handleRemoveAchievement(index);
@@ -83,7 +68,7 @@ const AchievementSection: React.FC<AchievementSectionProps> = ({
               aria-label="Remove achievement"
             >
               <X size={20} />
-            </button>
+            </button>}
           </div>
         ))}
       </div>

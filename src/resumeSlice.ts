@@ -13,7 +13,7 @@ const initialState: ResumeState = {
       github: "https://github.com/johndoe",
       portfolio: "https://johndoeportfolio.com"
     },
-    summary: "Highly skilled Senior Software Engineer with over 10 years of experience in developing scalable web applications and leading cross-functional teams. Proficient in JavaScript, Python, and cloud technologies. Passionate about building innovative solutions and improving user experiences."
+    summary: "Highly skilled Senior Software Engineer with over 10 years of experience in developing scalable web applications and leading cross-functional teams. Proficient in JavaScript, Python, and cloud technologies. Passionate about building innovative solutions and improving user experiences.",
   },
   workExperience: [
     {
@@ -27,27 +27,7 @@ const initialState: ResumeState = {
         "Architected and deployed microservices on AWS, improving system reliability by 30%.",
         "Collaborated with product managers to define project requirements and deliver features on time."
       ],
-      achievements: [
-        "Implemented a CI/CD pipeline that reduced deployment time by 50%.",
-        "Mentored junior developers, resulting in a 20% increase in team productivity."
-      ]
     },
-    {
-      jobTitle: "Software Engineer",
-      company: "Creative Solutions LLC",
-      location: "New York, NY",
-      startDate: "2015-09",
-      endDate: "2020-05",
-      responsibilities: [
-        "Developed responsive web applications using Angular and Django.",
-        "Integrated third-party APIs to enhance application functionality.",
-        "Optimized database queries, reducing load times by 25%."
-      ],
-      achievements: [
-        "Led the migration from a monolithic architecture to a microservices-based system.",
-        "Received Employee of the Year award in 2018."
-      ]
-    }
   ],
   education: [
     {
@@ -158,8 +138,9 @@ const initialState: ResumeState = {
       email: "michael.brown@creativesolutions.com",
       phone: "+1 (555) 654-3210",
       relationship: "Colleague"
-    }
-  ]
+    },
+  ],
+  achievements: []
 };
 
 const resumeSlice = createSlice({
@@ -195,7 +176,10 @@ const resumeSlice = createSlice({
     },
     updateReferences: (state, action: PayloadAction<typeof initialState.references>) => {
       state.references = action.payload;
-    }
+    },
+    updateAchievements: (state, action: PayloadAction<typeof initialState.achievements>) => {
+      state.achievements = action.payload;
+    },
   }
 });
 
@@ -209,7 +193,8 @@ export const {
   updateLanguages,
   updateAwards,
   updateVolunteerExperience,
-  updateReferences
+  updateReferences,
+  updateAchievements
 } = resumeSlice.actions;
 
 export default resumeSlice.reducer;

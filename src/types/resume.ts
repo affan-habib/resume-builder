@@ -14,7 +14,6 @@ export interface WorkExperience {
   startDate: string;
   endDate: string;
   responsibilities: string[];
-  achievements: string[];
 }
 
 export interface Education {
@@ -77,7 +76,10 @@ export interface Reference {
   phone: string;
   relationship: string;
 }
-
+export interface Achievement {
+  title: string;
+  description: string;
+}
 export interface ResumeState {
   personalInformation: {
     name: string;
@@ -94,4 +96,6 @@ export interface ResumeState {
   awards: Award[];
   volunteerExperience: VolunteerExperience[];
   references: Reference[];
+  achievements: Achievement[];
+
 }
