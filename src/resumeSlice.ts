@@ -69,7 +69,7 @@ const initialState: ResumeState = {
   projects: [
     {
       name: "E-commerce Platform",
-      keyPoints: [], 
+      keyPoints: [],
       technologies: ["React", "Node.js", "MongoDB", "Stripe API"],
       repositoryLink: "https://github.com/johndoe/ecommerce-platform",
       liveDemoLink: "https://ecommerce.johndoeportfolio.com",
@@ -230,15 +230,40 @@ const resumeSlice = createSlice({
       state.references = state.references.filter((_, index) => index !== action.payload);
     },
 
-    // Other sections that haven't been converted yet
-    updateCertifications: (state, action: PayloadAction<typeof initialState.certifications>) => {
-      state.certifications = action.payload;
+    // Awards
+    addAward: (state, action: PayloadAction<typeof initialState.awards[0]>) => {
+      state.awards.push(action.payload);
     },
-    updateAwards: (state, action: PayloadAction<typeof initialState.awards>) => {
-      state.awards = action.payload;
+    editAward: (state, action: PayloadAction<{ index: number; field: keyof typeof initialState.awards[0]; value: string }>) => {
+      const { index, field, value } = action.payload;
+      state.awards[index] = { ...state.awards[index], [field]: value };
     },
-    updateVolunteerExperience: (state, action: PayloadAction<typeof initialState.volunteerExperience>) => {
-      state.volunteerExperience = action.payload;
+    removeAward: (state, action: PayloadAction<number>) => {
+      state.awards = state.awards.filter((_, index) => index !== action.payload);
+    },
+
+    // Certifications
+    addCertification: (state, action: PayloadAction<typeof initialState.certifications[0]>) => {
+      state.certifications.push(action.payload);
+    },
+    editCertification: (state, action: PayloadAction<{ index: number; field: keyof typeof initialState.certifications[0]; value: string }>) => {
+      const { index, field, value } = action.payload;
+      state.certifications[index] = { ...state.certifications[index], [field]: value };
+    },
+    removeCertification: (state, action: PayloadAction<number>) => {
+      state.certifications = state.certifications.filter((_, index) => index !== action.payload);
+    },
+
+    // Volunteer Experience
+    addVolunteerExperience: (state, action: PayloadAction<typeof initialState.volunteerExperience[0]>) => {
+      state.volunteerExperience.push(action.payload);
+    },
+    editVolunteerExperience: (state, action: PayloadAction<{ index: number; field: keyof typeof initialState.volunteerExperience[0]; value: any }>) => {
+      const { index, field, value } = action.payload;
+      state.volunteerExperience[index] = { ...state.volunteerExperience[index], [field]: value };
+    },
+    removeVolunteerExperience: (state, action: PayloadAction<number>) => {
+      state.volunteerExperience = state.volunteerExperience.filter((_, index) => index !== action.payload);
     },
   }
 });
@@ -278,10 +303,18 @@ export const {
   addReference,
   editReference,
   removeReference,
-  // Other actions (not converted yet)
-  updateCertifications,
-  updateAwards,
-  updateVolunteerExperience,
+  // Awards
+  addAward,
+  editAward,
+  removeAward,
+  // Certifications
+  addCertification,
+  editCertification,
+  removeCertification,
+  // Volunteer Experience
+  addVolunteerExperience,
+  editVolunteerExperience,
+  removeVolunteerExperience,
 } = resumeSlice.actions;
 
 export default resumeSlice.reducer;

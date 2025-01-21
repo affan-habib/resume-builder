@@ -8,8 +8,11 @@ import LanguageSection from '../sections/LanguageSection';
 import ProjectsSection from '../sections/ProjectsSection';
 import ProfessionalExperienceSection from '../sections/ProfessionalExperienceSection';
 import AchievementSection from '../sections/AchievementSection';
-import { RootState } from '../store';
 import ReferencesSection from '../sections/ReferencesSection';
+import VolunteerExperienceSection from '../sections/VolunteerExperienceSection';
+import AwardsSection from '../sections/AwardsSection';
+import CertificationsSection from '../sections/CertificationsSection';
+import { RootState } from '../store';
 
 const Resume: React.FC = () => {
   const font = useSelector((state: RootState) => state.settings.font);
@@ -30,6 +33,9 @@ const Resume: React.FC = () => {
               <AchievementSection />
             </div>
             <div className="space-y-4">
+              <CertificationsSection />
+              <AwardsSection />
+              <VolunteerExperienceSection />
               <InterestSection />
               <LanguageSection />
               <ProjectsSection />
