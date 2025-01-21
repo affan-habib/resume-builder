@@ -9,6 +9,7 @@ import ProjectsSection from '../sections/ProjectsSection';
 import ProfessionalExperienceSection from '../sections/ProfessionalExperienceSection';
 import AchievementSection from '../sections/AchievementSection';
 import { RootState } from '../store';
+import ReferencesSection from '../sections/ReferencesSection';
 
 const Resume: React.FC = () => {
   const font = useSelector((state: RootState) => state.settings.font);
@@ -32,6 +33,7 @@ const Resume: React.FC = () => {
               <InterestSection />
               <LanguageSection />
               <ProjectsSection />
+              <ReferencesSection />
             </div>
           </div>
         </div>

@@ -218,7 +218,19 @@ const resumeSlice = createSlice({
       state.interests = state.interests.filter((_, index) => index !== action.payload);
     },
 
-    // Other sections that haven't been converted to granular actions yet
+    // References
+    addReference: (state, action: PayloadAction<typeof initialState.references[0]>) => {
+      state.references.push(action.payload);
+    },
+    editReference: (state, action: PayloadAction<{ index: number; field: keyof typeof initialState.references[0]; value: string }>) => {
+      const { index, field, value } = action.payload;
+      state.references[index] = { ...state.references[index], [field]: value };
+    },
+    removeReference: (state, action: PayloadAction<number>) => {
+      state.references = state.references.filter((_, index) => index !== action.payload);
+    },
+
+    // Other sections that haven't been converted yet
     updateCertifications: (state, action: PayloadAction<typeof initialState.certifications>) => {
       state.certifications = action.payload;
     },
@@ -227,9 +239,6 @@ const resumeSlice = createSlice({
     },
     updateVolunteerExperience: (state, action: PayloadAction<typeof initialState.volunteerExperience>) => {
       state.volunteerExperience = action.payload;
-    },
-    updateReferences: (state, action: PayloadAction<typeof initialState.references>) => {
-      state.references = action.payload;
     },
   }
 });
@@ -265,11 +274,14 @@ export const {
   addInterest,
   editInterest,
   removeInterest,
-  // Other actions (not converted to granular actions yet)
+  // References
+  addReference,
+  editReference,
+  removeReference,
+  // Other actions (not converted yet)
   updateCertifications,
   updateAwards,
   updateVolunteerExperience,
-  updateReferences,
 } = resumeSlice.actions;
 
 export default resumeSlice.reducer;
