@@ -19,9 +19,9 @@ const ResumeJsonGenerator: React.FC<ResumeJsonGeneratorProps> = ({
 
   const prompts: Record<string, string> = {
     personalInformation:
-      "Generate a JSON structure for personal information including name, title, contact details, and summary. Follow this strict format: { name: string, title: string, contact: { email: string, phone: string, address: string, linkedin: string, github: string, portfolio: string }, summary: string }.",
+      "Generate a JSON structure for personal information including name, title, contact details, summary and profile picture. Follow this strict format: { name: string, title: string, contact: { email: string, phone: string, address: string, linkedin: string, github: string, portfolio: string }, summary: string, profilePicture: string }.",
     workExperience:
-      "Generate a JSON array of work experiences with strict format: [{ jobTitle: string, company: string, location: string, startDate: string, endDate: string, responsibilities: string[], achievements: string[] }].",
+      "Generate a JSON array of work experiences with strict format: [{ jobTitle: string, company: string, location: string, startDate: string, endDate: string, responsibilities: string[] }].",
     education:
       "Generate a JSON array of educational qualifications with strict format: [{ degree: string, institution: string, startDate: string, endDate: string, gpa: string }].",
     skills:
@@ -29,7 +29,7 @@ const ResumeJsonGenerator: React.FC<ResumeJsonGeneratorProps> = ({
     certifications:
       "Generate a JSON array of certifications with strict format: [{ name: string, issuer: string, startDate: string, endDate: string }].",
     projects:
-      "Generate a JSON array of projects with strict format: [{ name: string, description: string, technologies: string[], role: string, repositoryLink: string, liveDemoLink: string, startDate: string, endDate: string }].",
+      "Generate a JSON array of projects with strict format: [{ name: string, keyPoints: string[], technologies: string[], repositoryLink: string, liveDemoLink: string, role: string, startDate: string, endDate: string }].",
     languages:
       "Generate a JSON array of languages with strict format: [{ language: string, proficiency: string }].",
     awards:
@@ -38,8 +38,10 @@ const ResumeJsonGenerator: React.FC<ResumeJsonGeneratorProps> = ({
       "Generate a JSON array of volunteer experiences with strict format: [{ role: string, organization: string, location: string, startDate: string, endDate: string, responsibilities: string[] }].",
     references:
       "Generate a JSON array of references with strict format: [{ name: string, jobTitle: string, company: string, email: string, phone: string, relationship: string }].",
+    achievements:
+      "Generate a JSON array of achievements with strict format: [{ title: string, description: string }].",
     fullResume:
-      "Generate a full resume JSON following this strict structure: { personalInformation: {...}, workExperience: [...], education: [...], skills: [...], certifications: [...], projects: [...], languages: [...], awards: [...], volunteerExperience: [...], references: [...] }.",
+      "Generate a full resume JSON following this strict structure: { personalInformation: {...}, workExperience: [...], education: [...], skills: [...], certifications: [...], projects: [...], languages: [...], awards: [...], volunteerExperience: [...], references: [...], achievements: [...], interests: string[] }.",
   };
 
   const cleanJsonResponse = (text: string): string => {
