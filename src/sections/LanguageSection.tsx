@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Plus, X } from 'lucide-react';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../store';
-import { updateLanguages } from '../resumeSlice';
+import { addLanguage, editLanguage, removeLanguage } from '../resumeSlice';
 import EditableField from '../components/EditableField';
 import SectionWrapper from '../components/SectionWrapper';
 
@@ -19,19 +19,15 @@ const LanguageSection: React.FC = () => {
 
   const handleAddLanguage = () => {
     const newEntry = { language: 'New Language', proficiency: 'Beginner' };
-  dispatch(updateLanguages([...languages, newEntry]));
+    dispatch(addLanguage(newEntry));
   };
 
   const handleLanguageChange = (index: number, field: keyof typeof languages[0], value: string) => {
-    const updatedLanguages = languages.map((lang, i) =>
-      i === index ? { ...lang, [field]: value } : lang
-    );
-    dispatch(updateLanguages(updatedLanguages));
+    dispatch(editLanguage({ index, field, value }));
   };
 
   const handleRemoveLanguage = (index: number) => {
-    const updatedLanguages = languages.filter((_, i) => i !== index);
-    dispatch(updateLanguages(updatedLanguages));
+    dispatch(removeLanguage(index));
   };
 
   const actions = [

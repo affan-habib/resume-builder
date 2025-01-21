@@ -1,8 +1,13 @@
 import React, { useState } from 'react';
+import type { Range } from 'react-date-range';
+
+interface DateRangeSelection {
+  selection: Range;
+}
 import { Plus, Calendar, X, Edit3 } from 'lucide-react';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../store';
-import { updateProjects } from '../resumeSlice';
+import { addProject, editProject, removeProject } from '../resumeSlice';
 import EditableField from '../components/EditableField';
 import SectionWrapper from '../components/SectionWrapper';
 import ListSection from '../components/ListSection';
@@ -30,19 +35,15 @@ const ProjectsSection: React.FC = () => {
       startDate: '',
       endDate: '',
     };
-    dispatch(updateProjects([...projects, newProject]));
+    dispatch(addProject(newProject));
   };
 
   const handleProjectChange = (index: number, field: keyof typeof projects[0], value: any) => {
-    const updatedProjects = projects.map((project, i) =>
-      i === index ? { ...project, [field]: value } : project
-    );
-    dispatch(updateProjects(updatedProjects));
+    dispatch(editProject({ index, field, value }));
   };
 
   const handleRemoveProject = (index: number) => {
-    const updatedProjects = projects.filter((_, i) => i !== index);
-    dispatch(updateProjects(updatedProjects));
+    dispatch(removeProject(index));
   };
 
   const actions = [
@@ -98,7 +99,7 @@ const ProjectsSection: React.FC = () => {
                         key: 'selection',
                       },
                     ]}
-                    onChange={(ranges) => {
+                    onChange={(ranges: DateRangeSelection) => {
                       const start = ranges.selection.startDate?.toLocaleDateString('en-US', {
                         month: 'short',
                         year: 'numeric',

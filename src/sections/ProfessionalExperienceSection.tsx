@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Plus, Calendar, X } from 'lucide-react';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../store';
-import { updateWorkExperience } from '../resumeSlice';
+import { addWorkExperience, editWorkExperience, removeWorkExperience } from '../resumeSlice';
 import EditableField from '../components/EditableField';
 import SectionWrapper from '../components/SectionWrapper';
 import ListSection from '../components/ListSection';
@@ -29,7 +29,7 @@ const ProfessionalExperienceSection: React.FC = () => {
       responsibilities: [],
       achievements: [],
     };
-    dispatch(updateWorkExperience([...workExperience, newEntry]));
+    dispatch(addWorkExperience(newEntry));
   };
 
   const handleEntryChange = (
@@ -37,14 +37,11 @@ const ProfessionalExperienceSection: React.FC = () => {
     field: keyof typeof workExperience[0],
     value: any
   ) => {
-    const updatedEntries = [...workExperience];
-    updatedEntries[index] = { ...updatedEntries[index], [field]: value };
-    dispatch(updateWorkExperience(updatedEntries));
+    dispatch(editWorkExperience({ index, field, value }));
   };
 
   const handleRemoveEntry = (index: number) => {
-    const updatedEntries = workExperience.filter((_, i) => i !== index);
-    dispatch(updateWorkExperience(updatedEntries));
+    dispatch(removeWorkExperience(index));
   };
 
   const actions = [

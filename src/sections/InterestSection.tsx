@@ -2,7 +2,7 @@ import React from 'react';
 import { Plus, X } from 'lucide-react';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../store';
-import { updateInterests } from '../resumeSlice';
+import { addInterest, editInterest, removeInterest } from '../resumeSlice';
 import SectionWrapper from '../components/SectionWrapper';
 import EditableField from '../components/EditableField';
 
@@ -15,17 +15,15 @@ const InterestSection: React.FC = () => {
   const placeholder = 'Interest';
 
   const handleAddTag = () => {
-    dispatch(updateInterests([...interests, '']));
+    dispatch(addInterest(''));
   };
 
   const handleTagChange = (index: number, value: string) => {
-    const updatedTags = interests.map((tag, i) => (i === index ? value : tag));
-    dispatch(updateInterests(updatedTags));
+    dispatch(editInterest({ index, value }));
   };
 
   const handleRemoveTag = (index: number) => {
-    const updatedTags = interests.filter((_, i) => i !== index);
-    dispatch(updateInterests(updatedTags));
+    dispatch(removeInterest(index));
   };
 
   const actions = [
