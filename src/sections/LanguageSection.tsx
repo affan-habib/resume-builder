@@ -8,11 +8,7 @@ import SectionWrapper from '../components/SectionWrapper';
 
 const proficiencyLevels = ['Beginner', 'Intermediate', 'Advanced', 'Fluent', 'Native'];
 
-interface LanguageSectionProps {
-  title: string;
-}
-
-const LanguageSection: React.FC<LanguageSectionProps> = () => {
+const LanguageSection: React.FC = () => {
   const dispatch = useDispatch();
   const title = 'Languages';
   const languages = useSelector((state: RootState) => state.resume.languages);
