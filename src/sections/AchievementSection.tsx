@@ -2,7 +2,7 @@ import React from 'react';
 import { Plus, X } from 'lucide-react';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../store';
-import { addAchievement, editAchievement, removeAchievement } from '../resumeSlice';
+import { addAchievement, editAchievement, removeAchievement } from '../store/slices/resumeSlice';
 import EditableField from '../components/EditableField';
 import SectionWrapper from '../components/SectionWrapper';
 

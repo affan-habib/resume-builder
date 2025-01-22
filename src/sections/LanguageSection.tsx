@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Plus, X } from 'lucide-react';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../store';
-import { addLanguage, editLanguage, removeLanguage } from '../resumeSlice';
+import { addLanguage, editLanguage, removeLanguage } from '../store/slices/resumeSlice';
 import EditableField from '../components/EditableField';
 import SectionWrapper from '../components/SectionWrapper';
 

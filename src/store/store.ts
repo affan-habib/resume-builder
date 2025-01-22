@@ -1,9 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit';
-import activeSection from './activeSectionSlice';
-import resume from './resumeSlice';
-import settings from './settingsSlice';
-import user from './userSlice';
-import loading from './loadingSlice';
+import activeSection from './slices/activeSectionSlice';
+import resume from './slices/resumeSlice';
+import settings from './slices/settingsSlice';
+import user from './slices/userSlice';
+import loading from './slices/loadingSlice';
 
 const store = configureStore({
   reducer: {

@@ -1,7 +1,7 @@
 // src/Authentication/authFunctions.js
 import { signInWithPopup } from "firebase/auth";
 import { auth, googleProvider } from "./firebase";
-import { setUser } from "../userSlice";
+import { setUser } from "../store/slices/userSlice";
 
 export const signInWithGoogle = async (dispatch) => {
    try {

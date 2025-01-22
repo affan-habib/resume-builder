@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../store';
-import { setActiveSection } from '../activeSectionSlice';
+import { RootState } from '../store/store';
+import { setActiveSection } from '../store/slices/activeSectionSlice';
 import { titleToStateKey } from '../utils/sectionUtils';
 
 interface Action {

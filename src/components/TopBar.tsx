@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { ArrowLeft, ArrowRight, Download, Layout, Brush, Type } from 'lucide-react';
-import { undo, redo, setFont, changeTheme, changeLayout, download } from '../settingsSlice';
+import { undo, redo, setFont, changeTheme, changeLayout, download } from '../store/slices/settingsSlice';
 import { RootState } from '../store';
 
 const fonts = [

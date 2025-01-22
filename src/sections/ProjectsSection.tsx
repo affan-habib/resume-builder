@@ -7,7 +7,7 @@ interface DateRangeSelection {
 import { Plus, Calendar, X, Edit3 } from 'lucide-react';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../store';
-import { addProject, editProject, removeProject } from '../resumeSlice';
+import { addProject, editProject, removeProject } from '../store/slices/resumeSlice';
 import EditableField from '../components/EditableField';
 import SectionWrapper from '../components/SectionWrapper';
 import ListSection from '../components/ListSection';

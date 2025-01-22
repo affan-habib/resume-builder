@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Plus, Calendar, X } from 'lucide-react';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../store';
-import { addWorkExperience, editWorkExperience, removeWorkExperience } from '../resumeSlice';
+import { addWorkExperience, editWorkExperience, removeWorkExperience } from '../store/slices/resumeSlice';
 import EditableField from '../components/EditableField';
 import SectionWrapper from '../components/SectionWrapper';
 import ListSection from '../components/ListSection';

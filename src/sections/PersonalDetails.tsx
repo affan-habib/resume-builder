@@ -1,8 +1,8 @@
 import React, { useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store';
-import { updatePersonalInfo } from '../resumeSlice';
-import { setActiveSection } from '../activeSectionSlice';
+import { updatePersonalInfo } from '../store/slices/resumeSlice';
+import { setActiveSection } from '../store/slices/activeSectionSlice';
 import ProfileImage from '../components/ProfileImage';
 import EditableField from '../components/EditableField';
 import ContactLink from '../components/ContactLink';

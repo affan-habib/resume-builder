@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Plus, Settings, X } from 'lucide-react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store';
-import { addSkill, editSkill, removeSkill } from '../resumeSlice';
+import { addSkill, editSkill, removeSkill } from '../store/slices/resumeSlice';
 import EditableField from '../components/EditableField';
 import SectionWrapper from '../components/SectionWrapper';
 

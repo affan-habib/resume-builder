@@ -3,7 +3,7 @@ import { Outlet } from 'react-router-dom';
 import TopBar from '../components/TopBar';
 import Sidebar from '../components/Sidebar';
 import { useDispatch } from 'react-redux';
-import { setActiveSection } from '../activeSectionSlice';
+import { setActiveSection } from '../store/slices/activeSectionSlice';
 
 const ResumeLayout: React.FC = () => {
     const dispatch = useDispatch();

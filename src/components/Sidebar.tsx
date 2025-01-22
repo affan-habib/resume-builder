@@ -14,10 +14,10 @@ import {
     updateReferences,
     updateAchievements,
     updateInterests
-} from '../resumeSlice';
-import { setSectionLoading } from '../loadingSlice';
+} from '../store/slices/resumeSlice';
 import { generateResumeContent, getDisplayName, type SectionKey } from '../utils/resumeGenerators';
 import type { ResumeState } from '../types/resume';
+import { setSectionLoading } from '../store/slices/loadingSlice';
 
 type ActionMap = {
     [K in keyof ResumeState]: (data: ResumeState[K]) => void;
