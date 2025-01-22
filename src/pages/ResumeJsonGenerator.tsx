@@ -85,7 +85,6 @@ const ResumeJsonGenerator: React.FC<ResumeJsonGeneratorProps> = ({
 
   return (
     <div className="bg-white p-6 rounded-lg shadow-md">
-      <h1 className="text-2xl font-bold mb-4">Resume JSON Generator</h1>
       <div className="space-y-2">
         <button
           onClick={() => setActiveInput((prev) => !prev)}

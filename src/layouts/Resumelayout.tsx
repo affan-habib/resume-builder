@@ -1,6 +1,7 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
 import TopBar from '../components/TopBar';
+import Sidebar from '../components/Sidebar';
 import { useDispatch } from 'react-redux';
 import { setActiveSection } from '../activeSectionSlice';
 
@@ -12,7 +13,12 @@ const ResumeLayout: React.FC = () => {
             onClick={() => dispatch(setActiveSection(null))}
         >
             <TopBar />
-            <Outlet />
+            <div className="flex">
+                <Sidebar />
+                <main className="flex-1 ml-80 p-4">
+                    <Outlet />
+                </main>
+            </div>
         </div>
     );
 };
