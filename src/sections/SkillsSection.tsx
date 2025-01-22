@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Plus, Settings, X } from 'lucide-react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store';
-import { updateSkills } from '../resumeSlice';
+import { addSkill, editSkill, removeSkill } from '../resumeSlice';
 import EditableField from '../components/EditableField';
 import SectionWrapper from '../components/SectionWrapper';
 
@@ -17,13 +17,11 @@ const SkillsSection: React.FC = () => {
   const [showSettings, setShowSettings] = useState<boolean>(false);
 
   const handleAddSkill = () => {
-    const newSkills = [...skills, { name: '', proficiency: 50 }];
-    dispatch(updateSkills(newSkills));
+    dispatch(addSkill({ name: '', proficiency: 50 }));
   };
 
   const handleRemoveSkill = (index: number) => {
-    const newSkills = skills.filter((_, i) => i !== index);
-    dispatch(updateSkills(newSkills));
+    dispatch(removeSkill(index));
   };
 
   const toggleSettings = () => {
@@ -35,11 +33,8 @@ const SkillsSection: React.FC = () => {
     setShowSettings(false); // Close settings dropdown after selection
   };
 
-  const handleSkillChange = (index: number, updatedSkill: { name: string; proficiency: number }) => {
-    const newSkills = skills.map((skill, i) =>
-      i === index ? { ...skill, ...updatedSkill } : skill
-    );
-    dispatch(updateSkills(newSkills));
+  const handleSkillChange = (index: number, updatedSkill: { name?: string; proficiency?: number }) => {
+    dispatch(editSkill({ index, ...updatedSkill }));
   };
 
   const actions = [

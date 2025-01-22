@@ -8,6 +8,10 @@ import LanguageSection from '../sections/LanguageSection';
 import ProjectsSection from '../sections/ProjectsSection';
 import ProfessionalExperienceSection from '../sections/ProfessionalExperienceSection';
 import AchievementSection from '../sections/AchievementSection';
+import ReferencesSection from '../sections/ReferencesSection';
+import VolunteerExperienceSection from '../sections/VolunteerExperienceSection';
+import AwardsSection from '../sections/AwardsSection';
+import CertificationsSection from '../sections/CertificationsSection';
 import { RootState } from '../store';
 
 const Resume: React.FC = () => {
@@ -29,9 +33,13 @@ const Resume: React.FC = () => {
               <AchievementSection />
             </div>
             <div className="space-y-4">
+              <CertificationsSection />
+              <AwardsSection />
+              <VolunteerExperienceSection />
               <InterestSection />
               <LanguageSection />
               <ProjectsSection />
+              <ReferencesSection />
             </div>
           </div>
         </div>

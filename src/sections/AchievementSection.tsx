@@ -2,7 +2,7 @@ import React from 'react';
 import { Plus, X } from 'lucide-react';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../store';
-import { updateAchievements } from '../resumeSlice';
+import { addAchievement, editAchievement, removeAchievement } from '../resumeSlice';
 import EditableField from '../components/EditableField';
 import SectionWrapper from '../components/SectionWrapper';
 
@@ -13,20 +13,15 @@ const AchievementSection: React.FC = () => {
   const activeSection = useSelector((state: RootState) => state.activeSection.activeSection);
   const isAcvive = activeSection === title;
   const handleAddAchievement = () => {
-    const newAchievement = { title: 'New Achievement', description: 'Achievement description' };
-    dispatch(updateAchievements([...achievements, newAchievement]));
+    dispatch(addAchievement({ title: 'New Achievement', description: 'Achievement description' }));
   };
 
   const handleAchievementChange = (index: number, field: keyof typeof achievements[0], value: string) => {
-    const updatedAchievements = achievements.map((achievement, i) =>
-      i === index ? { ...achievement, [field]: value } : achievement
-    );
-    dispatch(updateAchievements(updatedAchievements));
+    dispatch(editAchievement({ index, field, value }));
   };
 
   const handleRemoveAchievement = (index: number) => {
-    const updatedAchievements = achievements.filter((_, i) => i !== index);
-    dispatch(updateAchievements(updatedAchievements));
+    dispatch(removeAchievement(index));
   };
 
   const actions = [

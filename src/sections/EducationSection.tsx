@@ -2,7 +2,7 @@ import React from 'react';
 import { Plus, X } from 'lucide-react';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../store';
-import { updateEducation } from '../resumeSlice';
+import { addEducation, editEducation, removeEducation } from '../resumeSlice';
 import EditableField from '../components/EditableField';
 import SectionWrapper from '../components/SectionWrapper';
 
@@ -21,18 +21,15 @@ const EducationSection: React.FC = () => {
       endDate: '',
       gpa: '',
     };
-    dispatch(updateEducation([...education, newEducation]));
+    dispatch(addEducation(newEducation));
   };
 
   const handleEducationChange = (index: number, field: keyof typeof education[0], value: string) => {
-    const updatedEducation = [...education];
-    updatedEducation[index] = { ...updatedEducation[index], [field]: value };
-    dispatch(updateEducation(updatedEducation));
+    dispatch(editEducation({ index, field, value }));
   };
 
   const handleRemoveEducation = (index: number) => {
-    const updatedEducation = education.filter((_, i) => i !== index);
-    dispatch(updateEducation(updatedEducation));
+    dispatch(removeEducation(index));
   };
 
   const actions = [
