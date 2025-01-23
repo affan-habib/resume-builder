@@ -15,7 +15,7 @@ export const router = createBrowserRouter([
     children: [
       {
         path: '/',
-        element: <Resume />,
+        element: <LandingPage />,
       },
     ],
   },
@@ -32,9 +32,9 @@ export const router = createBrowserRouter([
   {
     path: '/resume',
     element: (
-      <ProtectedRoute>
+      <>
         <ResumeLayout />
-      </ProtectedRoute>
+      </>
     ), 
     children: [
       {
