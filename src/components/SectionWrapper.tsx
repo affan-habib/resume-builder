@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store/store';
 import { setActiveSection } from '../store/slices/activeSectionSlice';
 import { titleToStateKey } from '../utils/sectionUtils';
+import { templates } from '../store/slices/settingsSlice';
 import {
   GraduationCap,
   Briefcase,
@@ -56,6 +57,11 @@ const SectionWrapper: React.FC<SectionWrapperProps> = ({ title, children, action
     state.loading.sectionLoading[titleToStateKey(title)]
   );
   const theme = useSelector((state: RootState) => state.settings.theme);
+  const currentTemplateId = useSelector((state: RootState) => state.settings.template);
+  
+  const template = templates.find(t => t.id === currentTemplateId);
+  const styles = template?.sectionStyle;
+
   const isActive = activeSection === title;
 
   const LoadingSkeleton = () => (
@@ -68,6 +74,8 @@ const SectionWrapper: React.FC<SectionWrapperProps> = ({ title, children, action
 
   const sectionIcon = getSectionIcon(title);
 
+  if (!styles) return null;
+
   return (
     <div
       onClick={(e) => {
@@ -75,11 +83,11 @@ const SectionWrapper: React.FC<SectionWrapperProps> = ({ title, children, action
         dispatch(setActiveSection(title));
       }}
       className={`relative space-y-4 p-2 rounded cursor-pointer ${
-        isActive ? 'border-blue-500 bg-blue-50' : 'border-gray-200 bg-white'
-      }`}
+        isActive ? 'border-blue-500' : 'border-gray-200'
+      } ${styles.background}`}
     >
       {/* Header */}
-      <div className="flex justify-between items-center border-b pb-1">
+      <div className="flex justify-between items-center">
         <div className="flex items-center gap-2">
           {sectionIcon && (
             <span style={{ color: theme }}>
@@ -87,7 +95,7 @@ const SectionWrapper: React.FC<SectionWrapperProps> = ({ title, children, action
             </span>
           )}
           <h3 
-            className="text-lg font-medium"
+            className={`text-lg font-semibold ${styles.titleColor}`}
             style={{ color: theme }}
           >
             {title}
@@ -102,7 +110,7 @@ const SectionWrapper: React.FC<SectionWrapperProps> = ({ title, children, action
                   e.stopPropagation();
                   action.onClick(e);
                 }}
-                className="text-gray-500 hover:text-gray-700 focus:outline-none"
+                className={`hover:opacity-75 focus:outline-none ${styles.titleColor}`}
                 aria-label={action.ariaLabel}
               >
                 {action.icon}
@@ -112,7 +120,7 @@ const SectionWrapper: React.FC<SectionWrapperProps> = ({ title, children, action
         )}
       </div>
       {/* Content */}
-      <div className={isLoading ? 'opacity-50' : ''}>
+      <div className={`${isLoading ? 'opacity-50' : ''} ${styles.contentColor}`}>
         {isLoading ? <LoadingSkeleton /> : children}
       </div>
     </div>

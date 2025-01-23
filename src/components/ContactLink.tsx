@@ -16,7 +16,7 @@ const ContactLink: React.FC<ContactLinkProps> = ({ icon, value, placeholder, onS
       value={value}
       placeholder={placeholder}
       onSave={onSave}
-      className={`text-sm text-gray-600 ${className}`}
+      className={`text-sm ${className}`}
     />
   </div>
 );

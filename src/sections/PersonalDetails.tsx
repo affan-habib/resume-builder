@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store/store';
 import { updatePersonalInfo } from '../store/slices/resumeSlice';
 import { setActiveSection } from '../store/slices/activeSectionSlice';
+import { templates } from '../store/slices/settingsSlice';
 import ProfileImage from '../components/ProfileImage';
 import EditableField from '../components/EditableField';
 import ContactLink from '../components/ContactLink';
@@ -27,6 +28,10 @@ const PersonalDetails: React.FC = () => {
   const activeSection = useSelector((state: RootState) => state.activeSection.activeSection);
   const personalInformation = useSelector((state: RootState) => state.resume.personalInformation);
   const theme = useSelector((state: RootState) => state.settings.theme);
+  const currentTemplateId = useSelector((state: RootState) => state.settings.template);
+  
+  const template = templates.find(t => t.id === currentTemplateId);
+  const styles = template?.personalDetailsStyle;
 
   const isActive = activeSection === 'personalDetails';
 
@@ -52,14 +57,15 @@ const PersonalDetails: React.FC = () => {
     }
   };
 
+  if (!styles) return null;
+
   return (
     <div
       onClick={(e) => {
         e.stopPropagation();
         dispatch(setActiveSection('personalDetails'));
       }}
-      className={`space-y-6 p-10 pb-4 cursor-pointer ${isActive ? 'border-blue-500 bg-blue-50' : ''
-        }`}
+      className={`space-y-6 p-10 pb-4 cursor-pointer ${isActive ? 'border-blue-500 bg-blue-500' : ''} ${styles.background}`}
     >
       {/* Profile Picture and Editable Fields */}
       <div className="flex items-center gap-6">
@@ -73,79 +79,85 @@ const PersonalDetails: React.FC = () => {
             value={personalInformation.name}
             placeholder={placeholders.fullName}
             onSave={(value) => updateField('name', value)}
-            className="text-2xl font-semibold"
+            className={`text-2xl font-semibold ${styles.textColor}`}
             style={{ color: theme }}
           />
           <EditableField
             value={personalInformation.title}
             placeholder={placeholders.title}
             onSave={(value) => updateField('title', value)}
-            className="text-lg text-gray-600"
+            className={`text-lg ${styles.titleColor}`}
           />
           <EditableField
             value={personalInformation.summary}
             placeholder={placeholders.summary}
             onSave={(value) => updateField('summary', value)}
-            className="text-sm text-gray-700"
+            className={`text-sm ${styles.summaryColor}`}
           />
         </div>
       </div>
 
       {/* Contact Links */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 border-t border-b py-4">
+      <div className={`grid grid-cols-1 sm:grid-cols-2 gap-4 border-t border-b py-4 ${styles.contactsColor}`}>
         <ContactLink
-          icon={<Mail className="w-5 h-5 text-gray-500 mr-2" />}
+          icon={<Mail className={`w-5 h-5 mr-2 ${styles.contactsColor}`} />}
           value={personalInformation.contact.email}
           placeholder={placeholders.email}
           onSave={(value) => {
             const updatedContact = { ...personalInformation.contact, email: value };
             updateField('contact', updatedContact);
           }}
+          className={styles.contactsColor}
         />
         <ContactLink
-          icon={<Phone className="w-5 h-5 text-gray-500 mr-2" />}
+          icon={<Phone className={`w-5 h-5 mr-2 ${styles.contactsColor}`} />}
           value={personalInformation.contact.phone}
           placeholder={placeholders.phone}
           onSave={(value) => {
             const updatedContact = { ...personalInformation.contact, phone: value };
             updateField('contact', updatedContact);
           }}
+          className={styles.contactsColor}
         />
         <ContactLink
-          icon={<MapPin className="w-5 h-5 text-gray-500 mr-2" />}
+          icon={<MapPin className={`w-5 h-5 mr-2 ${styles.contactsColor}`} />}
           value={personalInformation.contact.address}
           placeholder={placeholders.location}
           onSave={(value) => {
             const updatedContact = { ...personalInformation.contact, address: value };
             updateField('contact', updatedContact);
           }}
+          className={styles.contactsColor}
         />
         <ContactLink
-          icon={<Linkedin className="w-5 h-5 text-gray-500 mr-2" />}
+          icon={<Linkedin className={`w-5 h-5 mr-2 ${styles.contactsColor}`} />}
           value={personalInformation.contact.linkedin}
           placeholder={placeholders.linkedin}
           onSave={(value) => {
             const updatedContact = { ...personalInformation.contact, linkedin: value };
             updateField('contact', updatedContact);
           }}
+          className={styles.contactsColor}
         />
         <ContactLink
-          icon={<Github className="w-5 h-5 text-gray-500 mr-2" />}
+          icon={<Github className={`w-5 h-5 mr-2 ${styles.contactsColor}`} />}
           value={personalInformation.contact.github}
           placeholder={placeholders.github}
           onSave={(value) => {
             const updatedContact = { ...personalInformation.contact, github: value };
             updateField('contact', updatedContact);
           }}
+          className={styles.contactsColor}
         />
         <ContactLink
-          icon={<Globe className="w-5 h-5 text-gray-500 mr-2" />}
+          icon={<Globe className={`w-5 h-5 mr-2 ${styles.contactsColor}`} />}
           value={personalInformation.contact.portfolio}
           placeholder={placeholders.portfolio}
           onSave={(value) => {
             const updatedContact = { ...personalInformation.contact, portfolio: value };
             updateField('contact', updatedContact);
           }}
+          className={styles.contactsColor}
         />
       </div>
     </div>
