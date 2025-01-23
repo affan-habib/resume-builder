@@ -49,7 +49,7 @@ const CertificationsSection: React.FC = () => {
               value={certification.name}
               placeholder="Certification Name"
               onSave={(value) => handleCertificationChange(index, 'name', value)}
-              className="text-lg font-medium"
+              className="text-md font-medium"
             />
 
             {/* Issuer */}

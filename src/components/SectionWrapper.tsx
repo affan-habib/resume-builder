@@ -79,7 +79,7 @@ const SectionWrapper: React.FC<SectionWrapperProps> = ({ title, children, action
       }`}
     >
       {/* Header */}
-      <div className="flex justify-between items-center">
+      <div className="flex justify-between items-center border-b pb-1">
         <div className="flex items-center gap-2">
           {sectionIcon && (
             <span style={{ color: theme }}>

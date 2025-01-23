@@ -53,23 +53,23 @@ const Resume: React.FC = () => {
 
   return (
     <>
-      <TopBar 
+      <TopBar
         onToggleLayout={() => setIsLayoutVisible(!isLayoutVisible)}
         isLayoutVisible={isLayoutVisible}
       />
       <div className="pt-16 pb-8 px-4" style={{ fontFamily: font }}>
         <div className="max-w-[21cm] mx-auto bg-white aspect-[1/1.4142] border border-gray-200">
-          <div className="p-8 flex flex-col gap-4">
+          {fullWidthSections.map(renderSection)}
+          <div className="p-8 pt-4 flex flex-col gap-4">
             {/* Full width sections (like Personal Details) */}
-            {fullWidthSections.map(renderSection)}
-            
+
             {/* Two-column layout */}
             <div className="grid grid-cols-2 gap-4">
               {/* Left column */}
               <div className="space-y-4">
                 {leftColumnSections.map(renderSection)}
               </div>
-              
+
               {/* Right column */}
               <div className="space-y-4">
                 {rightColumnSections.map(renderSection)}
@@ -78,9 +78,9 @@ const Resume: React.FC = () => {
           </div>
         </div>
       </div>
-      
+
       {/* Layout Component */}
-      <Layout 
+      <Layout
         visible={isLayoutVisible}
         onClose={() => setIsLayoutVisible(false)}
       />

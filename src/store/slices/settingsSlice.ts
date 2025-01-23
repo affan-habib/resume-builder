@@ -19,14 +19,14 @@ const initialSections: SectionConfig[] = [
   { id: 'skills', title: 'Skills', visible: true, column: 'left', order: 1 },
   { id: 'education', title: 'Education', visible: true, column: 'left', order: 2 },
   { id: 'experience', title: 'Professional Experience', visible: true, column: 'left', order: 3 },
-  { id: 'achievements', title: 'Achievements', visible: true, column: 'left', order: 4 },
+  { id: 'achievements', title: 'Achievements', visible: false, column: 'left', order: 4 },
   { id: 'certifications', title: 'Certifications', visible: true, column: 'right', order: 5 },
-  { id: 'awards', title: 'Awards', visible: true, column: 'right', order: 6 },
-  { id: 'volunteer', title: 'Volunteer Experience', visible: true, column: 'right', order: 7 },
+  { id: 'awards', title: 'Awards', visible: false, column: 'right', order: 6 },
+  { id: 'volunteer', title: 'Volunteer Experience', visible: false, column: 'right', order: 7 },
   { id: 'interests', title: 'Interests', visible: true, column: 'right', order: 8 },
   { id: 'languages', title: 'Languages', visible: true, column: 'right', order: 9 },
   { id: 'projects', title: 'Projects', visible: true, column: 'right', order: 10 },
-  { id: 'references', title: 'References', visible: true, column: 'right', order: 11 }
+  { id: 'references', title: 'References', visible: false, column: 'right', order: 11 }
 ];
 
 const initialState: SettingsState = {
