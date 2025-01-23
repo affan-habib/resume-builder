@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import PersonalDetails from '../sections/PersonalDetails';
 import SkillsSection from '../sections/SkillsSection';
@@ -12,39 +12,79 @@ import ReferencesSection from '../sections/ReferencesSection';
 import VolunteerExperienceSection from '../sections/VolunteerExperienceSection';
 import AwardsSection from '../sections/AwardsSection';
 import CertificationsSection from '../sections/CertificationsSection';
-import { RootState } from '../store';
+import TopBar from '../components/TopBar';
+import Layout from '../pages/Layout';
+import { RootState } from '../store/store';
+
+// Map section IDs to their components
+const sectionComponents = {
+  personalDetails: PersonalDetails,
+  skills: SkillsSection,
+  education: EducationSection,
+  experience: ProfessionalExperienceSection,
+  achievements: AchievementSection,
+  certifications: CertificationsSection,
+  awards: AwardsSection,
+  volunteer: VolunteerExperienceSection,
+  interests: InterestSection,
+  languages: LanguageSection,
+  projects: ProjectsSection,
+  references: ReferencesSection,
+};
 
 const Resume: React.FC = () => {
-  const font = useSelector((state: RootState) => state.settings.font);
+  const { font, sections } = useSelector((state: RootState) => state.settings);
+  const [isLayoutVisible, setIsLayoutVisible] = useState(false);
+
+  // Filter visible sections and sort by order
+  const visibleSections = sections
+    .filter(section => section.visible)
+    .sort((a, b) => a.order - b.order);
+
+  // Separate sections by column
+  const fullWidthSections = visibleSections.filter(section => section.column === 'full');
+  const leftColumnSections = visibleSections.filter(section => section.column === 'left');
+  const rightColumnSections = visibleSections.filter(section => section.column === 'right');
+
+  const renderSection = (sectionConfig: typeof sections[0]) => {
+    const Component = sectionComponents[sectionConfig.id as keyof typeof sectionComponents];
+    return Component ? <Component key={sectionConfig.id} /> : null;
+  };
 
   return (
-
-    <div className="pt-16 pb-8 px-4" style={{ fontFamily: font }}
-    >
-      <div className="max-w-[21cm] mx-auto bg-white aspect-[1/1.4142] border border-gray-200">
-        <div className="p-8 flex flex-col gap-4">
-          {/* Personal Details Section */}
-          <PersonalDetails />
-          <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-4">
-              <SkillsSection />
-              <EducationSection />
-              <ProfessionalExperienceSection />
-              <AchievementSection />
-            </div>
-            <div className="space-y-4">
-              <CertificationsSection />
-              <AwardsSection />
-              <VolunteerExperienceSection />
-              <InterestSection />
-              <LanguageSection />
-              <ProjectsSection />
-              <ReferencesSection />
+    <>
+      <TopBar 
+        onToggleLayout={() => setIsLayoutVisible(!isLayoutVisible)}
+        isLayoutVisible={isLayoutVisible}
+      />
+      <div className="pt-16 pb-8 px-4" style={{ fontFamily: font }}>
+        <div className="max-w-[21cm] mx-auto bg-white aspect-[1/1.4142] border border-gray-200">
+          <div className="p-8 flex flex-col gap-4">
+            {/* Full width sections (like Personal Details) */}
+            {fullWidthSections.map(renderSection)}
+            
+            {/* Two-column layout */}
+            <div className="grid grid-cols-2 gap-4">
+              {/* Left column */}
+              <div className="space-y-4">
+                {leftColumnSections.map(renderSection)}
+              </div>
+              
+              {/* Right column */}
+              <div className="space-y-4">
+                {rightColumnSections.map(renderSection)}
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+      
+      {/* Layout Component */}
+      <Layout 
+        visible={isLayoutVisible}
+        onClose={() => setIsLayoutVisible(false)}
+      />
+    </>
   );
 };
 

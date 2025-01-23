@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useRef, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   DndContext,
   DragOverlay,
@@ -8,28 +9,27 @@ import {
   useSensor,
   useSensors,
   DragEndEvent,
+  DragStartEvent,
   DragOverEvent,
+  UniqueIdentifier
 } from '@dnd-kit/core';
-import { arrayMove, sortableKeyboardCoordinates } from '@dnd-kit/sortable';
-import { Undo2 } from 'lucide-react';
+import { sortableKeyboardCoordinates } from '@dnd-kit/sortable';
 import { Column } from '../components/Column';
 import { DraggableSection } from '../components/DraggableSection';
-import { PersonalDetails } from '../components/PersonalDetails';
+import { RootState } from '../store/store';
+import { toggleSectionVisibility, updateSectionOrder, moveSection, type SectionConfig } from '../store/slices/settingsSlice';
 import type { Section } from '../types/types';
 
-const initialSections: Section[] = [
-  { id: '1', title: 'Skills', content: '', column: 'left' },
-  { id: '2', title: 'Experience', content: '', column: 'left' },
-  { id: '3', title: 'Education', content: '', column: 'left' },
-  { id: '4', title: 'Projects', content: '', column: 'right' },
-  { id: '5', title: 'Achievements', content: '', column: 'right' },
-  { id: '6', title: 'Interests', content: '', column: 'right' },
-];
+interface LayoutProps {
+  visible: boolean;
+  onClose: () => void;
+}
 
-function Layout() {
-  const [sections, setSections] = useState(initialSections);
-  const [history, setHistory] = useState<Section[][]>([initialSections]);
-  const [activeId, setActiveId] = useState<string | null>(null);
+function Layout({ visible, onClose }: LayoutProps) {
+  const dispatch = useDispatch();
+  const sections = useSelector((state: RootState) => state.settings.sections);
+  const [activeId, setActiveId] = React.useState<UniqueIdentifier | null>(null);
+  const layoutRef = useRef<HTMLDivElement>(null);
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -38,49 +38,72 @@ function Layout() {
     })
   );
 
-  const leftSections = sections.filter((s) => s.column === 'left');
-  const rightSections = sections.filter((s) => s.column === 'right');
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (layoutRef.current && !layoutRef.current.contains(event.target as Node)) {
+        onClose();
+      }
+    };
 
-  const handleDragStart = (event: { active: { id: string } }) => {
+    if (visible) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [visible, onClose]);
+
+  if (!visible) return null;
+
+  // Convert SectionConfig to Section type
+  const convertToSection = (config: SectionConfig): Section => ({
+    id: config.id,
+    title: config.title,
+    content: '',
+    column: config.column === 'full' ? 'left' : config.column
+  });
+
+  // Create visibility states map
+  const visibilityStates = sections.reduce((acc, section) => ({
+    ...acc,
+    [section.id]: section.visible
+  }), {});
+
+  const leftSections = sections
+    .filter((s: SectionConfig) => s.column === 'left')
+    .sort((a, b) => a.order - b.order)
+    .map(convertToSection);
+
+  const rightSections = sections
+    .filter((s: SectionConfig) => s.column === 'right')
+    .sort((a, b) => a.order - b.order)
+    .map(convertToSection);
+
+  const handleDragStart = (event: DragStartEvent) => {
     setActiveId(event.active.id);
-  };
-
-  const updateSectionsWithHistory = (newSections: Section[]) => {
-    setSections(newSections);
-    setHistory((prev) => [...prev, newSections]);
   };
 
   const handleDragOver = (event: DragOverEvent) => {
     const { active, over } = event;
     if (!over) return;
 
-    const activeSection = sections.find((s) => s.id === active.id);
-    if (!activeSection) return;
+    const activeSection = sections.find((s: SectionConfig) => s.id === active.id);
+    if (!activeSection || activeSection.column === 'full') return;
 
     if (over.id === 'left' || over.id === 'right') {
-      if (activeSection.column !== over.id) {
-        const newSections = sections.map((item) => {
-          if (item.id === active.id) {
-            return { ...item, column: over.id as 'left' | 'right' };
-          }
-          return item;
-        });
-        updateSectionsWithHistory(newSections);
-      }
+      dispatch(moveSection({ 
+        id: String(active.id), 
+        column: over.id as 'left' | 'right' 
+      }));
       return;
     }
 
-    const overSection = sections.find((s) => s.id === over.id);
-    if (!overSection) return;
+    const overSection = sections.find((s: SectionConfig) => s.id === over.id);
+    if (!overSection || overSection.column === 'full') return;
 
     if (activeSection.column !== overSection.column) {
-      const newSections = sections.map((item) => {
-        if (item.id === active.id) {
-          return { ...item, column: overSection.column };
-        }
-        return item;
-      });
-      updateSectionsWithHistory(newSections);
+      dispatch(moveSection({ 
+        id: String(active.id), 
+        column: overSection.column 
+      }));
     }
   };
 
@@ -93,66 +116,73 @@ function Layout() {
     if (over.id === 'left' || over.id === 'right') return;
 
     if (active.id !== over.id) {
-      const oldIndex = sections.findIndex((item) => item.id === active.id);
-      const newIndex = sections.findIndex((item) => item.id === over.id);
-      const newSections = arrayMove(sections, oldIndex, newIndex);
-      updateSectionsWithHistory(newSections);
+      const oldIndex = sections.findIndex((item: SectionConfig) => item.id === active.id);
+      const newIndex = sections.findIndex((item: SectionConfig) => item.id === over.id);
+      
+      const newSections = [...sections];
+      const [movedSection] = newSections.splice(oldIndex, 1);
+      newSections.splice(newIndex, 0, movedSection);
+      
+      const updatedSections = newSections.map((section: SectionConfig, index: number) => ({
+        ...section,
+        order: index
+      }));
+      
+      dispatch(updateSectionOrder(updatedSections));
     }
   };
 
-  const handleDelete = (sectionId: string) => {
-    const newSections = sections.filter((item) => item.id !== sectionId);
-    updateSectionsWithHistory(newSections);
+  const handleToggleVisibility = (sectionId: string) => {
+    dispatch(toggleSectionVisibility(sectionId));
   };
 
-  const handleUndo = () => {
-    if (history.length > 1) {
-      const newHistory = history.slice(0, -1);
-      setHistory(newHistory);
-      setSections(newHistory[newHistory.length - 1]);
-    }
-  };
-
-  const activeSection = sections.find((s) => s.id === activeId);
+  const activeSection = sections.find((s: SectionConfig) => s.id === activeId);
+  const activeSectionConverted = activeSection ? convertToSection(activeSection) : null;
 
   return (
-    <div className="min-h-screen bg-gray-100 p-4 flex justify-center">
-      <div className="w-[160mm] min-h-[220mm] bg-white shadow-md">
-        <PersonalDetails className="px-4 py-2" />
-        <div className="px-4 py-2 border-b flex justify-end mb-4">
-          <button
-            onClick={handleUndo}
-            disabled={history.length <= 1}
-            className={`flex items-center gap-2 px-2 py-1 rounded-md text-sm transition-colors ${
-              history.length > 1
-                ? 'bg-gray-100 hover:bg-gray-200 text-gray-700'
-                : 'bg-gray-50 text-gray-400 cursor-not-allowed'
-            }`}
-          >
-            <Undo2 className="w-3 h-3" />
-            <span>Undo</span>
-          </button>
+    <div 
+      ref={layoutRef}
+      className="fixed top-16 right-4 w-[120mm] bg-white shadow-lg rounded-lg overflow-hidden z-50"
+    >
+      <DndContext
+        sensors={sensors}
+        collisionDetection={closestCorners}
+        onDragStart={handleDragStart}
+        onDragOver={handleDragOver}
+        onDragEnd={handleDragEnd}
+      >
+        <div className="flex p-2 gap-2">
+          <Column 
+            id="left" 
+            sections={leftSections}
+            onDelete={handleToggleVisibility}
+            visibilityStates={visibilityStates}
+            onToggleVisibility={handleToggleVisibility}
+            compact={true}
+          />
+          <Column 
+            id="right" 
+            sections={rightSections}
+            onDelete={handleToggleVisibility}
+            visibilityStates={visibilityStates}
+            onToggleVisibility={handleToggleVisibility}
+            compact={true}
+          />
         </div>
-        <DndContext
-          sensors={sensors}
-          collisionDetection={closestCorners}
-          onDragStart={handleDragStart}
-          onDragOver={handleDragOver}
-          onDragEnd={handleDragEnd}
-        >
-          <div className="flex px-4 pb-4 gap-4">
-            <Column id="left" sections={leftSections} onDelete={handleDelete} />
-            <Column id="right" sections={rightSections} onDelete={handleDelete} />
-          </div>
-          <DragOverlay>
-            {activeId && activeSection ? (
-              <div className="w-[calc(50%-1rem)] text-sm">
-                <DraggableSection section={activeSection} />
-              </div>
-            ) : null}
-          </DragOverlay>
-        </DndContext>
-      </div>
+        <DragOverlay>
+          {activeId && activeSectionConverted ? (
+            <div className="w-[55mm]">
+              <DraggableSection 
+                section={activeSectionConverted}
+                onDelete={handleToggleVisibility}
+                visible={activeSection?.visible}
+                onToggleVisibility={handleToggleVisibility}
+                compact={true}
+              />
+            </div>
+          ) : null}
+        </DragOverlay>
+      </DndContext>
     </div>
   );
 }

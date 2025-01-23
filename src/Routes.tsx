@@ -1,5 +1,4 @@
 import { createBrowserRouter } from 'react-router-dom';
-import Layout from './pages/Layout';
 import Resume from './pages/Resume';
 import PublicLayout from './layouts/PublicLayout';
 import LandingPage from './pages/PromotionalPage/LandingPage';
@@ -41,11 +40,7 @@ export const router = createBrowserRouter([
       {
         path: 'preview',
         element: <Resume />,
-      },
-      {
-        path: 'layout',
-        element: <Layout />,
-      },
+      }
     ],
   },
 ]);

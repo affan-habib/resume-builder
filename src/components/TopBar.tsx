@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { ArrowLeft, ArrowRight, Download, Layout, Brush, Type } from 'lucide-react';
-import { undo, redo, setFont, changeTheme, changeLayout, download } from '../store/slices/settingsSlice';
-import { RootState } from '../store';
+import { Download, Layout, Brush, Type } from 'lucide-react';
+import { setFont } from '../store/slices/settingsSlice';
+import { RootState } from '../store/store';
 
 const fonts = [
   'Roboto',
@@ -18,7 +18,12 @@ const fonts = [
   'Work Sans',
 ];
 
-const TopBar: React.FC = () => {
+interface TopBarProps {
+  onToggleLayout: () => void;
+  isLayoutVisible: boolean;
+}
+
+const TopBar: React.FC<TopBarProps> = ({ onToggleLayout, isLayoutVisible }) => {
   const dispatch = useDispatch();
   const currentFont = useSelector((state: RootState) => state.settings.font);
   const [showFontDropdown, setShowFontDropdown] = useState(false);
@@ -32,26 +37,6 @@ const TopBar: React.FC = () => {
     <div className="fixed top-0 left-0 right-0 bg-white border-b border-gray-200 z-10">
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex justify-center items-center gap-8 h-14 relative">
-          {/* Undo Button */}
-          <button
-            onClick={() => dispatch(undo())}
-            className="flex flex-col items-center text-gray-700 hover:text-gray-900 focus:outline-none"
-            aria-label="Undo"
-          >
-            <ArrowLeft size={24} />
-            <span className="text-sm">Undo</span>
-          </button>
-
-          {/* Redo Button */}
-          <button
-            onClick={() => dispatch(redo())}
-            className="flex flex-col items-center text-gray-700 hover:text-gray-900 focus:outline-none"
-            aria-label="Redo"
-          >
-            <ArrowRight size={24} />
-            <span className="text-sm">Redo</span>
-          </button>
-
           {/* Font Dropdown */}
           <div className="relative">
             <button
@@ -86,7 +71,7 @@ const TopBar: React.FC = () => {
 
           {/* Theme Button */}
           <button
-            onClick={() => dispatch(changeTheme())}
+            onClick={() => {}}
             className="flex flex-col items-center text-gray-700 hover:text-gray-900 focus:outline-none"
             aria-label="Change Theme"
           >
@@ -96,9 +81,11 @@ const TopBar: React.FC = () => {
 
           {/* Layout Button */}
           <button
-            onClick={() => dispatch(changeLayout())}
-            className="flex flex-col items-center text-gray-700 hover:text-gray-900 focus:outline-none"
-            aria-label="Change Layout"
+            onClick={onToggleLayout}
+            className={`flex flex-col items-center focus:outline-none ${
+              isLayoutVisible ? 'text-blue-600' : 'text-gray-700 hover:text-gray-900'
+            }`}
+            aria-label="Toggle Layout"
           >
             <Layout size={24} />
             <span className="text-sm">Layout</span>
@@ -106,7 +93,7 @@ const TopBar: React.FC = () => {
 
           {/* Download Button */}
           <button
-            onClick={() => dispatch(download())}
+            onClick={() => {}}
             className="flex flex-col items-center text-gray-700 hover:text-gray-900 focus:outline-none"
             aria-label="Download"
           >
