@@ -87,7 +87,7 @@ const SectionWrapper: React.FC<SectionWrapperProps> = ({ title, children, action
             </span>
           )}
           <h3 
-            className="text-lg font-semibold"
+            className="text-lg font-medium"
             style={{ color: theme }}
           >
             {title}

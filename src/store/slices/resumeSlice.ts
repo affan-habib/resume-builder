@@ -26,7 +26,6 @@ const initialState: ResumeState = {
       responsibilities: [
         "Lead a team of 8 developers in designing and implementing scalable web applications using React and Node.js.",
         "Architected and deployed microservices on AWS, improving system reliability by 30%.",
-        "Collaborated with product managers to define project requirements and deliver features on time."
       ],
     },
   ],
@@ -38,13 +37,6 @@ const initialState: ResumeState = {
       endDate: "2015-06",
       gpa: "3.9"
     },
-    {
-      degree: "Bachelor of Science in Computer Engineering",
-      institution: "University of California, Berkeley",
-      startDate: "2009-09",
-      endDate: "2013-06",
-      gpa: "3.8"
-    }
   ],
   skills: [
     { name: "JavaScript", proficiency: 90 },
@@ -59,12 +51,6 @@ const initialState: ResumeState = {
       startDate: "2021-04",
       endDate: "2024-04"
     },
-    {
-      name: "Certified Scrum Master (CSM)",
-      issuer: "Scrum Alliance",
-      startDate: "2019-07",
-      endDate: "2022-07"
-    }
   ],
   projects: [
     {
