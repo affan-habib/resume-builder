@@ -43,7 +43,7 @@ const CertificationsSection: React.FC = () => {
     <SectionWrapper title={title} actions={actions}>
       <div className="space-y-4">
         {certifications.map((certification, index) => (
-          <div key={index} className="space-y-2 bg-gray-50 p-4 rounded-lg">
+          <div key={index} className="space-y-2 rounded-lg">
             {/* Certification Name */}
             <EditableField
               value={certification.name}

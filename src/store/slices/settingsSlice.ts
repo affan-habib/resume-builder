@@ -10,6 +10,7 @@ export interface SectionConfig {
 
 interface SettingsState {
   font: string;
+  theme: string;
   sections: SectionConfig[];
 }
 
@@ -30,6 +31,7 @@ const initialSections: SectionConfig[] = [
 
 const initialState: SettingsState = {
   font: 'Roboto',
+  theme: '#3b82f6', // Default blue color
   sections: initialSections
 };
 
@@ -39,6 +41,9 @@ const settingsSlice = createSlice({
   reducers: {
     setFont: (state, action: PayloadAction<string>) => {
       state.font = action.payload;
+    },
+    setTheme: (state, action: PayloadAction<string>) => {
+      state.theme = action.payload;
     },
     toggleSectionVisibility: (state, action: PayloadAction<string>) => {
       const section = state.sections.find(s => s.id === action.payload);
@@ -60,6 +65,7 @@ const settingsSlice = createSlice({
 
 export const {
   setFont,
+  setTheme,
   toggleSectionVisibility,
   updateSectionOrder,
   moveSection

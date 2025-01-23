@@ -5,9 +5,16 @@ interface EditableFieldProps {
   placeholder: string;
   onSave: (value: string) => void;
   className?: string;
+  style?: React.CSSProperties;
 }
 
-const EditableField: React.FC<EditableFieldProps> = ({ value, placeholder, onSave, className }) => {
+const EditableField: React.FC<EditableFieldProps> = ({ 
+  value, 
+  placeholder, 
+  onSave, 
+  className,
+  style 
+}) => {
   const handleBlur = (e: React.FocusEvent<HTMLParagraphElement>) => {
     onSave(e.target.textContent || '');
   };
@@ -19,6 +26,7 @@ const EditableField: React.FC<EditableFieldProps> = ({ value, placeholder, onSav
       onBlur={handleBlur}
       className={`${className} focus:outline-none empty:before:content-[attr(data-placeholder)] empty:before:text-gray-400`}
       data-placeholder={placeholder}
+      style={style}
     >
       {value}
     </p>

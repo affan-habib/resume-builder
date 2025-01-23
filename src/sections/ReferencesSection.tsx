@@ -45,7 +45,7 @@ const ReferencesSection: React.FC = () => {
     <SectionWrapper title={title} actions={actions}>
       <div className="space-y-4">
         {references.map((reference, index) => (
-          <div key={index} className="space-y-2 bg-gray-50 p-4 rounded-lg">
+          <div key={index} className="space-y-2 rounded-lg">
             {/* Name */}
             <EditableField
               value={reference.name}
