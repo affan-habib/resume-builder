@@ -12,8 +12,6 @@ import ReferencesSection from '@/sections/resume/ReferencesSection';
 import VolunteerExperienceSection from '@/sections/resume/VolunteerExperienceSection';
 import AwardsSection from '@/sections/resume/AwardsSection';
 import CertificationsSection from '@/sections/resume/CertificationsSection';
-import TopBar from '@/components/common/TopBar';
-import Layout from '@/components/resume/CustomizeResumeLayout';
 import { RootState } from '@/store/store';
 
 // Map section IDs to their components
@@ -33,8 +31,7 @@ const sectionComponents = {
 };
 
 const Resume: React.FC = () => {
-  const { font, sections } = useSelector((state: RootState) => state.settings);
-  const [isLayoutVisible, setIsLayoutVisible] = useState(false);
+  const {  sections } = useSelector((state: RootState) => state.settings);
 
   // Filter visible sections and sort by order
   const visibleSections = sections
@@ -53,37 +50,23 @@ const Resume: React.FC = () => {
 
   return (
     <>
-      <TopBar
-        onToggleLayout={() => setIsLayoutVisible(!isLayoutVisible)}
-        isLayoutVisible={isLayoutVisible}
-      />
-      <div className="pt-16 pb-8 px-4" style={{ fontFamily: font }}>
-        <div className="max-w-[21cm] mx-auto bg-white aspect-[1/1.4142] border border-gray-200">
-          {fullWidthSections.map(renderSection)}
-          <div className="p-8 pt-4 flex flex-col gap-4">
-            {/* Full width sections (like Personal Details) */}
+      {fullWidthSections.map(renderSection)}
+      <div className="p-8 pt-4 flex flex-col gap-4">
+        {/* Full width sections (like Personal Details) */}
 
-            {/* Two-column layout */}
-            <div className="grid grid-cols-2 gap-4">
-              {/* Left column */}
-              <div className="space-y-4">
-                {leftColumnSections.map(renderSection)}
-              </div>
+        {/* Two-column layout */}
+        <div className="grid grid-cols-2 gap-4">
+          {/* Left column */}
+          <div className="space-y-4">
+            {leftColumnSections.map(renderSection)}
+          </div>
 
-              {/* Right column */}
-              <div className="space-y-4">
-                {rightColumnSections.map(renderSection)}
-              </div>
-            </div>
+          {/* Right column */}
+          <div className="space-y-4">
+            {rightColumnSections.map(renderSection)}
           </div>
         </div>
       </div>
-
-      {/* Layout Component */}
-      <Layout
-        visible={isLayoutVisible}
-        onClose={() => setIsLayoutVisible(false)}
-      />
     </>
   );
 };
