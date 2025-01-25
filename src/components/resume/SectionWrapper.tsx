@@ -1,9 +1,9 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '@/store/store';
-import { setActiveSection } from '@/store/slices/activeSectionSlice';
-import { titleToStateKey } from '@/utils/sectionUtils';
-import { templates } from '@/store/slices/settingsSlice';
+import { RootState } from '../../store/store';
+import { setActiveSection } from '../../store/slices/activeSectionSlice';
+import { titleToStateKey } from '../../utils/sectionUtils';
+import { templates } from '../../store/slices/settingsSlice';
 import {
   GraduationCap,
   Briefcase,
@@ -59,7 +59,7 @@ const SectionWrapper: React.FC<SectionWrapperProps> = ({ title, children, action
   const theme = useSelector((state: RootState) => state.settings.theme);
   const currentTemplateId = useSelector((state: RootState) => state.settings.template);
   
-  const template = templates.find(t => t.id === currentTemplateId);
+  const template = templates.find((t: { id: string }) => t.id === currentTemplateId);
   const styles = template?.sectionStyle;
 
   const isActive = activeSection === title;
@@ -83,7 +83,7 @@ const SectionWrapper: React.FC<SectionWrapperProps> = ({ title, children, action
         dispatch(setActiveSection(title));
       }}
       className={`relative space-y-4 p-2 rounded cursor-pointer ${
-        isActive ? 'border-blue-500' : 'border-gray-200'
+        isActive ? 'border-blue-500 bg-yellow-100' : 'border-gray-200'
       } ${styles.background}`}
     >
       {/* Header */}

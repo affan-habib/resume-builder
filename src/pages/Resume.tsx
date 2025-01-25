@@ -1,19 +1,19 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import PersonalDetails from '@/sections/PersonalDetails';
-import SkillsSection from '@/sections/SkillsSection';
-import InterestSection from '@/sections/InterestSection';
-import EducationSection from '@/sections/EducationSection';
-import LanguageSection from '@/sections/LanguageSection';
-import ProjectsSection from '@/sections/ProjectsSection';
-import ProfessionalExperienceSection from '@/sections/ProfessionalExperienceSection';
-import AchievementSection from '@/sections/AchievementSection';
-import ReferencesSection from '@/sections/ReferencesSection';
-import VolunteerExperienceSection from '@/sections/VolunteerExperienceSection';
-import AwardsSection from '@/sections/AwardsSection';
-import CertificationsSection from '@/sections/CertificationsSection';
+import PersonalDetails from '@/sections/resume/PersonalDetails';
+import SkillsSection from '@/sections/resume/SkillsSection';
+import InterestSection from '@/sections/resume/InterestSection';
+import EducationSection from '@/sections/resume/EducationSection';
+import LanguageSection from '@/sections/resume/LanguageSection';
+import ProjectsSection from '@/sections/resume/ProjectsSection';
+import ProfessionalExperienceSection from '@/sections/resume/ProfessionalExperienceSection';
+import AchievementSection from '@/sections/resume/AchievementSection';
+import ReferencesSection from '@/sections/resume/ReferencesSection';
+import VolunteerExperienceSection from '@/sections/resume/VolunteerExperienceSection';
+import AwardsSection from '@/sections/resume/AwardsSection';
+import CertificationsSection from '@/sections/resume/CertificationsSection';
 import TopBar from '@/components/common/TopBar';
-import Layout from '@/pages/Layout';
+import Layout from '@/components/resume/CustomizeResumeLayout';
 import { RootState } from '@/store/store';
 
 // Map section IDs to their components

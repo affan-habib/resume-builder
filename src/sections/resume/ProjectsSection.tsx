@@ -26,12 +26,12 @@ const ProjectsSection: React.FC = () => {
 
   const handleAddProject = () => {
     const newProject = {
-      name: 'New Project',
-      keyPoints: [],
+      name: '',
+      keyPoints: [''],
       technologies: [],
       repositoryLink: '',
       liveDemoLink: '',
-      role: 'Role',
+      role: '',
       startDate: '',
       endDate: '',
     };

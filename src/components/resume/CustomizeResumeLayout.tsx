@@ -26,7 +26,7 @@ interface LayoutProps {
   onClose: () => void;
 }
 
-function Layout({ visible, onClose }: LayoutProps) {
+function CustomizeResumeLayout({ visible, onClose }: LayoutProps) {
   const dispatch = useDispatch();
   const sections = useSelector((state: RootState) => state.settings.sections);
   const [activeId, setActiveId] = React.useState<UniqueIdentifier | null>(null);
@@ -188,4 +188,4 @@ function Layout({ visible, onClose }: LayoutProps) {
   );
 }
 
-export default Layout;
+export default CustomizeResumeLayout;

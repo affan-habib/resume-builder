@@ -3,112 +3,99 @@ import type { ResumeState } from '@/types/resume';
 
 const initialState: ResumeState = {
   personalInformation: {
-    name: "John Doe",
-    title: "Senior Software Engineer",
+    name: "",
+    title: "",
     profilePicture: "https://images.unsplash.com/photo-1633332755192-727a05c4013d?w=400&h=400&fit=crop",
     contact: {
-      email: "john.doe@example.com",
-      phone: "+1 (555) 123-4567",
-      address: "San Francisco, CA, USA",
-      linkedin: "https://www.linkedin.com/in/johndoe",
-      github: "https://github.com/johndoe",
-      portfolio: "https://johndoeportfolio.com"
+      email: "",
+      phone: "",
+      address: "",
+      linkedin: "",
+      github: "",
+      portfolio: ""
     },
-    summary: "Highly skilled Senior Software Engineer with over 10 years of experience in developing scalable web applications and leading cross-functional teams",
+    summary: "",
   },
   workExperience: [
     {
-      jobTitle: "Senior Software Engineer",
-      company: "Tech Innovators Inc.",
-      location: "San Francisco, CA",
-      startDate: "2020-06",
-      endDate: "Present",
-      responsibilities: [
-        "Lead a team of 8 developers in designing and implementing scalable web applications using React and Node.js.",
-        "Architected and deployed microservices on AWS, improving system reliability by 30%.",
-      ],
+      jobTitle: "",
+      company: "",
+      location: "",
+      startDate: "",
+      endDate: "",
+      responsibilities: [""],
     },
   ],
   education: [
     {
-      degree: "Master of Science in Computer Science",
-      institution: "Stanford University",
-      startDate: "2013-09",
-      endDate: "2015-06",
-      gpa: "3.9"
+      degree: "",
+      institution: "",
+      startDate: "",
+      endDate: "",
+      gpa: ""
     },
   ],
   skills: [
-    { name: "JavaScript", proficiency: 90 },
-    { name: "Python", proficiency: 85 },
-    { name: "React", proficiency: 80 },
-    { name: "Node.js", proficiency: 85 },
+    { name: "", proficiency: 0 },
   ],
   certifications: [
     {
-      name: "AWS Certified Solutions Architect – Professional",
-      issuer: "Amazon Web Services",
-      startDate: "2021-04",
-      endDate: "2024-04"
+      name: "",
+      issuer: "",
+      startDate: "",
+      endDate: ""
     },
   ],
   projects: [
     {
-      name: "E-commerce Platform",
-      keyPoints: [],
-      technologies: ["React", "Node.js", "MongoDB", "Stripe API"],
-      repositoryLink: "https://github.com/johndoe/ecommerce-platform",
-      liveDemoLink: "https://ecommerce.johndoeportfolio.com",
-      role: "Lead Developer",
-      startDate: "2021-01",
-      endDate: "2021-12"
+      name: "",
+      keyPoints: [""],
+      technologies: [""],
+      repositoryLink: "",
+      liveDemoLink: "",
+      role: "",
+      startDate: "",
+      endDate: ""
     },
   ],
   languages: [
-    { language: "English", proficiency: "Native" },
-    { language: "Spanish", proficiency: "Advanced" }
+    { language: "", proficiency: "" }
   ],
   awards: [
     {
-      title: "Employee of the Year",
-      issuer: "Tech Innovators Inc.",
-      date: "2018-12",
-      description: "Recognized for outstanding performance and contributions to major projects."
+      title: "",
+      issuer: "",
+      date: "",
+      description: ""
     }
   ],
   volunteerExperience: [
     {
-      role: "Volunteer Developer",
-      organization: "Open Source Initiative",
-      location: "Remote",
-      startDate: "2017-03",
-      endDate: "Present",
-      responsibilities: [
-        "Contribute to open-source projects by adding new features and fixing bugs.",
-        "Collaborate with a global team of developers to enhance software functionality."
-      ]
+      role: "",
+      organization: "",
+      location: "",
+      startDate: "",
+      endDate: "",
+      responsibilities: [""]
     }
   ],
   references: [
     {
-      name: "Jane Smith",
-      jobTitle: "Engineering Manager",
-      company: "Tech Innovators Inc.",
-      email: "jane.smith@techinnovators.com",
-      phone: "+1 (555) 987-6543",
-      relationship: "Former Manager"
-    },
-    {
-      name: "Michael Brown",
-      jobTitle: "Senior Developer",
-      company: "Creative Solutions LLC",
-      email: "michael.brown@creativesolutions.com",
-      phone: "+1 (555) 654-3210",
-      relationship: "Colleague"
+      name: "",
+      jobTitle: "",
+      company: "",
+      email: "",
+      phone: "",
+      relationship: ""
     },
   ],
-  achievements: [],
-  interests: ['Chess', 'Traveling'],
+  achievements: [
+    {
+      title: "",
+      description: ""
+    }
+  ],
+  interests: [""],
 };
 
 const resumeSlice = createSlice({
