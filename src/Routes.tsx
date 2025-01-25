@@ -6,19 +6,26 @@ import ResumeLayout from './layouts/Resumelayout';
 import AuthLayout from './layouts/AuthLayout';
 import LoginPage from './pages/PromotionalPage/LoginPage';
 import ProtectedRoute from './layouts/ProtectedRoute';
+import PresentaionSlides from './pages/PresentationSlides/PresentaionSlides';
 
 export const router = createBrowserRouter([
   // Public routes
+  // {
+  //   path: '/',
+  //   element: <PublicLayout />,
+  //   children: [
+  //     {
+  //       path: '/',
+  //       element: <LandingPage />,
+  //     },
+  //   ],
+  // },
+  
   {
     path: '/',
-    element: <PublicLayout />,
-    children: [
-      {
-        path: '/',
-        element: <LandingPage />,
-      },
-    ],
+    element: <PresentaionSlides />,
   },
+
   {
     path: '/auth',
     element: <AuthLayout />,
