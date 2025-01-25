@@ -18,7 +18,7 @@ const LanguageSection: React.FC = () => {
   const [activeDropdown, setActiveDropdown] = useState<number | null>(null);
 
   const handleAddLanguage = () => {
-    const newEntry = { language: 'New Language', proficiency: 'Beginner' };
+    const newEntry = { language: '', proficiency: 'Advanved' };
     dispatch(addLanguage(newEntry));
   };
 
