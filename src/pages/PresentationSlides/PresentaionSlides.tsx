@@ -257,56 +257,70 @@ function PresentaionSlides() {
         </Slide>
 
         {/* Slide 4: Market Analysis */}
-        <Slide isActive={currentSlide === 3}>
-          <div className="flex flex-col items-center justify-center h-full px-8">
-            <motion.h2
-              initial={{ y: -20, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              className="text-5xl font-bold text-white mb-8"
-            >
-              Market Analysis
-            </motion.h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl w-full">
-              <motion.div
-                initial={{ x: -50, opacity: 0 }}
-                animate={{ x: 0, opacity: 1 }}
-                transition={{ delay: 0.2 }}
-                className="bg-white/10 rounded-xl p-6 backdrop-blur-lg"
-              >
-                <h3 className="text-3xl font-bold text-white mb-6">Market Growth</h3>
-                <div className="h-64">
-                  <MarketChart />
-                </div>
-                <div className="mt-4 text-xl text-white/80">
-                  <p>Projected growth from $1.2B (2022) to $3.5B (2030)</p>
-                  <p className="text-green-400 font-semibold">CAGR: 13.7%</p>
-                </div>
-              </motion.div>
-              <motion.div
-                initial={{ x: 50, opacity: 0 }}
-                animate={{ x: 0, opacity: 1 }}
-                transition={{ delay: 0.4 }}
-                className="bg-white/10 rounded-xl p-6 backdrop-blur-lg"
-              >
-                <h3 className="text-3xl font-bold text-white mb-6">Market Drivers</h3>
-                <ul className="text-xl text-white/80 space-y-4">
-                  <li className="flex items-center gap-3">
-                    <Target className="w-6 h-6 text-blue-400" />
-                    <span>Increased reliance on online PresentaionSlideslications</span>
-                  </li>
-                  <li className="flex items-center gap-3">
-                    <Zap className="w-6 h-6 text-yellow-400" />
-                    <span>Growing demand for AI-enhanced tools</span>
-                  </li>
-                  <li className="flex items-center gap-3">
-                    <Trophy className="w-6 h-6 text-purple-400" />
-                    <span>Focus on ATS optimization</span>
-                  </li>
-                </ul>
-              </motion.div>
-            </div>
-          </div>
-        </Slide>
+       {/* Slide 4: Market Analysis */}
+<Slide isActive={currentSlide === 3}>
+  <div className="flex flex-col items-center justify-center h-full px-8">
+    <motion.h2
+      initial={{ y: -20, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      className="text-5xl font-bold text-white mb-8"
+    >
+      Market Analysis
+    </motion.h2>
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl w-full">
+      <motion.div
+        initial={{ x: -50, opacity: 0 }}
+        animate={{ x: 0, opacity: 1 }}
+        transition={{ delay: 0.2 }}
+        className="bg-white/10 rounded-xl p-6 backdrop-blur-lg"
+      >
+        <h3 className="text-3xl font-bold text-white mb-6">Market Growth</h3>
+        <div className="h-64">
+          <MarketChart />
+        </div>
+        <div className="mt-4 text-xl text-white/80">
+          <p>Projected growth from $1.2B (2022) to $3.5B (2030)</p>
+          <p className="text-green-400 font-semibold">CAGR: 13.7%</p>
+        </div>
+      </motion.div>
+      <motion.div
+        initial={{ x: 50, opacity: 0 }}
+        animate={{ x: 0, opacity: 1 }}
+        transition={{ delay: 0.4 }}
+        className="bg-white/10 rounded-xl p-6 backdrop-blur-lg"
+      >
+        <h3 className="text-3xl font-bold text-white mb-6">Key Trends</h3>
+        <ul className="text-xl text-white/80 space-y-4">
+          <li className="flex items-center gap-3">
+            <Zap className="w-6 h-6 text-yellow-400" />
+            <span>68% of companies will adopt AI in hiring by 2025.</span>
+          </li>
+          <li className="flex items-center gap-3">
+            <Target className="w-6 h-6 text-blue-400" />
+            <span>36% of recruiters use AI for resume matching.</span>
+          </li>
+          <li className="flex items-center gap-3">
+            <Trophy className="w-6 h-6 text-purple-400" />
+            <span>98% of Fortune 500 companies rely on ATS.</span>
+          </li>
+          <li className="flex items-center gap-3">
+            <Star className="w-6 h-6 text-pink-400" />
+            <span>
+              Resumes tailored with generative AI increase success rates.
+            </span>
+          </li>
+          <li className="flex items-center gap-3">
+            <Users className="w-6 h-6 text-green-400" />
+            <span>
+              75% of executives prioritize diversity hiring initiatives.
+            </span>
+          </li>
+        </ul>
+      </motion.div>
+    </div>
+  </div>
+</Slide>
+
 
         {/* Slide 5: How It Works */}
         <Slide isActive={currentSlide === 4}>
