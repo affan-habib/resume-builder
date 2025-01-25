@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import type { ResumeState } from './types/resume';
+import type { ResumeState } from '@/types/resume';
 
 interface LoadingState {
   sectionLoading: {

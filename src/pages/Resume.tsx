@@ -1,20 +1,20 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import PersonalDetails from '../sections/PersonalDetails';
-import SkillsSection from '../sections/SkillsSection';
-import InterestSection from '../sections/InterestSection';
-import EducationSection from '../sections/EducationSection';
-import LanguageSection from '../sections/LanguageSection';
-import ProjectsSection from '../sections/ProjectsSection';
-import ProfessionalExperienceSection from '../sections/ProfessionalExperienceSection';
-import AchievementSection from '../sections/AchievementSection';
-import ReferencesSection from '../sections/ReferencesSection';
-import VolunteerExperienceSection from '../sections/VolunteerExperienceSection';
-import AwardsSection from '../sections/AwardsSection';
-import CertificationsSection from '../sections/CertificationsSection';
-import TopBar from '../components/TopBar';
-import Layout from '../pages/Layout';
-import { RootState } from '../store/store';
+import PersonalDetails from '@/sections/PersonalDetails';
+import SkillsSection from '@/sections/SkillsSection';
+import InterestSection from '@/sections/InterestSection';
+import EducationSection from '@/sections/EducationSection';
+import LanguageSection from '@/sections/LanguageSection';
+import ProjectsSection from '@/sections/ProjectsSection';
+import ProfessionalExperienceSection from '@/sections/ProfessionalExperienceSection';
+import AchievementSection from '@/sections/AchievementSection';
+import ReferencesSection from '@/sections/ReferencesSection';
+import VolunteerExperienceSection from '@/sections/VolunteerExperienceSection';
+import AwardsSection from '@/sections/AwardsSection';
+import CertificationsSection from '@/sections/CertificationsSection';
+import TopBar from '@/components/common/TopBar';
+import Layout from '@/pages/Layout';
+import { RootState } from '@/store/store';
 
 // Map section IDs to their components
 const sectionComponents = {

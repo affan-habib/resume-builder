@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Link, useNavigate } from 'react-router-dom';
-import { Slide } from '../../components/Slide';
-import { Navigation } from '../../components/Navigation';
-import { MarketChart } from '../../components/MarketChart';
+// import { Slide } from '@/components/resumee/Slide';
+// import { Navigation } from '@/components/reNavigation';
+// import { MarketChart } from '@/components/reMarketChart';
+import { MarketChart } from '@/components/resume/MarketChart';
+import { Navigation } from '@/components/common/Navigation';
 import {
   Rocket,
   Users,
@@ -22,8 +24,9 @@ import {
   Mail,
   UserCheck,
 } from 'lucide-react';
+import { Slide } from '@/components/resume/Slide';
 
-function PresentaionSlides() {
+function PresentationSlides() {
   const [currentSlide, setCurrentSlide] = useState(0);
 
   const nextSlide = () => {
@@ -35,7 +38,7 @@ function PresentaionSlides() {
   };
 
   useEffect(() => {
-    const handleKeyDown = (e) => {
+    const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'ArrowRight' || e.key === ' ') {
         e.preventDefault();
         nextSlide();
@@ -418,4 +421,4 @@ function PresentaionSlides() {
   );
 }
 
-export default PresentaionSlides;
+export default PresentationSlides;

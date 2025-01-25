@@ -1,10 +1,10 @@
 import React from 'react';
 import { Plus, X } from 'lucide-react';
 import { useSelector, useDispatch } from 'react-redux';
-import { RootState } from '../store';
-import { addInterest, editInterest, removeInterest } from '../store/slices/resumeSlice';
-import SectionWrapper from '../components/SectionWrapper';
-import EditableField from '../components/EditableField';
+import { RootState } from '@/store';
+import { addInterest, editInterest, removeInterest } from '@/store/slices/resumeSlice';
+import SectionWrapper from '@/components/resume/SectionWrapper';
+import EditableField from '@/components/common/EditableField';
 
 const InterestSection: React.FC = () => {
   const title = 'Interests'; // Section title

@@ -1,11 +1,11 @@
 import React from 'react';
 import { Plus, X } from 'lucide-react';
 import { useSelector, useDispatch } from 'react-redux';
-import { RootState } from '../store';
-import { addVolunteerExperience, editVolunteerExperience, removeVolunteerExperience } from '../store/slices/resumeSlice';
-import EditableField from '../components/EditableField';
-import SectionWrapper from '../components/SectionWrapper';
-import ListSection from '../components/ListSection';
+import { RootState } from '@/store';
+import { addVolunteerExperience, editVolunteerExperience, removeVolunteerExperience } from '@/store/slices/resumeSlice';
+import EditableField from '@/components/common/EditableField';
+import SectionWrapper from '@/components/resume/SectionWrapper';
+import ListSection from '@/components/common/ListSection';
 
 const VolunteerExperienceSection: React.FC = () => {
   const dispatch = useDispatch();

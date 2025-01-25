@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Plus, Calendar, X } from 'lucide-react';
-import { RootState } from '../store/store';
-import { setActiveSection } from '../store/slices/activeSectionSlice';
+import { RootState } from '@/store/store';
+import { setActiveSection } from '@/store/slices/activeSectionSlice';
 import EditableField from './EditableField';
 import ListSection from './ListSection';
 import { DateRangePicker } from 'react-date-range';

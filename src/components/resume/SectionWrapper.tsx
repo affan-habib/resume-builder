@@ -1,9 +1,9 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../store/store';
-import { setActiveSection } from '../store/slices/activeSectionSlice';
-import { titleToStateKey } from '../utils/sectionUtils';
-import { templates } from '../store/slices/settingsSlice';
+import { RootState } from '@/store/store';
+import { setActiveSection } from '@/store/slices/activeSectionSlice';
+import { titleToStateKey } from '@/utils/sectionUtils';
+import { templates } from '@/store/slices/settingsSlice';
 import {
   GraduationCap,
   Briefcase,

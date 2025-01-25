@@ -2,7 +2,7 @@ import React from 'react';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { GripVertical, Trash2, CheckSquare, Square } from 'lucide-react';
-import type { Section } from '../types/types';
+import type { Section } from '@/types/types';
 
 interface Props {
   section: Section;

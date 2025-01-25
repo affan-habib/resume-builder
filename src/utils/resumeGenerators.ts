@@ -1,5 +1,5 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
-import type { ResumeState } from '../types/resume';
+import type { ResumeState } from '@/types/resume';
 
 const prompts: Record<keyof ResumeState, string> = {
   personalInformation:

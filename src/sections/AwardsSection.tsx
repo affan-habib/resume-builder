@@ -1,10 +1,10 @@
 import React from 'react';
 import { Plus, X } from 'lucide-react';
 import { useSelector, useDispatch } from 'react-redux';
-import { RootState } from '../store';
-import { addAward, editAward, removeAward } from '../store/slices/resumeSlice';
-import EditableField from '../components/EditableField';
-import SectionWrapper from '../components/SectionWrapper';
+import { RootState } from '@/store';
+import { addAward, editAward, removeAward } from '@/store/slices/resumeSlice';
+import EditableField from '@/components/common/EditableField';
+import SectionWrapper from '@/components/resume/SectionWrapper';
 
 const AwardsSection: React.FC = () => {
   const dispatch = useDispatch();

@@ -1,4 +1,4 @@
-import type { ResumeState } from '../types/resume';
+import type { ResumeState } from '@/types/resume';
 
 export const titleToStateKey = (title: string): keyof ResumeState => {
     const mapping: Record<string, keyof ResumeState> = {

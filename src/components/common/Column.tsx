@@ -4,8 +4,9 @@ import {
   SortableContext,
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
-import { DraggableSection } from './DraggableSection';
-import type { Section } from '../types/types';
+// import { DraggableSection } from './DraggableSection';
+import type { Section } from '@/types/types';
+import { DraggableSection } from '../resume/DraggableSection';
 
 interface Props {
   id: string;

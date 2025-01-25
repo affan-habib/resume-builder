@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Download, Layout, Brush, Type, FileText } from 'lucide-react';
-import { setFont, setTheme, setTemplate, templates } from '../store/slices/settingsSlice';
-import { RootState } from '../store/store';
+import { setFont, setTheme, setTemplate, templates } from '@/store/slices/settingsSlice';
+import { RootState } from '@/store/store';
 
 const fonts = [
   'Roboto',

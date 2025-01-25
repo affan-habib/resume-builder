@@ -14,11 +14,12 @@ import {
   UniqueIdentifier
 } from '@dnd-kit/core';
 import { sortableKeyboardCoordinates } from '@dnd-kit/sortable';
-import { Column } from '../components/Column';
-import { DraggableSection } from '../components/DraggableSection';
-import { RootState } from '../store/store';
-import { toggleSectionVisibility, updateSectionOrder, moveSection, type SectionConfig } from '../store/slices/settingsSlice';
-import type { Section } from '../types/types';
+import { Column } from '@/components/common/Column';
+// import { DraggableSection } from '@/components/resume/SectionWrapper';
+import { RootState } from '@/store/store';
+import { toggleSectionVisibility, updateSectionOrder, moveSection, type SectionConfig } from '@/store/slices/settingsSlice';
+import type { Section } from '@/types/types';
+import { DraggableSection } from '@/components/resume/DraggableSection';
 
 interface LayoutProps {
   visible: boolean;
@@ -172,7 +173,7 @@ function Layout({ visible, onClose }: LayoutProps) {
         <DragOverlay>
           {activeId && activeSectionConverted ? (
             <div className="w-[55mm]">
-              <DraggableSection 
+              <DraggableSection
                 section={activeSectionConverted}
                 onDelete={handleToggleVisibility}
                 visible={activeSection?.visible}

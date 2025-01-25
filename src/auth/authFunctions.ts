@@ -1,5 +1,7 @@
 // src/Authentication/authFunctions.js
 import { signInWithPopup } from "firebase/auth";
+// import { auth, googleProvider } from "@/firebase";
+// import { setUser } from "@/store/slices/userSlice";
 import { auth, googleProvider } from "./firebase";
 import { setUser } from "../store/slices/userSlice";
 

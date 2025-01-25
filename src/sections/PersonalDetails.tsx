@@ -1,12 +1,12 @@
 import React, { useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../store/store';
-import { updatePersonalInfo } from '../store/slices/resumeSlice';
-import { setActiveSection } from '../store/slices/activeSectionSlice';
-import { templates } from '../store/slices/settingsSlice';
-import ProfileImage from '../components/ProfileImage';
-import EditableField from '../components/EditableField';
-import ContactLink from '../components/ContactLink';
+import { RootState } from '@/store/store';
+import { updatePersonalInfo } from '@/store/slices/resumeSlice';
+import { setActiveSection } from '@/store/slices/activeSectionSlice';
+import { templates } from '@/store/slices/settingsSlice';
+import ProfileImage from '@/components/common/ProfileImage';
+import EditableField from '@/components/common/EditableField';
+import ContactLink from '@/components/common/ContactLink';
 import { Mail, Phone, MapPin, Linkedin, Github, Globe } from 'lucide-react';
 
 const placeholders = {

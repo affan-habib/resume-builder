@@ -1,29 +1,35 @@
 import { createBrowserRouter } from 'react-router-dom';
-import Resume from './pages/Resume';
-import PublicLayout from './layouts/PublicLayout';
-import LandingPage from './pages/PromotionalPage/LandingPage';
-import ResumeLayout from './layouts/Resumelayout';
-import AuthLayout from './layouts/AuthLayout';
-import LoginPage from './pages/PromotionalPage/LoginPage';
-import ProtectedRoute from './layouts/ProtectedRoute';
-import PresentaionSlides from './pages/PresentationSlides/PresentaionSlides';
+import Resume from '@/pages/Resume';
+import PublicLayout from '@/layouts/PublicLayout';
+import LandingPage from '@/pages/promotional/LandingPage';
+import ResumeLayout from '@/layouts/Resumelayout';
+import AuthLayout from '@/layouts/AuthLayout';
+import LoginPage from '@/pages/promotional/LoginPage';
+import ProtectedRoute from '@/layouts/ProtectedRoute';
+import PresentationSlides from './pages/promotional/PresentaionSlides';
+// import PresentationSlides from '@/pages/promotional/PresentationSlides';
 
 export const router = createBrowserRouter([
-  // Public routes
-  // {
-  //   path: '/',
-  //   element: <PublicLayout />,
-  //   children: [
-  //     {
-  //       path: '/',
-  //       element: <LandingPage />,
-  //     },
-  //   ],
-  // },
-  
   {
     path: '/',
-    element: <PresentaionSlides />,
+    element: <PublicLayout />,
+    children: [
+      {
+        path: '/',
+        element: <LandingPage />,
+      },
+    ],
+  },
+
+  {
+    path: '/resume',
+    element: <ResumeLayout />,
+    children: [
+      {
+        path: 'preview',
+        element: <Resume />,
+      },
+    ],
   },
 
   {
@@ -36,18 +42,9 @@ export const router = createBrowserRouter([
       },
     ],
   },
+
   {
-    path: '/resume',
-    element: (
-      <>
-        <ResumeLayout />
-      </>
-    ), 
-    children: [
-      {
-        path: 'preview',
-        element: <Resume />,
-      }
-    ],
+    path: '/home',
+    element: <PresentationSlides />,
   },
 ]);

@@ -1,6 +1,6 @@
 import { useDispatch } from 'react-redux';
-import { signInWithGoogle } from '../../Authentication/authFunctions.ts';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { signInWithGoogle } from '../../auth/authFunctions';
 
 const LoginPage = () => {
     const dispatch = useDispatch();
