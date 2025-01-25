@@ -121,7 +121,7 @@ function PresentaionSlides() {
                     className="object-cover w-full h-full"
                   />
                 </div>
-                <p className="text-2xl font-bold text-white">Mehnaz Ameer</p>
+                <p className="text-2xl font-bold text-white">Mahnaz Ameer</p>
                 <p className="text-white/70 text-lg">Team Member</p>
               </div>
             </motion.div>
