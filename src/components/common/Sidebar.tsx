@@ -175,7 +175,7 @@ const Sidebar: React.FC = () => {
   };
 
   return (
-    <div className="w-80 bg-white shadow-lg h-screen overflow-y-auto fixed left-0 top-16 p-4">
+    <div className="w-80 bg-white shadow-lg h-screen overflow-y-auto fixed left-0 top-16 p-4 no-print">
       <h2 className="text-xl font-bold mb-4">Generate Resume Sections</h2>
 
       {/* Section Dropdown */}

@@ -26,7 +26,7 @@ const ResumeLayout: React.FC = () => {
                         isLayoutVisible={isLayoutVisible}
                     />
                     <div className="pt-16 pb-8 px-4" style={{ fontFamily: font }}>
-                        <div className="max-w-[21cm] mx-auto bg-white aspect-[1/1.4142] border border-gray-200">
+                        <div className="max-w-[21cm] mx-auto bg-white aspect-[1/1.4142] border border-gray-200 printable">
                             <Outlet />
                         </div>
                     </div>

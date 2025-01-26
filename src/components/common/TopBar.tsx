@@ -65,7 +65,7 @@ const TopBar: React.FC<TopBarProps> = ({ onToggleLayout, isLayoutVisible }) => {
   };
 
   return (
-    <div className="fixed top-0 left-0 right-0 bg-white border-b border-gray-200 z-10">
+    <div className="fixed top-0 left-0 right-0 bg-white border-b border-gray-200 z-10 no-print">
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex justify-center items-center gap-8 h-14 relative">
           {/* Template Dropdown */}
@@ -91,9 +91,8 @@ const TopBar: React.FC<TopBarProps> = ({ onToggleLayout, isLayoutVisible }) => {
                   <li
                     key={template.id}
                     onClick={() => handleTemplateChange(template.id)}
-                    className={`px-4 py-3 cursor-pointer hover:bg-gray-100 ${
-                      currentTemplate === template.id ? 'bg-gray-50' : ''
-                    }`}
+                    className={`px-4 py-3 cursor-pointer hover:bg-gray-100 ${currentTemplate === template.id ? 'bg-gray-50' : ''
+                      }`}
                     role="menuitem"
                   >
                     <div className="flex flex-col">
@@ -131,9 +130,8 @@ const TopBar: React.FC<TopBarProps> = ({ onToggleLayout, isLayoutVisible }) => {
                   <li
                     key={font}
                     onClick={() => handleFontChange(font)}
-                    className={`px-4 py-2 cursor-pointer text-sm hover:bg-gray-100 ${
-                      currentFont === font ? 'font-bold' : ''
-                    }`}
+                    className={`px-4 py-2 cursor-pointer text-sm hover:bg-gray-100 ${currentFont === font ? 'font-bold' : ''
+                      }`}
                     role="menuitem"
                   >
                     {font}
@@ -166,12 +164,11 @@ const TopBar: React.FC<TopBarProps> = ({ onToggleLayout, isLayoutVisible }) => {
                   <li
                     key={color.value}
                     onClick={() => handleThemeChange(color.value)}
-                    className={`px-4 py-2 cursor-pointer text-sm hover:bg-gray-100 flex items-center gap-2 ${
-                      currentTheme === color.value ? 'font-bold' : ''
-                    }`}
+                    className={`px-4 py-2 cursor-pointer text-sm hover:bg-gray-100 flex items-center gap-2 ${currentTheme === color.value ? 'font-bold' : ''
+                      }`}
                     role="menuitem"
                   >
-                    <div 
+                    <div
                       className="w-4 h-4 rounded-full"
                       style={{ backgroundColor: color.value }}
                     />
@@ -188,9 +185,8 @@ const TopBar: React.FC<TopBarProps> = ({ onToggleLayout, isLayoutVisible }) => {
               closeAllDropdowns();
               onToggleLayout();
             }}
-            className={`flex flex-col items-center focus:outline-none ${
-              isLayoutVisible ? 'text-blue-600' : 'text-gray-700 hover:text-gray-900'
-            }`}
+            className={`flex flex-col items-center focus:outline-none ${isLayoutVisible ? 'text-blue-600' : 'text-gray-700 hover:text-gray-900'
+              }`}
             aria-label="Toggle Layout"
           >
             <Layout size={24} />
@@ -201,6 +197,7 @@ const TopBar: React.FC<TopBarProps> = ({ onToggleLayout, isLayoutVisible }) => {
           <button
             onClick={() => {
               closeAllDropdowns();
+              window.print()
             }}
             className="flex flex-col items-center text-gray-700 hover:text-gray-900 focus:outline-none"
             aria-label="Download"
