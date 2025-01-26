@@ -1,4 +1,9 @@
+// src/store/slices/settingsSlice.ts
+
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+
+// Import the sectionStylesMap
+import { sectionStylesMap, SectionStyles } from '@/styles/sectionStyles';
 
 export interface SectionConfig {
   id: string;
@@ -18,11 +23,7 @@ export interface Template {
     summaryColor: string;
     contactsColor: string;
   };
-  sectionStyle: {
-    background: string;
-    titleColor: string;
-    contentColor: string;
-  };
+  sectionStyle: SectionStyles;
 }
 
 export const templates: Template[] = [
@@ -34,13 +35,9 @@ export const templates: Template[] = [
       textColor: 'text-gray-900',
       titleColor: 'text-gray-700',
       summaryColor: 'text-gray-600',
-      contactsColor: 'text-gray-700'
+      contactsColor: 'text-gray-700',
     },
-    sectionStyle: {
-      background: 'bg-white',
-      titleColor: 'text-gray-900',
-      contentColor: 'text-gray-700'
-    }
+    sectionStyle: sectionStylesMap['modern'],
   },
   {
     id: 'professional',
@@ -50,13 +47,9 @@ export const templates: Template[] = [
       textColor: 'text-white',
       titleColor: 'text-gray-200',
       summaryColor: 'text-gray-300',
-      contactsColor: 'text-gray-300'
+      contactsColor: 'text-gray-300',
     },
-    sectionStyle: {
-      background: 'bg-white',
-      titleColor: 'text-gray-900',
-      contentColor: 'text-gray-700'
-    }
+    sectionStyle: sectionStylesMap['professional'],
   },
   {
     id: 'minimal',
@@ -66,13 +59,9 @@ export const templates: Template[] = [
       textColor: 'text-gray-900',
       titleColor: 'text-gray-700',
       summaryColor: 'text-gray-600',
-      contactsColor: 'text-gray-600'
+      contactsColor: 'text-gray-600',
     },
-    sectionStyle: {
-      background: 'bg-white',
-      titleColor: 'text-gray-900',
-      contentColor: 'text-gray-600'
-    }
+    sectionStyle: sectionStylesMap['minimal'],
   },
   {
     id: 'bold',
@@ -82,14 +71,10 @@ export const templates: Template[] = [
       textColor: 'text-white',
       titleColor: 'text-blue-200',
       summaryColor: 'text-blue-100',
-      contactsColor: 'text-blue-200'
+      contactsColor: 'text-blue-200',
     },
-    sectionStyle: {
-      background: 'bg-white',
-      titleColor: 'text-blue-900',
-      contentColor: 'text-gray-700'
-    }
-  }
+    sectionStyle: sectionStylesMap['bold'],
+  },
 ];
 
 interface SettingsState {
@@ -113,12 +98,11 @@ const initialSections: SectionConfig[] = [
   { id: 'projects', title: 'Projects', visible: true, column: 'right', order: 10 },
   { id: 'references', title: 'References', visible: false, column: 'right', order: 11 }
 ];
-
 const initialState: SettingsState = {
   font: 'Roboto',
   theme: '#3b82f6',
   template: 'modern',
-  sections: initialSections
+  sections: initialSections,
 };
 
 const settingsSlice = createSlice({
@@ -135,7 +119,7 @@ const settingsSlice = createSlice({
       state.template = action.payload;
     },
     toggleSectionVisibility: (state, action: PayloadAction<string>) => {
-      const section = state.sections.find(s => s.id === action.payload);
+      const section = state.sections.find((s) => s.id === action.payload);
       if (section) {
         section.visible = !section.visible;
       }
@@ -143,12 +127,15 @@ const settingsSlice = createSlice({
     updateSectionOrder: (state, action: PayloadAction<SectionConfig[]>) => {
       state.sections = action.payload;
     },
-    moveSection: (state, action: PayloadAction<{ id: string; column: 'left' | 'right' }>) => {
-      const section = state.sections.find(s => s.id === action.payload.id);
+    moveSection: (
+      state,
+      action: PayloadAction<{ id: string; column: 'left' | 'right' }>
+    ) => {
+      const section = state.sections.find((s) => s.id === action.payload.id);
       if (section && section.column !== 'full') {
         section.column = action.payload.column;
       }
-    }
+    },
   },
 });
 
@@ -158,7 +145,7 @@ export const {
   setTemplate,
   toggleSectionVisibility,
   updateSectionOrder,
-  moveSection
+  moveSection,
 } = settingsSlice.actions;
 
 export default settingsSlice.reducer;
