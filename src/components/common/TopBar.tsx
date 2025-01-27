@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import axios from 'axios';
 import { Download, Layout, Brush, Type, FileText } from 'lucide-react';
 import { setFont, setTheme, setTemplate, templates } from '@/store/slices/settingsSlice';
 import { RootState } from '@/store/store';
@@ -42,6 +43,7 @@ const TopBar: React.FC<TopBarProps> = ({ onToggleLayout, isLayoutVisible }) => {
   const [showFontDropdown, setShowFontDropdown] = useState(false);
   const [showThemeDropdown, setShowThemeDropdown] = useState(false);
   const [showTemplateDropdown, setShowTemplateDropdown] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleFontChange = (font: string) => {
     dispatch(setFont(font));
@@ -64,6 +66,28 @@ const TopBar: React.FC<TopBarProps> = ({ onToggleLayout, isLayoutVisible }) => {
     setShowTemplateDropdown(false);
   };
 
+  const handleDownload = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.post(
+        'https://puppeteer-backend-e21oj7lyl-affanhabibs-projects-8bf99f86.vercel.app/api/generate-pdf',
+        {}, // Send required payload if needed
+        { responseType: 'blob' }
+      );
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', 'resume.pdf');
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch (error) {
+      console.error('Error generating PDF:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="fixed top-0 left-0 right-0 bg-white border-b border-gray-200 z-10 no-print">
       <div className="max-w-7xl mx-auto px-4">
@@ -73,7 +97,7 @@ const TopBar: React.FC<TopBarProps> = ({ onToggleLayout, isLayoutVisible }) => {
             <button
               onClick={() => {
                 closeAllDropdowns();
-                setShowTemplateDropdown(prev => !prev);
+                setShowTemplateDropdown((prev) => !prev);
               }}
               className="flex flex-col items-center text-gray-700 hover:text-gray-900 focus:outline-none"
               aria-label="Change Template"
@@ -112,7 +136,7 @@ const TopBar: React.FC<TopBarProps> = ({ onToggleLayout, isLayoutVisible }) => {
             <button
               onClick={() => {
                 closeAllDropdowns();
-                setShowFontDropdown(prev => !prev);
+                setShowFontDropdown((prev) => !prev);
               }}
               className="flex flex-col items-center text-gray-700 hover:text-gray-900 focus:outline-none"
               aria-label="Change Font"
@@ -146,7 +170,7 @@ const TopBar: React.FC<TopBarProps> = ({ onToggleLayout, isLayoutVisible }) => {
             <button
               onClick={() => {
                 closeAllDropdowns();
-                setShowThemeDropdown(prev => !prev);
+                setShowThemeDropdown((prev) => !prev);
               }}
               className="flex flex-col items-center text-gray-700 hover:text-gray-900 focus:outline-none"
               aria-label="Change Theme"
@@ -197,13 +221,13 @@ const TopBar: React.FC<TopBarProps> = ({ onToggleLayout, isLayoutVisible }) => {
           <button
             onClick={() => {
               closeAllDropdowns();
-              window.print()
+              handleDownload();
             }}
             className="flex flex-col items-center text-gray-700 hover:text-gray-900 focus:outline-none"
             aria-label="Download"
           >
             <Download size={24} />
-            <span className="text-sm">Download</span>
+            <span className="text-sm">{loading ? 'Downloading...' : 'Download'}</span>
           </button>
         </div>
       </div>
