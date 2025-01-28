@@ -273,6 +273,10 @@ const resumeSlice = createSlice({
     updateInterests: (state, action: PayloadAction<typeof initialState.interests>) => {
       state.interests = action.payload;
     },
+    updateResume: (state, action: PayloadAction<ResumeState>) => {
+      return action.payload; // Replaces the entire state with the new state
+    },
+    
   }
 });
 
@@ -334,6 +338,7 @@ export const {
   editVolunteerExperience,
   removeVolunteerExperience,
   updateVolunteerExperience,
+  updateResume
 } = resumeSlice.actions;
 
 export default resumeSlice.reducer;

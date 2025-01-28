@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import PersonalDetails from '@/sections/resume/PersonalDetails';
 import SkillsSection from '@/sections/resume/SkillsSection';
@@ -13,6 +13,7 @@ import VolunteerExperienceSection from '@/sections/resume/VolunteerExperienceSec
 import AwardsSection from '@/sections/resume/AwardsSection';
 import CertificationsSection from '@/sections/resume/CertificationsSection';
 import { RootState } from '@/store/store';
+import { useResumeManager } from '@/hooks/useResumeActions';
 
 // Map section IDs to their components
 const sectionComponents = {
@@ -31,9 +32,12 @@ const sectionComponents = {
 };
 
 const Resume: React.FC = () => {
-  const {  sections } = useSelector((state: RootState) => state.settings);
+  const { sections } = useSelector((state: RootState) => state.settings);
+  const { fetchResume } = useResumeManager();
+  // useEffect(() => {
+  //   fetchResume();
+  // }, [fetchResume]);
 
-  // Filter visible sections and sort by order
   const visibleSections = sections
     .filter(section => section.visible)
     .sort((a, b) => a.order - b.order);

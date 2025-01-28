@@ -4,6 +4,7 @@ import axios from 'axios';
 import { Download, Layout, Brush, Type, FileText } from 'lucide-react';
 import { setFont, setTheme, setTemplate, templates } from '@/store/slices/settingsSlice';
 import { RootState } from '@/store/store';
+import { useResumeManager } from '@/hooks/useResumeActions';
 
 const fonts = [
   'Roboto',
@@ -44,7 +45,7 @@ const TopBar: React.FC<TopBarProps> = ({ onToggleLayout, isLayoutVisible }) => {
   const [showThemeDropdown, setShowThemeDropdown] = useState(false);
   const [showTemplateDropdown, setShowTemplateDropdown] = useState(false);
   const [loading, setLoading] = useState(false);
-
+  const { updateResumeData } = useResumeManager();
   const handleFontChange = (font: string) => {
     dispatch(setFont(font));
     setShowFontDropdown(false);
@@ -69,6 +70,7 @@ const TopBar: React.FC<TopBarProps> = ({ onToggleLayout, isLayoutVisible }) => {
   const handleDownload = async () => {
     try {
       setLoading(true);
+      updateResumeData();
       const response = await axios.post(
         'https://puppeteer-backend-e21oj7lyl-affanhabibs-projects-8bf99f86.vercel.app/api/generate-pdf',
         {}, // Send required payload if needed
