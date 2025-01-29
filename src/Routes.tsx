@@ -23,7 +23,9 @@ export const router = createBrowserRouter([
 
   {
     path: '/resume',
-    element: <ResumeLayout />,
+    element: <ProtectedRoute>
+      <ResumeLayout />
+    </ProtectedRoute>,
     children: [
       {
         path: 'preview',

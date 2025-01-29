@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
-import { Download, Layout, Brush, Type, FileText } from 'lucide-react';
+import { Download, Layout, Brush, Type, FileText, LogOut } from 'lucide-react';
 import { setFont, setTheme, setTemplate, templates } from '@/store/slices/settingsSlice';
 import { RootState } from '@/store/store';
 import { useResumeManager } from '@/hooks/useResumeActions';
+import { clearUser } from '@/store/slices/userSlice';
 
 const fonts = [
   'Roboto',
@@ -90,10 +91,19 @@ const TopBar: React.FC<TopBarProps> = ({ onToggleLayout, isLayoutVisible }) => {
     }
   };
 
+  const handleLogout = () => {
+    dispatch(clearUser());
+    localStorage.removeItem('user');
+    window.location.reload();
+  };
+
   return (
     <div className="fixed top-0 left-0 right-0 bg-white border-b border-gray-200 z-10 no-print">
-      <div className="max-w-7xl mx-auto px-4">
-        <div className="flex justify-center items-center gap-8 h-14 relative">
+      <div className="max-w-3xl px-4 flex justify-between items-center h-16 ml-auto mr-10">
+      
+
+        {/* Center buttons */}
+        <div className="flex items-center justify-center gap-8">
           {/* Template Dropdown */}
           <div className="relative">
             <button
@@ -101,10 +111,10 @@ const TopBar: React.FC<TopBarProps> = ({ onToggleLayout, isLayoutVisible }) => {
                 closeAllDropdowns();
                 setShowTemplateDropdown((prev) => !prev);
               }}
-              className="flex flex-col items-center text-gray-700 hover:text-gray-900 focus:outline-none"
+              className="flex flex-row items-center gap-2 text-gray-700 hover:text-gray-900 focus:outline-none"
               aria-label="Change Template"
             >
-              <FileText size={24} />
+              <FileText size={12} />
               <span className="text-sm">Template</span>
             </button>
             {showTemplateDropdown && (
@@ -117,8 +127,7 @@ const TopBar: React.FC<TopBarProps> = ({ onToggleLayout, isLayoutVisible }) => {
                   <li
                     key={template.id}
                     onClick={() => handleTemplateChange(template.id)}
-                    className={`px-4 py-3 cursor-pointer hover:bg-gray-100 ${currentTemplate === template.id ? 'bg-gray-50' : ''
-                      }`}
+                    className={`px-4 py-3 cursor-pointer hover:bg-gray-100 ${currentTemplate === template.id ? 'bg-gray-50' : ''}`}
                     role="menuitem"
                   >
                     <div className="flex flex-col">
@@ -140,10 +149,10 @@ const TopBar: React.FC<TopBarProps> = ({ onToggleLayout, isLayoutVisible }) => {
                 closeAllDropdowns();
                 setShowFontDropdown((prev) => !prev);
               }}
-              className="flex flex-col items-center text-gray-700 hover:text-gray-900 focus:outline-none"
+              className="flex flex-row items-center gap-2 text-gray-700 hover:text-gray-900 focus:outline-none"
               aria-label="Change Font"
             >
-              <Type size={24} />
+              <Type size={12} />
               <span className="text-sm">Font</span>
             </button>
             {showFontDropdown && (
@@ -156,8 +165,7 @@ const TopBar: React.FC<TopBarProps> = ({ onToggleLayout, isLayoutVisible }) => {
                   <li
                     key={font}
                     onClick={() => handleFontChange(font)}
-                    className={`px-4 py-2 cursor-pointer text-sm hover:bg-gray-100 ${currentFont === font ? 'font-bold' : ''
-                      }`}
+                    className={`px-4 py-2 cursor-pointer text-sm hover:bg-gray-100 ${currentFont === font ? 'font-bold' : ''}`}
                     role="menuitem"
                   >
                     {font}
@@ -174,10 +182,10 @@ const TopBar: React.FC<TopBarProps> = ({ onToggleLayout, isLayoutVisible }) => {
                 closeAllDropdowns();
                 setShowThemeDropdown((prev) => !prev);
               }}
-              className="flex flex-col items-center text-gray-700 hover:text-gray-900 focus:outline-none"
+              className="flex flex-row items-center gap-2 text-gray-700 hover:text-gray-900 focus:outline-none"
               aria-label="Change Theme"
             >
-              <Brush size={24} />
+              <Brush size={12} />
               <span className="text-sm">Theme</span>
             </button>
             {showThemeDropdown && (
@@ -190,14 +198,10 @@ const TopBar: React.FC<TopBarProps> = ({ onToggleLayout, isLayoutVisible }) => {
                   <li
                     key={color.value}
                     onClick={() => handleThemeChange(color.value)}
-                    className={`px-4 py-2 cursor-pointer text-sm hover:bg-gray-100 flex items-center gap-2 ${currentTheme === color.value ? 'font-bold' : ''
-                      }`}
+                    className={`px-4 py-2 cursor-pointer text-sm hover:bg-gray-100 flex items-center gap-2 ${currentTheme === color.value ? 'font-bold' : ''}`}
                     role="menuitem"
                   >
-                    <div
-                      className="w-4 h-4 rounded-full"
-                      style={{ backgroundColor: color.value }}
-                    />
+                    <div className="w-4 h-4 rounded-full" style={{ backgroundColor: color.value }} />
                     {color.name}
                   </li>
                 ))}
@@ -211,11 +215,10 @@ const TopBar: React.FC<TopBarProps> = ({ onToggleLayout, isLayoutVisible }) => {
               closeAllDropdowns();
               onToggleLayout();
             }}
-            className={`flex flex-col items-center focus:outline-none ${isLayoutVisible ? 'text-blue-600' : 'text-gray-700 hover:text-gray-900'
-              }`}
+            className={`flex flex-row items-center gap-2 focus:outline-none ${isLayoutVisible ? 'text-blue-600' : 'text-gray-700 hover:text-gray-900'}`}
             aria-label="Toggle Layout"
           >
-            <Layout size={24} />
+            <Layout size={12} />
             <span className="text-sm">Layout</span>
           </button>
 
@@ -225,11 +228,25 @@ const TopBar: React.FC<TopBarProps> = ({ onToggleLayout, isLayoutVisible }) => {
               closeAllDropdowns();
               handleDownload();
             }}
-            className="flex flex-col items-center text-gray-700 hover:text-gray-900 focus:outline-none"
+            className="flex flex-row items-center gap-2 text-gray-700 hover:text-gray-900 focus:outline-none"
             aria-label="Download"
           >
-            <Download size={24} />
+            <Download size={12} />
             <span className="text-sm">{loading ? 'Downloading...' : 'Download'}</span>
+          </button>
+        </div>
+
+        {/* Right corner logout */}
+        <div>
+          <button
+            onClick={() => {
+              closeAllDropdowns();
+              handleLogout();
+            }}
+            className="flex flex-row items-center gap-2 text-gray-700 hover:text-gray-900 focus:outline-none"
+            aria-label="Logout"
+          >
+            <LogOut size={12} />
           </button>
         </div>
       </div>
