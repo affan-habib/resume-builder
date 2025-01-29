@@ -97,26 +97,23 @@ export const sectionStylesMap: { [templateId: string]: SectionStyles } = {
     },
     bold: {
         wrapper: {
-            backgroundColor: '#e2e8f0',
             padding: '24px',
-            borderRadius: '0',
+            border: '1px solid #2a4365',
+            borderRadius: '4px',
             position: 'relative',
         },
         header: {
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
-            borderBottom: '2px solid #cbd5e0',
-            paddingBottom: '12px',
-            marginBottom: '20px',
         },
         title: {
-            fontSize: '1.75rem',
+            fontSize: '1rem',
             fontWeight: '800',
             color: '#2a4365',
         },
         content: {
-            fontSize: '1.125rem',
+            fontSize: '.9rem',
             color: '#2a4365',
             padding: '8px 0',
         },
