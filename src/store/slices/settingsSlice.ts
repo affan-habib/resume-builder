@@ -1,9 +1,6 @@
-// src/store/slices/settingsSlice.ts
-
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-
-// Import the sectionStylesMap
 import { sectionStylesMap, SectionStyles } from '@/styles/sectionStyles';
+import { personalDetailsStylesMap, PersonalDetailsStyle } from '@/styles/personalDetailsStyles';
 
 export interface SectionConfig {
   id: string;
@@ -16,13 +13,7 @@ export interface SectionConfig {
 export interface Template {
   id: string;
   name: string;
-  personalDetailsStyle: {
-    background: string;
-    textColor: string;
-    titleColor: string;
-    summaryColor: string;
-    contactsColor: string;
-  };
+  personalDetailsStyle: PersonalDetailsStyle;
   sectionStyle: SectionStyles;
 }
 
@@ -30,49 +21,25 @@ export const templates: Template[] = [
   {
     id: 'modern',
     name: 'Modern',
-    personalDetailsStyle: {
-      background: 'bg-white',
-      textColor: 'text-gray-900',
-      titleColor: 'text-gray-700',
-      summaryColor: 'text-gray-600',
-      contactsColor: 'text-gray-700',
-    },
+    personalDetailsStyle: personalDetailsStylesMap['modern'],
     sectionStyle: sectionStylesMap['modern'],
   },
   {
     id: 'professional',
     name: 'Professional',
-    personalDetailsStyle: {
-      background: 'bg-gray-900',
-      textColor: 'text-white',
-      titleColor: 'text-gray-200',
-      summaryColor: 'text-gray-300',
-      contactsColor: 'text-gray-300',
-    },
+    personalDetailsStyle: personalDetailsStylesMap['professional'],
     sectionStyle: sectionStylesMap['professional'],
   },
   {
     id: 'minimal',
     name: 'Minimal',
-    personalDetailsStyle: {
-      background: 'bg-gray-50',
-      textColor: 'text-gray-900',
-      titleColor: 'text-gray-700',
-      summaryColor: 'text-gray-600',
-      contactsColor: 'text-gray-600',
-    },
+    personalDetailsStyle: personalDetailsStylesMap['minimal'],
     sectionStyle: sectionStylesMap['minimal'],
   },
   {
     id: 'bold',
     name: 'Bold',
-    personalDetailsStyle: {
-      background: 'bg-gray-50',
-      textColor: 'text-gray-900',
-      titleColor: 'text-gray-700',
-      summaryColor: 'text-gray-600',
-      contactsColor: 'text-gray-600',
-    },
+    personalDetailsStyle: personalDetailsStylesMap['bold'],
     sectionStyle: sectionStylesMap['bold'],
   },
 ];
@@ -98,6 +65,7 @@ const initialSections: SectionConfig[] = [
   { id: 'projects', title: 'Projects', visible: true, column: 'right', order: 10 },
   { id: 'references', title: 'References', visible: false, column: 'right', order: 11 }
 ];
+
 const initialState: SettingsState = {
   font: 'Roboto',
   theme: '#3b82f6',

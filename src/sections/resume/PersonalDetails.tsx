@@ -8,6 +8,7 @@ import ProfileImage from '@/components/common/ProfileImage';
 import EditableField from '@/components/common/EditableField';
 import ContactLink from '@/components/common/ContactLink';
 import { Mail, Phone, MapPin, Linkedin, Github, Globe } from 'lucide-react';
+import { personalDetailsStylesMap } from '@/styles/personalDetailsStyles';
 
 const placeholders = {
   fullName: 'John Doe',
@@ -27,11 +28,10 @@ const PersonalDetails: React.FC = () => {
   const dispatch = useDispatch();
   const activeSection = useSelector((state: RootState) => state.activeSection.activeSection);
   const personalInformation = useSelector((state: RootState) => state.resume.personalInformation);
-  const theme = useSelector((state: RootState) => state.settings.theme);
   const currentTemplateId = useSelector((state: RootState) => state.settings.template);
-  
-  const template = templates.find(t => t.id === currentTemplateId);
-  const styles = template?.personalDetailsStyle;
+
+  const template = templates.find((t) => t.id === currentTemplateId);
+  const styles = personalDetailsStylesMap[currentTemplateId];
 
   const isActive = activeSection === 'personalDetails';
 
@@ -65,100 +65,59 @@ const PersonalDetails: React.FC = () => {
         e.stopPropagation();
         dispatch(setActiveSection('personalDetails'));
       }}
-      className={`space-y-6 p-10 pb-4 cursor-pointer ${isActive ? 'border-blue-500 bg-blue-500' : ''} ${styles.background}`}
+      className={`${styles.container} ${isActive ? 'border-blue-500 bg-blue-500' : ''}`}
     >
       {/* Profile Picture and Editable Fields */}
-      <div className="flex items-center gap-6">
+      <div className={styles.profileWrapper}>
         <ProfileImage
           imageUrl={personalInformation.profilePicture}
           onUpload={handleImageUpload}
           fileInputRef={fileInputRef}
         />
-        <div className="flex-1 space-y-2">
+        <div className={styles.textWrapper}>
           <EditableField
             value={personalInformation.name}
             placeholder={placeholders.fullName}
             onSave={(value) => updateField('name', value)}
-            className={`text-2xl font-semibold ${styles.textColor}`}
-            style={{ color: theme }}
+            className={styles.name}
           />
           <EditableField
             value={personalInformation.title}
             placeholder={placeholders.title}
             onSave={(value) => updateField('title', value)}
-            className={`text-lg ${styles.titleColor}`}
+            className={styles.title}
           />
           <EditableField
             value={personalInformation.summary}
             placeholder={placeholders.summary}
             onSave={(value) => updateField('summary', value)}
-            className={`text-sm ${styles.summaryColor}`}
+            className={styles.summary}
           />
         </div>
       </div>
 
       {/* Contact Links */}
-      <div className={`grid grid-cols-1 sm:grid-cols-2 gap-4 border-t border-b py-4 ${styles.contactsColor}`}>
-        <ContactLink
-          icon={<Mail className={`w-5 h-5 mr-2 ${styles.contactsColor}`} />}
-          value={personalInformation.contact.email}
-          placeholder={placeholders.email}
-          onSave={(value) => {
-            const updatedContact = { ...personalInformation.contact, email: value };
-            updateField('contact', updatedContact);
-          }}
-          className={styles.contactsColor}
-        />
-        <ContactLink
-          icon={<Phone className={`w-5 h-5 mr-2 ${styles.contactsColor}`} />}
-          value={personalInformation.contact.phone}
-          placeholder={placeholders.phone}
-          onSave={(value) => {
-            const updatedContact = { ...personalInformation.contact, phone: value };
-            updateField('contact', updatedContact);
-          }}
-          className={styles.contactsColor}
-        />
-        <ContactLink
-          icon={<MapPin className={`w-5 h-5 mr-2 ${styles.contactsColor}`} />}
-          value={personalInformation.contact.address}
-          placeholder={placeholders.location}
-          onSave={(value) => {
-            const updatedContact = { ...personalInformation.contact, address: value };
-            updateField('contact', updatedContact);
-          }}
-          className={styles.contactsColor}
-        />
-        <ContactLink
-          icon={<Linkedin className={`w-5 h-5 mr-2 ${styles.contactsColor}`} />}
-          value={personalInformation.contact.linkedin}
-          placeholder={placeholders.linkedin}
-          onSave={(value) => {
-            const updatedContact = { ...personalInformation.contact, linkedin: value };
-            updateField('contact', updatedContact);
-          }}
-          className={styles.contactsColor}
-        />
-        <ContactLink
-          icon={<Github className={`w-5 h-5 mr-2 ${styles.contactsColor}`} />}
-          value={personalInformation.contact.github}
-          placeholder={placeholders.github}
-          onSave={(value) => {
-            const updatedContact = { ...personalInformation.contact, github: value };
-            updateField('contact', updatedContact);
-          }}
-          className={styles.contactsColor}
-        />
-        <ContactLink
-          icon={<Globe className={`w-5 h-5 mr-2 ${styles.contactsColor}`} />}
-          value={personalInformation.contact.portfolio}
-          placeholder={placeholders.portfolio}
-          onSave={(value) => {
-            const updatedContact = { ...personalInformation.contact, portfolio: value };
-            updateField('contact', updatedContact);
-          }}
-          className={styles.contactsColor}
-        />
+      <div className={styles.contactGrid}>
+        {[
+          { icon: Mail, field: 'email', placeholder: placeholders.email },
+          { icon: Phone, field: 'phone', placeholder: placeholders.phone },
+          { icon: MapPin, field: 'address', placeholder: placeholders.location },
+          { icon: Linkedin, field: 'linkedin', placeholder: placeholders.linkedin },
+          { icon: Github, field: 'github', placeholder: placeholders.github },
+          { icon: Globe, field: 'portfolio', placeholder: placeholders.portfolio },
+        ].map(({ icon: Icon, field, placeholder }) => (
+          <ContactLink
+            key={field}
+            icon={<Icon className={`${styles.contactIcon}`} />}
+            value={personalInformation.contact[field]}
+            placeholder={placeholder}
+            onSave={(value) => {
+              const updatedContact = { ...personalInformation.contact, [field]: value };
+              updateField('contact', updatedContact);
+            }}
+            className={styles.contactItem}
+          />
+        ))}
       </div>
     </div>
   );
