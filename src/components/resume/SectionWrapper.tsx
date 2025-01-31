@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
 import { setActiveSection } from '../../store/slices/activeSectionSlice';
 import { titleToStateKey } from '../../utils/sectionUtils';
-import { templates } from '../../store/slices/settingsSlice';
 import {
   GraduationCap,
   Briefcase,
@@ -20,7 +19,7 @@ import {
   Wrench,
   User,
 } from 'lucide-react';
-import { sectionStylesMap, SectionStyles } from '../../styles/sectionStyles';
+import { sectionStylesMap } from '../../styles/sectionStyles';
 
 interface Action {
   icon: React.ReactNode;
@@ -61,9 +60,7 @@ const SectionWrapper: React.FC<SectionWrapperProps> = ({ title, children, action
   );
   const theme = useSelector((state: RootState) => state.settings.theme);
   const currentTemplateId = useSelector((state: RootState) => state.settings.template);
-
-  const template = templates.find((t) => t.id === currentTemplateId);
-  const styles: SectionStyles | undefined = template?.sectionStyle;
+  const styles = sectionStylesMap[currentTemplateId];
 
   const isActive = activeSection === title;
 

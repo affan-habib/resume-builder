@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import { Download, Layout, Brush, Type, FileText, LogOut } from 'lucide-react';
-import { setFont, setTheme, setTemplate, templates } from '@/store/slices/settingsSlice';
+import { setFont, setTheme, setTemplate } from '@/store/slices/settingsSlice';
 import { RootState } from '@/store/store';
 import { useResumeManager } from '@/hooks/useResumeActions';
 import { clearUser } from '@/store/slices/userSlice';
@@ -20,6 +20,8 @@ const fonts = [
   'Source Sans Pro',
   'Work Sans',
 ];
+
+const templates = ['modern', 'professional', 'minimal', 'bold'];
 
 const themeColors = [
   { name: 'Blue', value: '#3b82f6' },
@@ -47,6 +49,7 @@ const TopBar: React.FC<TopBarProps> = ({ onToggleLayout, isLayoutVisible }) => {
   const [showTemplateDropdown, setShowTemplateDropdown] = useState(false);
   const [loading, setLoading] = useState(false);
   const { updateResumeData } = useResumeManager();
+
   const handleFontChange = (font: string) => {
     dispatch(setFont(font));
     setShowFontDropdown(false);
@@ -57,8 +60,8 @@ const TopBar: React.FC<TopBarProps> = ({ onToggleLayout, isLayoutVisible }) => {
     setShowThemeDropdown(false);
   };
 
-  const handleTemplateChange = (templateId: string) => {
-    dispatch(setTemplate(templateId));
+  const handleTemplateChange = (template: string) => {
+    dispatch(setTemplate(template));
     setShowTemplateDropdown(false);
   };
 
@@ -74,7 +77,7 @@ const TopBar: React.FC<TopBarProps> = ({ onToggleLayout, isLayoutVisible }) => {
       updateResumeData();
       const response = await axios.post(
         'https://puppeteer-backend-e21oj7lyl-affanhabibs-projects-8bf99f86.vercel.app/api/generate-pdf',
-        {}, // Send required payload if needed
+        {},
         { responseType: 'blob' }
       );
       const url = window.URL.createObjectURL(new Blob([response.data]));
@@ -100,9 +103,6 @@ const TopBar: React.FC<TopBarProps> = ({ onToggleLayout, isLayoutVisible }) => {
   return (
     <div className="fixed top-0 left-0 right-0 bg-white border-b border-gray-200 z-10 no-print">
       <div className="max-w-3xl px-4 flex justify-between items-center h-16 ml-auto mr-10">
-      
-
-        {/* Center buttons */}
         <div className="flex items-center justify-center gap-8">
           {/* Template Dropdown */}
           <div className="relative">
@@ -111,31 +111,23 @@ const TopBar: React.FC<TopBarProps> = ({ onToggleLayout, isLayoutVisible }) => {
                 closeAllDropdowns();
                 setShowTemplateDropdown((prev) => !prev);
               }}
-              className="flex flex-row items-center gap-2 text-gray-700 hover:text-gray-900 focus:outline-none"
+              className="flex items-center gap-2 text-gray-700 hover:text-gray-900 focus:outline-none"
               aria-label="Change Template"
             >
-              <FileText size={12} />
+              <FileText size={16} />
               <span className="text-sm">Template</span>
             </button>
             {showTemplateDropdown && (
-              <ul
-                className="absolute top-12 bg-white border border-gray-300 rounded shadow-md z-10 w-56"
-                role="menu"
-                aria-labelledby="template-menu"
-              >
+              <ul className="absolute top-12 bg-white border border-gray-300 rounded shadow-md z-10 w-40">
                 {templates.map((template) => (
                   <li
-                    key={template.id}
-                    onClick={() => handleTemplateChange(template.id)}
-                    className={`px-4 py-3 cursor-pointer hover:bg-gray-100 ${currentTemplate === template.id ? 'bg-gray-50' : ''}`}
-                    role="menuitem"
+                    key={template}
+                    onClick={() => handleTemplateChange(template)}
+                    className={`px-4 py-2 cursor-pointer hover:bg-gray-100 ${
+                      currentTemplate === template ? 'bg-gray-200' : ''
+                    }`}
                   >
-                    <div className="flex flex-col">
-                      <span className="font-medium">{template.name}</span>
-                      <div className={`mt-1 text-xs p-2 rounded ${template.personalDetailsStyle.background} ${template.personalDetailsStyle.textColor}`}>
-                        Preview
-                      </div>
-                    </div>
+                    {template.charAt(0).toUpperCase() + template.slice(1)}
                   </li>
                 ))}
               </ul>
@@ -149,24 +141,21 @@ const TopBar: React.FC<TopBarProps> = ({ onToggleLayout, isLayoutVisible }) => {
                 closeAllDropdowns();
                 setShowFontDropdown((prev) => !prev);
               }}
-              className="flex flex-row items-center gap-2 text-gray-700 hover:text-gray-900 focus:outline-none"
+              className="flex items-center gap-2 text-gray-700 hover:text-gray-900 focus:outline-none"
               aria-label="Change Font"
             >
-              <Type size={12} />
+              <Type size={16} />
               <span className="text-sm">Font</span>
             </button>
             {showFontDropdown && (
-              <ul
-                className="absolute top-12 bg-white border border-gray-300 rounded shadow-md z-10 w-48"
-                role="menu"
-                aria-labelledby="font-menu"
-              >
+              <ul className="absolute top-12 bg-white border border-gray-300 rounded shadow-md z-10 w-48">
                 {fonts.map((font) => (
                   <li
                     key={font}
                     onClick={() => handleFontChange(font)}
-                    className={`px-4 py-2 cursor-pointer text-sm hover:bg-gray-100 ${currentFont === font ? 'font-bold' : ''}`}
-                    role="menuitem"
+                    className={`px-4 py-2 cursor-pointer text-sm hover:bg-gray-100 ${
+                      currentFont === font ? 'font-bold' : ''
+                    }`}
                   >
                     {font}
                   </li>
@@ -182,24 +171,19 @@ const TopBar: React.FC<TopBarProps> = ({ onToggleLayout, isLayoutVisible }) => {
                 closeAllDropdowns();
                 setShowThemeDropdown((prev) => !prev);
               }}
-              className="flex flex-row items-center gap-2 text-gray-700 hover:text-gray-900 focus:outline-none"
+              className="flex items-center gap-2 text-gray-700 hover:text-gray-900 focus:outline-none"
               aria-label="Change Theme"
             >
-              <Brush size={12} />
+              <Brush size={16} />
               <span className="text-sm">Theme</span>
             </button>
             {showThemeDropdown && (
-              <ul
-                className="absolute top-12 bg-white border border-gray-300 rounded shadow-md z-10 w-48"
-                role="menu"
-                aria-labelledby="theme-menu"
-              >
+              <ul className="absolute top-12 bg-white border border-gray-300 rounded shadow-md z-10 w-48">
                 {themeColors.map((color) => (
                   <li
                     key={color.value}
                     onClick={() => handleThemeChange(color.value)}
-                    className={`px-4 py-2 cursor-pointer text-sm hover:bg-gray-100 flex items-center gap-2 ${currentTheme === color.value ? 'font-bold' : ''}`}
-                    role="menuitem"
+                    className="px-4 py-2 cursor-pointer text-sm hover:bg-gray-100 flex items-center gap-2"
                   >
                     <div className="w-4 h-4 rounded-full" style={{ backgroundColor: color.value }} />
                     {color.name}
@@ -215,40 +199,30 @@ const TopBar: React.FC<TopBarProps> = ({ onToggleLayout, isLayoutVisible }) => {
               closeAllDropdowns();
               onToggleLayout();
             }}
-            className={`flex flex-row items-center gap-2 focus:outline-none ${isLayoutVisible ? 'text-blue-600' : 'text-gray-700 hover:text-gray-900'}`}
+            className={`flex items-center gap-2 focus:outline-none ${
+              isLayoutVisible ? 'text-blue-600' : 'text-gray-700 hover:text-gray-900'
+            }`}
             aria-label="Toggle Layout"
           >
-            <Layout size={12} />
+            <Layout size={16} />
             <span className="text-sm">Layout</span>
           </button>
 
           {/* Download Button */}
           <button
-            onClick={() => {
-              closeAllDropdowns();
-              handleDownload();
-            }}
-            className="flex flex-row items-center gap-2 text-gray-700 hover:text-gray-900 focus:outline-none"
+            onClick={handleDownload}
+            className="flex items-center gap-2 text-gray-700 hover:text-gray-900 focus:outline-none"
             aria-label="Download"
           >
-            <Download size={12} />
+            <Download size={16} />
             <span className="text-sm">{loading ? 'Downloading...' : 'Download'}</span>
           </button>
         </div>
 
-        {/* Right corner logout */}
-        <div>
-          <button
-            onClick={() => {
-              closeAllDropdowns();
-              handleLogout();
-            }}
-            className="flex flex-row items-center gap-2 text-gray-700 hover:text-gray-900 focus:outline-none"
-            aria-label="Logout"
-          >
-            <LogOut size={12} />
-          </button>
-        </div>
+        {/* Logout Button */}
+        <button onClick={handleLogout} className="text-gray-700 hover:text-gray-900 focus:outline-none" aria-label="Logout">
+          <LogOut size={16} />
+        </button>
       </div>
     </div>
   );

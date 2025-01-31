@@ -1,6 +1,4 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { sectionStylesMap, SectionStyles } from '@/styles/sectionStyles';
-import { personalDetailsStylesMap, PersonalDetailsStyle } from '@/styles/personalDetailsStyles';
 
 export interface SectionConfig {
   id: string;
@@ -9,40 +7,6 @@ export interface SectionConfig {
   column: 'left' | 'right' | 'full';
   order: number;
 }
-
-export interface Template {
-  id: string;
-  name: string;
-  personalDetailsStyle: PersonalDetailsStyle;
-  sectionStyle: SectionStyles;
-}
-
-export const templates: Template[] = [
-  {
-    id: 'modern',
-    name: 'Modern',
-    personalDetailsStyle: personalDetailsStylesMap['modern'],
-    sectionStyle: sectionStylesMap['modern'],
-  },
-  {
-    id: 'professional',
-    name: 'Professional',
-    personalDetailsStyle: personalDetailsStylesMap['professional'],
-    sectionStyle: sectionStylesMap['professional'],
-  },
-  {
-    id: 'minimal',
-    name: 'Minimal',
-    personalDetailsStyle: personalDetailsStylesMap['minimal'],
-    sectionStyle: sectionStylesMap['minimal'],
-  },
-  {
-    id: 'bold',
-    name: 'Bold',
-    personalDetailsStyle: personalDetailsStylesMap['bold'],
-    sectionStyle: sectionStylesMap['bold'],
-  },
-];
 
 interface SettingsState {
   font: string;

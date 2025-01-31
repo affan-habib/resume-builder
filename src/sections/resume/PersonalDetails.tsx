@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
 import { updatePersonalInfo } from '@/store/slices/resumeSlice';
 import { setActiveSection } from '@/store/slices/activeSectionSlice';
-import { templates } from '@/store/slices/settingsSlice';
 import ProfileImage from '@/components/common/ProfileImage';
 import EditableField from '@/components/common/EditableField';
 import ContactLink from '@/components/common/ContactLink';
@@ -29,8 +28,6 @@ const PersonalDetails: React.FC = () => {
   const activeSection = useSelector((state: RootState) => state.activeSection.activeSection);
   const personalInformation = useSelector((state: RootState) => state.resume.personalInformation);
   const currentTemplateId = useSelector((state: RootState) => state.settings.template);
-
-  const template = templates.find((t) => t.id === currentTemplateId);
   const styles = personalDetailsStylesMap[currentTemplateId];
 
   const isActive = activeSection === 'personalDetails';
