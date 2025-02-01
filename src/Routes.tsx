@@ -11,51 +11,9 @@ import NotFoundPage from './pages/NotFoundPage';
 // import PresentationSlides from '@/pages/promotional/PresentationSlides';
 
 export const router = createBrowserRouter([
-  {
-    path: '/',
-    element: <PublicLayout />,
-    children: [
-      {
-        path: '/',
-        element: <LandingPage />,
-      },
-    ],
-  },
-
-  {
-    path: '/resume',
-    element: <ProtectedRoute>
-      <ResumeLayout />
-    </ProtectedRoute>,
-    children: [
-      {
-        path: 'preview',
-        element: <Resume />,
-      },
-    ],
-  },
-
-  {
-    path: '/auth',
-    element: <AuthLayout />,
-    children: [
-      {
-        path: 'login',
-        element: <LoginPage />,
-      },
-    ],
-  },
-
-  {
-    path: '/home',
-    element: (
-      <ProtectedRoute>
-        <PresentationSlides />
-      </ProtectedRoute>
-    ),
-  },
-  {
-    path: '*', 
-    element: <NotFoundPage />,
-  },
+  { path: '/', element: <PublicLayout />, children: [{ path: '/', element: <LandingPage /> }] },
+  { path: '/resume', element: <ProtectedRoute><ResumeLayout /></ProtectedRoute>, children: [ { path: 'preview', element: <Resume /> } ] },
+  { path: '/auth', element: <AuthLayout />, children: [ { path: 'login', element: <LoginPage /> } ] },
+  { path: '/home', element: <ProtectedRoute><PresentationSlides /></ProtectedRoute> },
+  { path: '*', element: <NotFoundPage /> },
 ]);
