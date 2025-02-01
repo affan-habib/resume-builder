@@ -7,6 +7,7 @@ import AuthLayout from '@/layouts/AuthLayout';
 import LoginPage from '@/pages/promotional/LoginPage';
 import ProtectedRoute from '@/layouts/ProtectedRoute';
 import PresentationSlides from './pages/promotional/PresentaionSlides';
+import NotFoundPage from './pages/NotFoundPage';
 // import PresentationSlides from '@/pages/promotional/PresentationSlides';
 
 export const router = createBrowserRouter([
@@ -52,5 +53,9 @@ export const router = createBrowserRouter([
         <PresentationSlides />
       </ProtectedRoute>
     ),
+  },
+  {
+    path: '*', 
+    element: <NotFoundPage />,
   },
 ]);
