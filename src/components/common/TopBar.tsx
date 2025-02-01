@@ -1,11 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
-import { Download, Layout, Brush, Type, FileText, LogOut } from 'lucide-react';
+import { Download, Layout, Brush, Type, FileText, LogOut, User, Settings } from 'lucide-react';
 import { setFont, setTheme, setTemplate, templates } from '@/store/slices/settingsSlice';
 import { RootState } from '@/store/store';
 import { useResumeManager } from '@/hooks/useResumeActions';
 import { clearUser } from '@/store/slices/userSlice';
+import { Link } from 'react-router-dom';
 
 const fonts = [
   'Roboto',
@@ -43,6 +44,7 @@ const TopBar: React.FC<TopBarProps> = ({ onToggleLayout, isLayoutVisible }) => {
   const currentTheme = useSelector((state: RootState) => state.settings.theme);
   const currentTemplate = useSelector((state: RootState) => state.settings.template);
   const [showFontDropdown, setShowFontDropdown] = useState(false);
+  const [showUserDropdown, setShowUserDropdown] = useState(false);
   const [showThemeDropdown, setShowThemeDropdown] = useState(false);
   const [showTemplateDropdown, setShowTemplateDropdown] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -51,10 +53,7 @@ const TopBar: React.FC<TopBarProps> = ({ onToggleLayout, isLayoutVisible }) => {
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node)
-      ) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
         closeAllDropdowns();
       }
     };
@@ -63,6 +62,7 @@ const TopBar: React.FC<TopBarProps> = ({ onToggleLayout, isLayoutVisible }) => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
+
 
   const handleFontChange = (font: string) => {
     dispatch(setFont(font));
@@ -83,6 +83,7 @@ const TopBar: React.FC<TopBarProps> = ({ onToggleLayout, isLayoutVisible }) => {
     setShowFontDropdown(false);
     setShowThemeDropdown(false);
     setShowTemplateDropdown(false);
+    setShowUserDropdown(false);
   };
 
   const handleDownload = async () => {
@@ -254,7 +255,49 @@ const TopBar: React.FC<TopBarProps> = ({ onToggleLayout, isLayoutVisible }) => {
 
         {/* Right corner logout */}
         <div>
-          <button
+          {/* User Dropdown */}
+          <div className="relative">
+            <button
+              onClick={() => {
+                closeAllDropdowns();
+                setShowUserDropdown((prev) => !prev);
+              }}
+              className="flex flex-row items-center gap-2 text-gray-700 hover:text-gray-900 focus:outline-none"
+              aria-label="User Menu"
+            >
+              <User size={20} />
+            </button>
+
+            {/* Dropdown Menu */}
+            {showUserDropdown && (
+              <ul className="absolute right-0 mt-2 bg-white border border-gray-300 rounded shadow-md w-48 z-10">
+                <li>
+                  <Link to="/user/profile" className="flex items-center gap-3 px-4 py-3 hover:bg-gray-100">
+                    <User size={18} />
+                    Profile
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/settings" className="flex items-center gap-3 px-4 py-3 hover:bg-gray-100">
+                    <Settings size={18} />
+                    Settings
+                  </Link>
+                </li>
+                <li>
+                  <button
+                    onClick={handleLogout}
+                    className="w-full flex items-center gap-3 text-left px-4 py-3 text-red-600 hover:bg-gray-100"
+                  >
+                    <LogOut size={18} />
+                    Logout
+                  </button>
+                </li>
+              </ul>
+            )}
+
+          </div>
+
+          {/* <button
             onClick={() => {
               closeAllDropdowns();
               handleLogout();
@@ -263,7 +306,7 @@ const TopBar: React.FC<TopBarProps> = ({ onToggleLayout, isLayoutVisible }) => {
             aria-label="Logout"
           >
             <LogOut size={12} />
-          </button>
+          </button> */}
         </div>
       </div>
     </div>
