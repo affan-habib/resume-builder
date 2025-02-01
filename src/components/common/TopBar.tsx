@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import { Download, Layout, Brush, Type, FileText, LogOut } from 'lucide-react';
@@ -47,6 +47,23 @@ const TopBar: React.FC<TopBarProps> = ({ onToggleLayout, isLayoutVisible }) => {
   const [showTemplateDropdown, setShowTemplateDropdown] = useState(false);
   const [loading, setLoading] = useState(false);
   const { updateResumeData } = useResumeManager();
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        closeAllDropdowns();
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
   const handleFontChange = (font: string) => {
     dispatch(setFont(font));
     setShowFontDropdown(false);
@@ -98,10 +115,9 @@ const TopBar: React.FC<TopBarProps> = ({ onToggleLayout, isLayoutVisible }) => {
   };
 
   return (
-    <div className="fixed top-0 left-0 right-0 bg-white border-b border-gray-200 z-10 no-print">
+    <div className="fixed top-0 left-0 right-0 bg-white border-b border-gray-200 z-10 no-print"
+      ref={dropdownRef}>
       <div className="max-w-3xl px-4 flex justify-between items-center h-16 ml-auto mr-10">
-      
-
         {/* Center buttons */}
         <div className="flex items-center justify-center gap-8">
           {/* Template Dropdown */}
