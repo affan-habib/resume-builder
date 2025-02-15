@@ -7,6 +7,7 @@ import { RootState } from '@/store/store';
 import { useResumeManager } from '@/hooks/useResumeActions';
 import { clearUser } from '@/store/slices/userSlice';
 import { Link } from 'react-router-dom';
+import PrintInstructionsModal from '@/components/common/PrintInstructionsModal';
 
 const fonts = [
   'Roboto',
@@ -48,6 +49,7 @@ const TopBar: React.FC<TopBarProps> = ({ onToggleLayout, isLayoutVisible }) => {
   const [showThemeDropdown, setShowThemeDropdown] = useState(false);
   const [showTemplateDropdown, setShowTemplateDropdown] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [showPrintModal, setShowPrintModal] = useState(false);
   const { updateResumeData } = useResumeManager();
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -86,27 +88,14 @@ const TopBar: React.FC<TopBarProps> = ({ onToggleLayout, isLayoutVisible }) => {
     setShowUserDropdown(false);
   };
 
-  const handleDownload = async () => {
-    try {
-      setLoading(true);
-      updateResumeData();
-      const response = await axios.post(
-        'https://puppeteer-backend-e21oj7lyl-affanhabibs-projects-8bf99f86.vercel.app/api/generate-pdf',
-        {}, // Send required payload if needed
-        { responseType: 'blob' }
-      );
-      const url = window.URL.createObjectURL(new Blob([response.data]));
-      const link = document.createElement('a');
-      link.href = url;
-      link.setAttribute('download', 'resume.pdf');
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    } catch (error) {
-      console.error('Error generating PDF:', error);
-    } finally {
-      setLoading(false);
-    }
+  const handlePrint = () => {
+    setShowPrintModal(false);
+    updateResumeData(); // Update resume data before printing
+    window.print();
+  };
+
+  const handleDownload = () => {
+    setShowPrintModal(true);
   };
 
   const handleLogout = () => {
@@ -241,10 +230,7 @@ const TopBar: React.FC<TopBarProps> = ({ onToggleLayout, isLayoutVisible }) => {
 
           {/* Download Button */}
           <button
-            onClick={() => {
-              closeAllDropdowns();
-              handleDownload();
-            }}
+            onClick={handleDownload}
             className="flex flex-row items-center gap-2 text-gray-700 hover:text-gray-900 focus:outline-none"
             aria-label="Download"
           >
@@ -296,19 +282,10 @@ const TopBar: React.FC<TopBarProps> = ({ onToggleLayout, isLayoutVisible }) => {
             )}
 
           </div>
-
-          {/* <button
-            onClick={() => {
-              closeAllDropdowns();
-              handleLogout();
-            }}
-            className="flex flex-row items-center gap-2 text-gray-700 hover:text-gray-900 focus:outline-none"
-            aria-label="Logout"
-          >
-            <LogOut size={12} />
-          </button> */}
         </div>
       </div>
+      {/* PrintInstructionsModal */}
+      <PrintInstructionsModal isOpen={showPrintModal} onClose={() => setShowPrintModal(false)} onPrint={handlePrint} />
     </div>
   );
 };
