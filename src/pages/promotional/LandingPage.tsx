@@ -1,6 +1,9 @@
 import { ArrowRight, CheckCircle, Star, FileEdit, Layout, Download, Check, Sparkles } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 function LandingPage() {
+    const navigate = useNavigate();
+
     return (
         <div className="min-h-screen bg-beige-50">
             {/* <NavBar /> */}
@@ -12,7 +15,10 @@ function LandingPage() {
                     <p className="text-xl text-beige-600/80 mb-8 max-w-2xl mx-auto">
                         Build beautiful, professional resumes with our intuitive builder. Stand out from the crowd and land your dream job.
                     </p>
-                    <button className="bg-beige-500 text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-beige-600 transition-colors flex items-center gap-2 mx-auto">
+                    <button 
+                        onClick={() => navigate('/resume/preview')}
+                        className="bg-beige-500 text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-beige-600 transition-colors flex items-center gap-2 mx-auto"
+                    >
                         Create Your Resume <ArrowRight className="w-5 h-5" />
                     </button>
                 </div>
