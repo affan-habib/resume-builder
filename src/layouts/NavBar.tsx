@@ -34,7 +34,7 @@ const NavBar = () => {
                 {/* Logo */}
                 <div className="flex items-center cursor-pointer" onClick={() => navigate('/')}>
                     <FileText className="h-8 w-8 text-beige-500" />
-                    <span className="ml-2 text-xl font-bold text-beige-600">ResumeBuilder</span>
+                    <span className="ml-2 text-xl font-bold text-beige-600">Talent-Tuner</span>
                 </div>
 
                 {/* Desktop Menu */}
