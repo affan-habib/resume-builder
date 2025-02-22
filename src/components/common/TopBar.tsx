@@ -8,31 +8,7 @@ import { useResumeManager } from '@/hooks/useResumeActions';
 import { clearUser } from '@/store/slices/userSlice';
 import { Link } from 'react-router-dom';
 import PrintInstructionsModal from '@/components/common/PrintInstructionsModal';
-
-const fonts = [
-  'Roboto',
-  'Open Sans',
-  'Lato',
-  'Montserrat',
-  'Raleway',
-  'Nunito',
-  'Poppins',
-  'Merriweather',
-  'Playfair Display',
-  'Source Sans Pro',
-  'Work Sans',
-];
-
-const themeColors = [
-  { name: 'Blue', value: '#3b82f6' },
-  { name: 'Red', value: '#ef4444' },
-  { name: 'Green', value: '#22c55e' },
-  { name: 'Purple', value: '#8b5cf6' },
-  { name: 'Orange', value: '#f97316' },
-  { name: 'Teal', value: '#14b8a6' },
-  { name: 'Pink', value: '#ec4899' },
-  { name: 'Gray', value: '#4b5563' },
-];
+import { fonts, themeColors } from '@/data/data';
 
 interface TopBarProps {
   onToggleLayout: () => void;
@@ -107,6 +83,36 @@ const TopBar: React.FC<TopBarProps> = ({ onToggleLayout, isLayoutVisible }) => {
   return (
     <div className="fixed top-0 left-0 right-0 bg-white border-b border-gray-200 z-10 no-print"
       ref={dropdownRef}>
+      <style>
+        {`
+          @media print {
+            @page {
+              size: A4;
+              margin: 0;
+            }
+
+            body {
+              margin: 0;
+              padding: 0;
+              width: 210mm;
+              height: 297mm;
+              overflow: hidden;
+            }
+
+            .resume-container {
+              width: 100%;
+              height: 100%;
+              page-break-inside: avoid;
+              overflow: hidden;
+            }
+
+            /* Hide UI elements that shouldn't be printed */
+            .no-print {
+              display: none !important;
+            }
+          }
+        `}
+      </style>
       <div className="max-w-3xl px-4 flex justify-between items-center h-16 ml-auto mr-10">
         {/* Center buttons */}
         <div className="flex items-center justify-center gap-8">
@@ -167,7 +173,7 @@ const TopBar: React.FC<TopBarProps> = ({ onToggleLayout, isLayoutVisible }) => {
                 role="menu"
                 aria-labelledby="font-menu"
               >
-                {fonts.map((font) => (
+                {fonts?.map((font) => (
                   <li
                     key={font}
                     onClick={() => handleFontChange(font)}
@@ -200,7 +206,7 @@ const TopBar: React.FC<TopBarProps> = ({ onToggleLayout, isLayoutVisible }) => {
                 role="menu"
                 aria-labelledby="theme-menu"
               >
-                {themeColors.map((color) => (
+                {themeColors?.map((color) => (
                   <li
                     key={color.value}
                     onClick={() => handleThemeChange(color.value)}

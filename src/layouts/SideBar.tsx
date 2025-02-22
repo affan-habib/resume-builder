@@ -64,7 +64,7 @@ const Sidebar: React.FC<SidebarProps> = ({
               key={index}
               to={item.path}
               className={({ isActive }) =>
-                `flex items-center gap-4 px-4 py-3 text-gray-700 hover:bg-gray-100 ${
+                `flex items-center ${isCollapsed ? 'justify-center' : ''} gap-4 px-4 py-3 text-gray-700 hover:bg-gray-100 ${
                   isActive ? 'bg-gray-100 font-bold' : ''
                 }`
               }
