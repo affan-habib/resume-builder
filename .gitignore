@@ -31,3 +31,18 @@ coverage/
 
 # Mac and Linux file storage
 .cache/
+
+# Storybook
+storybook-static/
+.storybook-out/
+build-storybook.log
+
+# Storybook cache
+.cache/
+.eslintcache
+
+# Optional: If you're using Chromatic
+chromatic.log
+.chromatic/
+
+*storybook.log
